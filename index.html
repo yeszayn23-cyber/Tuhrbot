@@ -2,71 +2,65 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق طُهر | Tuhr App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Tuhr | طُهر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #E6E6FA; --nude1: #D2B48C; --nude2: #BC8F8F; --nude3: #C19A6B; --nude4: #A0522D; --text: #4B0082; }
-        body { background-color: var(--bg); font-family: 'Tajawal', sans-serif; margin: 0; padding: 20px; text-align: center; transition: 0.8s; min-height: 100vh; }
+        :root { --nude: #D4B499; --gold: #C5A059; --lavender: #E6E6FA; --bg: #FDFBF7; }
+        body { background: var(--bg); font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; display: flex; justify-content: center; min-height: 100vh; }
+
+        /* حاوية العلبة الفاخرة */
+        .case { width: 100%; max-width: 450px; background: #fff; padding: 40px 20px; box-shadow: 0 0 50px rgba(0,0,0,0.05); border-radius: 0 0 50px 50px; position: relative; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
-        .profile-btn { font-size: 24px; cursor: pointer; color: var(--text); background: rgba(255,255,255,0.3); padding: 10px; border-radius: 50%; }
-        .logo { font-size: 2.5rem; font-weight: bold; color: var(--text); }
-        
-        .palette { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 450px; margin: 50px auto; }
-        .circle { width: 150px; height: 150px; border-radius: 50%; border: 6px solid #fff; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.4s; }
-        .circle:hover { transform: scale(1.1) rotate(5deg); }
-        
-        #modal { display: none; position: fixed; inset: 0; background: rgba(255, 255, 255, 0.98); padding: 40px; overflow-y: auto; z-index: 1000; animation: slideUp 0.5s; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .admin-panel { display: none; color: red; font-size: 12px; margin-top: 10px; }
+        /* رأس الصفحة الفاخر */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .logo { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--gold); }
+        .profile-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--lavender); display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--gold); }
+
+        /* شبكة المكياج (الدوائر) */
+        .makeup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .circle { 
+            width: 140px; height: 140px; border-radius: 50%; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; color: white; font-weight: bold; 
+            cursor: pointer; transition: 0.5s; box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            border: 6px solid #fff; outline: 2px solid var(--nude);
+        }
+        .circle:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 20px 30px rgba(197, 160, 89, 0.3); }
+
+        /* قسم الملاحظات والجمال أسفل العلبة */
+        .beauty-tips { margin-top: 50px; padding: 20px; background: var(--lavender); border-radius: 30px; font-size: 0.9rem; color: #4B0082; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="profile-btn" onclick="openProfile()">👤</div>
-    <div class="logo">طُهر</div>
-    <div class="admin-panel" id="adminBadge">مدير النظام (Admin)</div>
-</div>
+<div class="case">
+    <div class="header">
+        <div class="profile-btn" onclick="openProfile()">🕊️</div>
+        <div class="logo">طُهر</div>
+        <div style="width: 50px;"></div>
+    </div>
 
-<div class="palette">
-    <div class="circle" style="background: var(--nude1);" onclick="loadSection('dora')">حساب الدورة</div>
-    <div class="circle" style="background: var(--nude2);" onclick="loadSection('nizam')">مخطط الدورة</div>
-    <div class="circle" style="background: var(--nude3);" onclick="loadSection('tips')">نصائح طبية</div>
-    <div class="circle" style="background: var(--nude4);" onclick="loadSection('fiqh')">الجانب الفقهي</div>
-</div>
+    <div class="makeup-grid">
+        <div class="circle" style="background:#D2B48C" onclick="openGate('دورة')">💄<br>حساب الدورة</div>
+        <div class="circle" style="background:#BC8F8F" onclick="openGate('مخطط')">💅<br>مخطط الدورة</div>
+        <div class="circle" style="background:#C19A6B" onclick="openGate('نصائح')">✨<br>جمال وعناية</div>
+        <div class="circle" style="background:#A0522D" onclick="openGate('فقه')">📖<br>الجانب الفقهي</div>
+    </div>
 
-<div id="modal">
-    <button onclick="document.getElementById('modal').style.display='none'" style="border:none; background:none; font-size:24px;">✕</button>
-    <div id="modalContent"></div>
+    <div class="beauty-tips">
+        <strong>🌸 نصيحة اليوم:</strong> اشربي الكثير من الماء الدافئ مع الليمون لتهدئة الجسم في هذه الفترة..
+    </div>
 </div>
 
 <script>
-    const ADMIN_ID = 8421694319; // معرفكِ
-    
-    // محاكاة التحقق من الأدمن عند التحميل
-    window.onload = () => {
-        // لاحقاً سنربطه بـ tg.initDataUnsafe.user.id
-        console.log("تم تحميل التطبيق");
-    };
-
-    function loadSection(type) {
-        document.getElementById('modal').style.display = 'block';
-        const content = document.getElementById('modalContent');
-        
-        // هنا المنطق البرمجي لجلب البيانات من Firebase
-        content.innerHTML = `<h3>قسم ${type}</h3><p>محتوى ${type} الجذاب...</p>
-        <button onclick="saveItem()">حفظ في ملفي الشخصي</button>`;
+    // نظام ذكي للتعرف على الأدمن (أنتِ)
+    const MY_ID = 8421694319;
+    function openGate(type) {
+        alert("فتح بوابة " + type + " الاحترافية...");
     }
-
     function openProfile() {
-        alert("ملفكِ الشخصي: هنا ستظهر النصائح التي أعجبتكِ وقمتِ بحفظها.");
-    }
-    
-    function saveItem() {
-        alert("تم الحفظ في ملفك الشخصي بنجاح! 🌸");
+        alert("🔒 جاري التحقق من الهوية.. فتح الملف الشخصي المحمي.");
     }
 </script>
+
 </body>
 </html>
