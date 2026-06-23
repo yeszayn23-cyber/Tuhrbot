@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>طُهر | Tuhr</title>
+    <style>
+        :root { --bg: #F3E5F5; --nude-1: #D2B48C; --nude-2: #BC8F8F; --nude-3: #C19A6B; --nude-4: #A0522D; }
+        body { background-color: var(--bg); font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; text-align: center; }
+        .logo { font-size: 28px; font-weight: bold; color: #4B0082; margin-bottom: 30px; border-bottom: 2px solid #D1C4E9; display: inline-block; padding-bottom: 5px; }
+        .palette { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 400px; margin: auto; }
+        .circle { width: 130px; height: 130px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; border: 3px solid rgba(255,255,255,0.5); box-shadow: 0 5px 10px rgba(0,0,0,0.1); margin: auto; }
+        #output { margin-top: 30px; padding: 20px; background: white; border-radius: 20px; min-height: 150px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+<div class="logo">طُهر | Tuhr</div>
+
+<div class="palette">
+    <div class="circle" style="background-color: var(--nude-1);" onclick="show('dora')">حساب الدورة</div>
+    <div class="circle" style="background-color: var(--nude-2);" onclick="show('nizam')">مخطط الدورة</div>
+    <div class="circle" style="background-color: var(--nude-3);" onclick="show('medical')">نصائح طبية</div>
+    <div class="circle" style="background-color: var(--nude-4);" onclick="show('fiqh')">الجانب الفقهي</div>
+</div>
+
+<div id="output">مرحباً بكِ في "طُهر". اختاري إحدى الدوائر للبدء.</div>
+
+<script>
+    function show(type) {
+        const out = document.getElementById('output');
+        if(type === 'dora') {
+            out.innerHTML = `<h3>حساب الدورة</h3>
+                <input type='date' id='lastDate' placeholder='تاريخ آخر دورة'>
+                <input type='number' id='avgDays' placeholder='متوسط طول الدورة (يوم)'>
+                <br><br><button onclick='saveData()'>احسب واحفظ</button>`;
+        } else if(type === 'nizam') {
+            out.innerHTML = "<h3>مخطط الدورة</h3><p>عرض تفصيلي لأيام الخصوبة، التبويض، وفترة الراحة.</p>";
+        } else if(type === 'medical') {
+            out.innerHTML = "<h3>نصائح طبية</h3><p>الراحة، شرب السوائل الدافئة، وتجنب الإجهاد البدني.</p>";
+        } else if(type === 'fiqh') {
+            out.innerHTML = "<h3>الجانب الفقهي</h3><p>أحكام الطهارة: تذكري أن فترة الحيض فترة عبادة بذكر الله والصبر.</p>";
+        }
+    }
+
+    function saveData() {
+        const lastDate = document.getElementById('lastDate').value;
+        const avg = document.getElementById('avgDays').value;
+        localStorage.setItem('lastDate', lastDate);
+        localStorage.setItem('avgDays', avg);
+        alert("تم حفظ بياناتك بنجاح! سنقوم بتذكيرك قبل الموعد بـ 3 أيام.");
+    }
+</script>
+</body>
+</html>
