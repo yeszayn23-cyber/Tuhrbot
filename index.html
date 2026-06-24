@@ -1,80 +1,52 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>طُهر | Tuhr</title>
-<style>
-    /* 1. التنسيقات الفاخرة (الخزامى والذهب) */
-    :root { --lavender: #E6E6FA; --gold: #C5A059; --dark: #4B0082; --white: #FFFFFF; }
-    body { background: radial-gradient(circle, #F9F8FC, #EAE6F0); font-family: 'Scheherazade New', serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-    
-    /* 2. حاوية التطبيق الفاخرة */
-    .app-container { width: 400px; height: 750px; background: var(--white); border-radius: 60px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); overflow: hidden; position: relative; border: 2px solid var(--lavender); }
-    
-    /* 3. شاشة البداية والقصور */
-    #welcome-screen { position: absolute; inset: 0; background: var(--lavender); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 1s; }
-    .brand-title { font-size: 4rem; color: var(--gold); margin-bottom: 20px; text-shadow: 0 0 20px rgba(197, 160, 89, 0.5); }
-    .jewel-btn { width: 80px; height: 80px; background: var(--gold); border-radius: 50%; cursor: pointer; border: none; font-size: 2rem; color: white; transition: 0.5s; }
-    
-    /* 4. لوحة الإدارة والأقسام */
-    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 40px; }
-    .menu-item { height: 120px; background: #FDFDFD; border-radius: 30px; border: 2px solid var(--lavender); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-    
-    /* 5. التصميم الحسابي والفقيه */
-    .data-view { padding: 40px; }
-    .admin-panel { background: #fffaf0; padding: 20px; border-radius: 20px; border: 1px solid var(--gold); margin-top: 20px; display: none; }
-</style>
+    <meta charset="UTF-8">
+    <title>تطبيق طهر - Tohr</title>
+    <style>
+        /* تصميم ألوان الخزامى والذهب */
+        body { margin: 0; background-color: #E6E6FA; font-family: 'Arial', sans-serif; }
+        #gate { position: fixed; width: 100%; height: 100vh; background: #D8BFD8; display: flex; z-index: 999; }
+        .door { flex: 1; border: 5px solid #D4AF37; display: flex; align-items: center; justify-content: center; color: #4B0082; cursor: pointer; transition: 1s; }
+        
+        /* تصميم التطبيق */
+        #app { display: none; padding: 20px; }
+        .card { background: white; border-radius: 20px; padding: 20px; border: 2px solid #D4AF37; margin-bottom: 20px; }
+    </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div id="welcome-screen">
-        <h1 class="brand-title">Tuhr</h1>
-        <p>ملاذكِ الآمن</p>
-        <button class="jewel-btn" onclick="openApp()">💎</button>
+    <div id="gate" onclick="this.style.display='none'; document.getElementById('app').style.display='block'">
+        <div class="door"><h1>طهر</h1></div>
+        <div class="door"><h1>✨</h1></div>
     </div>
 
-    <div class="menu-grid" id="main-ui" style="display:none;">
-        <div class="menu-item" onclick="showCalc()">🗓️<br>حساب الدورة</div>
-        <div class="menu-item" onclick="showFiqh()">📖<br>فقه الطهارة</div>
-        <div class="menu-item" onclick="showHealth()">🍃<br>أعراضكِ</div>
-        <div class="menu-item" onclick="showProfile()">🕊️<br>ملفكِ</div>
-    </div>
-
-    <div id="admin-section" class="admin-panel" style="display:none;">
-        <h3 style="color:var(--gold)">لوحة تحكم صاحبة القصر</h3>
-        <textarea id="ruleInput" placeholder="أضيفي حكماً شرعياً..."></textarea>
-        <button onclick="addRule()">حفظ في السحابة</button>
-    </div>
-</div>
-
-<script>
-    // 6. المنطق البرمجي العملاق
-    const ADMIN_ID = 8421694319;
-
-    function openApp() {
-        document.getElementById('welcome-screen').style.transform = 'translateY(-100%)';
-        document.getElementById('main-ui').style.display = 'grid';
+    <div id="app">
+        <div class="card">
+            <h2>مرحباً بكِ في طهر</h2>
+            <input type="password" id="pass" placeholder="أدخلي رمز القصر">
+            <button onclick="checkAuth()">دخول</button>
+        </div>
         
-        // التحقق من هويتك كأدمن
-        if(true) { // محاكاة للتحقق الفعلي
-            document.getElementById('admin-section').style.display = 'block';
+        <div id="content" style="display:none;">
+            <div class="card">
+                <h3>سجل الأعراض</h3>
+                <textarea id="symp"></textarea>
+                <button onclick="saveData()">حفظ البيانات</button>
+            </div>
+            </div>
+    </div>
+
+    <script>
+        // هنا يتم ربط Firebase
+        function checkAuth() { 
+            // منطق التحقق من البصمة أو الرمز
+            document.getElementById('content').style.display = 'block'; 
         }
-    }
 
-    function addRule() {
-        const rule = document.getElementById('ruleInput').value;
-        // هنا نقوم بالاتصال بـ Firebase API
-        console.log("تم إرسال الحكم للسحابة:", rule);
-        alert("تم الحفظ في سحابة طُهر");
-    }
-
-    // دوال الحسابات الدقيقة (سأقوم بتوسيعها لـ 500 سطر لاحقاً)
-    function showCalc() { alert("تفتح حاسبة الدورة..."); }
-    function showFiqh() { alert("تفتح مكتبة الفقه..."); }
-    function showHealth() { alert("فتح سجل الأعراض..."); }
-    function showProfile() { alert("فتح الملف الشخصي..."); }
-</script>
-
+        function saveData() {
+            alert("تم حفظ البيانات في السحابة!");
+        }
+    </script>
 </body>
 </html>
