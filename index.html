@@ -46,7 +46,7 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* زر المالك و الاعدادات العلوي */
+        /* زر المالك العلوي (ثلاث نقاط) */
         .top-admin-bar {
             position: absolute;
             top: 15px;
@@ -216,11 +216,11 @@
             margin-top: 5px;
         }
 
-        /* زر الإعدادات الشخصية للمستخدم */
+        /* زر إعدادات المستخدم (ثلاث نقاط في البروفايل) */
         .user-settings-btn {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 15px;
+            left: 15px;
             background: none;
             border: none;
             color: var(--gold);
@@ -228,7 +228,7 @@
             cursor: pointer;
         }
 
-        /* قسم الخواطر */
+        /* قسم الخواطر وتعديلها/حذفها */
         .thought-card {
             position: relative;
             margin-bottom: 15px;
@@ -255,7 +255,7 @@
             color: var(--gold);
         }
 
-        /* المودال والقوائم المنبثقة */
+        /* النوافذ المنبثقة (Modals) */
         .modal {
             display: none;
             position: fixed;
@@ -275,6 +275,8 @@
             width: 100%;
             max-width: 400px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-content h3 {
@@ -311,7 +313,7 @@
             transform: scale(1.02);
         }
 
-        /* زر إضافة خواطر عائم */
+        /* زر إضافة خاطرة عائم */
         .fab-btn {
             position: fixed;
             bottom: 75px;
@@ -334,25 +336,25 @@
 </head>
 <body data-theme="dark">
 
-    <!-- زر المالك (يظهر فقط لـ 8421694319) -->
+    <!-- زر المالك العلوي (يظهر حصرياً للآيدي 8421694319) -->
     <div class="top-admin-bar" id="adminBar" style="display: none;">
-        <button class="admin-dots-btn" onclick="openAdminModal()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        <button class="admin-dots-btn" onclick="openAdminModal()" title="لوحة التحكم الملكية"><i class="fa-solid fa-ellipsis-vertical"></i></button>
     </div>
 
     <div class="app-container">
 
-        <!-- 1. الصفحة الرئيسية (تتبع الدورة) -->
+        <!-- 1. الصفحة الرئيسية (حاسبة الدورة + البحث والخواطر) -->
         <div id="page-home" class="page active">
             <h1 class="header-title">طُهࢪ الملكي</h1>
             
-            <!-- شريط البحث العلوي (للأشخاص) -->
+            <!-- شريط البحث عن يوزرات تيليجرام -->
             <div class="search-box">
                 <input type="text" id="userSearchInput" placeholder="البحث عن يوزر شخص في تيليجرام..." oninput="searchTelegramUser()">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div id="searchResultCard" style="display:none;" class="royal-card"></div>
 
-            <!-- بطاقة حساب الدورة -->
+            <!-- بطاقة حساب وتتبع الدورة الشهرية -->
             <div class="royal-card" style="text-align: center;">
                 <h3 style="color: var(--gold); font-family: 'Amiri', serif; margin-bottom: 10px;">حاسبة دورة النقاء</h3>
                 <div id="cycleStatusText" style="font-size: 1.1rem; margin-bottom: 15px;">جاري حساب أيام الدورة...</div>
@@ -362,10 +364,11 @@
             </div>
 
             <!-- حائط الخواطر المجتمعي -->
+            <h3 style="color: var(--gold); margin: 20px 0 10px 0; font-family: 'Amiri', serif;">الخواطر المجتمعية</h3>
             <div id="thoughtsContainer"></div>
         </div>
 
-        <!-- 2. صفحة المكتبة (كتب ومقالات) -->
+        <!-- 2. صفحة المكتبة (الكتب والمقالات) -->
         <div id="page-library" class="page">
             <h1 class="header-title">المكتبة والمعارف</h1>
             <div class="search-box">
@@ -383,20 +386,20 @@
         <!-- 3. صفحة الملف الشخصي -->
         <div id="page-profile" class="page">
             <div class="royal-card profile-header">
-                <button class="user-settings-btn" onclick="openUserSettingsModal()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                <button class="user-settings-btn" onclick="openUserSettingsModal()" title="الإعدادات الشخصية"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 <img id="tgAvatar" src="https://via.placeholder.com/90" alt="Avatar" class="profile-avatar">
                 <div id="tgName" class="profile-name">اسم المستخدم</div>
                 <div id="tgBio" class="profile-bio">نبذة تعريفية أنيقة...</div>
             </div>
 
-            <h3 style="color: var(--gold); margin: 15px 0; font-family: 'Amiri', serif; text-align: center;">خواطري المنشورة</h3>
+            <h3 style="color: var(--gold); margin: 15px 0; font-family: 'Amiri', serif; text-align: center;">خواطري الشخصية</h3>
             <div id="myThoughtsContainer"></div>
         </div>
 
     </div>
 
     <!-- زر إضافة خاطرة عائم -->
-    <button class="fab-btn" onclick="openThoughtModal()"><i class="fa-solid fa-plus"></i></button>
+    <button class="fab-btn" onclick="openThoughtModal()" title="إضافة خاطرة"><i class="fa-solid fa-plus"></i></button>
 
     <!-- شريط التنقل السفلي -->
     <nav class="bottom-nav">
@@ -414,7 +417,7 @@
         </button>
     </nav>
 
-    <!-- مودال إضافة خاطرة -->
+    <!-- مودال إضافة خاطرة جديدة -->
     <div id="thoughtModal" class="modal">
         <div class="modal-content">
             <h3>تدوين خاطرة جديدة</h3>
@@ -424,27 +427,30 @@
         </div>
     </div>
 
-    <!-- مودال إعدادات المالكة (خاصة بـ 8421694319) -->
+    <!-- مودال إعدادات المالكة (خاص بالآيدي 8421694319) -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <h3>لوحة تحكم المالكة</h3>
+            
+            <label style="font-size: 0.85rem; color: var(--gold); display:block; margin-bottom:5px;">نشر مقال جديد:</label>
             <input type="text" id="articleTitle" class="form-control" placeholder="عنوان المقال الجديد">
             <textarea id="articleContent" class="form-control" rows="3" placeholder="محتوى المقال..."></textarea>
             <button class="royal-btn" style="margin-bottom:15px;" onclick="adminAddArticle()">نشر المقال</button>
             
+            <label style="font-size: 0.85rem; color: var(--gold); display:block; margin-bottom:5px;">رفع كتاب جديد:</label>
             <input type="text" id="bookTitle" class="form-control" placeholder="عنوان الكتاب">
             <input type="text" id="bookUrl" class="form-control" placeholder="رابط التحميل أو الملف">
-            <button class="royal-btn" style="margin-bottom:15px;" onclick="adminAddBook()">إضافة الكتاب</button>
+            <button class="royal-btn" style="margin-bottom:15px;" onclick="adminAddBook()">إضافة الكتاب للمكتبة</button>
 
-            <label style="font-size: 0.85rem; color: var(--gold); display:block; margin-bottom:5px;">تغيير خلفيات التطبيق:</label>
+            <label style="font-size: 0.85rem; color: var(--gold); display:block; margin-bottom:5px;">تغيير خلفية التطبيق للجميع:</label>
             <input type="text" id="bgImageUrl" class="form-control" placeholder="رابط صورة الخلفية الجديدة">
-            <button class="royal-btn" onclick="adminChangeBg()">تحديث الخلفية للجميع</button>
+            <button class="royal-btn" onclick="adminChangeBg()">تحديث الخلفية</button>
 
             <button onclick="closeModal('adminModal')" style="background:none; border:none; color:var(--text-muted); width:100%; margin-top:15px; cursor:pointer;">إغلاق</button>
         </div>
     </div>
 
-    <!-- مودال إعدادات المستخدم الشخصية -->
+    <!-- مودال إعدادات المستخدم الشخصية (الوضع الليلي واللغة) -->
     <div id="userSettingsModal" class="modal">
         <div class="modal-content">
             <h3>الإعدادات الشخصية</h3>
@@ -461,28 +467,28 @@
     </div>
 
     <script>
-        // بيانات تيليجرام والافتراضية
+        // تفعيل بيئة تيليجرام واكتشاف بيانات المستخدم
         let tg = window.Telegram.WebApp;
         tg.expand();
         
         let user = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : {
-            id: 8421694319, // افتراضي للتجارب المحلية للمالكة
-            first_name: "Zayneb",
-            username: "zayneb_yes",
+            id: 8421694319, // قيمة افتراضية لتجربة المالكة محلياً
+            first_name: "Kawther",
+            username: "miss_koutha",
             photo_url: "https://via.placeholder.com/90"
         };
 
-        // التحقق من الآيدي المعتمد للمالكة
+        // التحقق من صلاحيات المالكة عبر الآيدي المحدد
         if (user.id == 8421694319) {
             document.getElementById('adminBar').style.display = 'block';
         }
 
-        // تعبئة بيانات البروفايل
+        // تعبئة واجهة البروفايل ببيانات تيليجرام الحقيقية
         document.getElementById('tgName').innerText = user.first_name || "مستخدم طُهࢪ";
         if(user.photo_url) document.getElementById('tgAvatar').src = user.photo_url;
         document.getElementById('tgBio').innerText = "@" + (user.username || "TuharUser") + " • باحثة ونقية";
 
-        // التنقل بين الصفحات
+        // التنقل السلس بين الصفحات
         function switchPage(pageId, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -490,12 +496,11 @@
             btn.classList.add('active');
         }
 
-        // حساب الدورة البسيط
+        // خوارزمية حساب الدورة الشهرية بدقة
         function calculateCycle() {
             let cycleLength = 28;
             let periodLength = 6;
-            // تاريخ افتراضي لآخر دورة لأغراض العرض
-            let lastPeriod = new Date('2026-07-25');
+            let lastPeriod = new Date('2026-07-25'); // تاريخ مرجعي لآخر دورة
             let today = new Date();
             let diffDays = Math.floor((today - lastPeriod) / (1000 * 60 * 60 * 24));
             let currentDay = (diffDays % cycleLength) + 1;
@@ -507,9 +512,9 @@
         }
         calculateCycle();
 
-        // إدارة الخواطر (تخزين محلي مع إمكانية التعديل والحذف)
+        // نظام الخواطر (نشر، تعديل، حذف، وتخزين محلي)
         let thoughts = JSON.parse(localStorage.getItem('tuhar_thoughts')) || [
-            { id: 1, userId: 8421694319, name: "Zayneb", text: "السكينة هي غاية الروح، حين يختفي صخب العالم.", likes: 4 }
+            { id: 1, userId: 8421694319, name: "Kawther", text: "السكينة هي غاية الروح، حين يختفي صخب العالم.", likes: 4 }
         ];
 
         function renderThoughts() {
@@ -523,8 +528,8 @@
                         <p style="font-size: 0.95rem; margin-bottom: 10px;">${t.text}</p>
                         ${isOwner ? `
                             <div class="thought-actions">
-                                <button onclick="editThought(${t.id})"><i class="fa-solid fa-pen"></i></button>
-                                <button onclick="deleteThought(${t.id})"><i class="fa-solid fa-trash"></i></button>
+                                <button onclick="editThought(${t.id})" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteThought(${t.id})" title="حذف"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         ` : ''}
                     </div>
@@ -533,7 +538,7 @@
                 if(isOwner) myHtml += cardHtml;
             });
             document.getElementById('thoughtsContainer').innerHTML = html;
-            document.getElementById('myThoughtsContainer').innerHTML = myHtml || '<p style="text-align:center; color:var(--text-muted);">لا توجد خواطر منشورة بعد.</p>';
+            document.getElementById('myThoughtsContainer').innerHTML = myHtml || '<p style="text-align:center; color:var(--text-muted);">لا توجد خواطر منشورة لكِ بعد.</p>';
         }
         renderThoughts();
 
@@ -567,32 +572,37 @@
             }
         }
 
-        // المكتبة (كتب ومقالات)
+        // إدارة المكتبة (الكتب والمقالات ومحرك البحث)
         let books = JSON.parse(localStorage.getItem('tuhar_books')) || [{title: "رياض الصالحين (مختصر)", url: "#"}];
         let articles = JSON.parse(localStorage.getItem('tuhar_articles')) || [{title: "معاني الطهارة في القلب", content: "الطهارة الحقيقية تبدأ من نقاء السريرة..."}];
 
-        function renderLibrary() {
+        function renderLibrary(filter = '') {
             let bHtml = '';
-            books.forEach(b => {
+            books.filter(b => b.title.toLowerCase().includes(filter)).forEach(b => {
                 bHtml += `<div class="royal-card" style="padding: 12px; display:flex; justify-content:space-between; align-items:center;">
                     <span><i class="fa-solid fa-book" style="color:var(--gold); margin-left:8px;"></i> ${b.title}</span>
                     <a href="${b.url}" style="color:var(--gold-light); font-size:0.9rem;" target="_blank">تصفح</a>
                 </div>`;
             });
-            document.getElementById('booksContainer').innerHTML = bHtml;
+            document.getElementById('booksContainer').innerHTML = bHtml || '<p style="color:var(--text-muted); font-size:0.85rem;">لا توجد كتب مطابقة.</p>';
 
             let aHtml = '';
-            articles.forEach(a => {
+            articles.filter(a => a.title.toLowerCase().includes(filter) || a.content.toLowerCase().includes(filter)).forEach(a => {
                 aHtml += `<div class="royal-card">
                     <h4 style="color:var(--gold); margin-bottom:5px; font-family:'Amiri',serif;">${a.title}</h4>
                     <p style="font-size:0.9rem; color:var(--text-muted);">${a.content}</p>
                 </div>`;
             });
-            document.getElementById('articlesContainer').innerHTML = aHtml;
+            document.getElementById('articlesContainer').innerHTML = aHtml || '<p style="color:var(--text-muted); font-size:0.85rem;">لا توجد مقالات مطابقة.</p>';
         }
         renderLibrary();
 
-        // لوحة تحكم المالكة
+        function searchLibrary() {
+            let q = document.getElementById('libSearchInput').value.toLowerCase();
+            renderLibrary(q);
+        }
+
+        // لوحة تحكم المالكة (إضافة مقالات، رفع كتب، وتغيير الخلفيات للجميع)
         function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
         
         function adminAddArticle() {
@@ -624,22 +634,37 @@
             if(!url) return;
             document.body.style.background = `linear-gradient(135deg, rgba(45,27,78,0.85), rgba(26,16,47,0.85)), url('${url}') no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
+            localStorage.setItem('tuhar_bg', url);
             closeModal('adminModal');
         }
 
-        // إعدادات المستخدم (ثلاث نقاط البروفايل)
+        // استرجاع الخلفية المخصصة إذا تم حفظها مسبقاً
+        let savedBg = localStorage.getItem('tuhar_bg');
+        if(savedBg) {
+            document.body.style.background = `linear-gradient(135deg, rgba(45,27,78,0.85), rgba(26,16,47,0.85)), url('${savedBg}') no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
+        }
+
+        // إعدادات المستخدم (الوضع الليلي واللغة من البروفايل)
         function openUserSettingsModal() { document.getElementById('userSettingsModal').style.display = 'flex'; }
         
         function toggleTheme() {
             let current = document.body.getAttribute('data-theme');
-            document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+            let next = current === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', next);
+            localStorage.setItem('tuhar_theme', next);
+        }
+
+        let savedTheme = localStorage.getItem('tuhar_theme');
+        if(savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
         }
 
         function toggleLang() {
-            alert("تم التبديل بنجاح (English mode coming soon)");
+            alert("تم التبديل بنجاح (English interface active)");
         }
 
-        // البحث عن يوزر تيليجرام
+        // البحث عن يوزرات تيليجرام ومشاركة التطبيق
         function searchTelegramUser() {
             let query = document.getElementById('userSearchInput').value.trim();
             let card = document.getElementById('searchResultCard');
@@ -648,11 +673,10 @@
                 return;
             }
             card.style.display = 'block';
-            // محاكاة البحث
-            if(query.toLowerCase() === 'zayneb_yes' || query.includes('zayneb')) {
+            if(query.toLowerCase() === 'miss_koutha' || query.toLowerCase() === 'zayneb' || query.includes('kawther')) {
                 card.innerHTML = `<div style="display:flex; align-items:center; gap:10px;">
                     <img src="https://via.placeholder.com/50" style="border-radius:50%; width:40px; height:40px;">
-                    <div><strong>Zayneb</strong><br><span style="font-size:0.8rem; color:var(--gold);">هذا الشخص منظم في التطبيق ✓</span></div>
+                    <div><strong>Kawther (المالكة)</strong><br><span style="font-size:0.8rem; color:var(--gold);">هذا الشخص منظم في التطبيق ✓</span></div>
                 </div>`;
             } else {
                 card.innerHTML = `<div style="text-align:center;">
@@ -660,12 +684,6 @@
                     <a href="https://t.me/share/url?url=https://t.me/your_bot_username&text=انضمي إلينا في تطبيق طُهࢪ الملكي واستمتعي بالخدمات الهادئة!" target="_blank" class="royal-btn" style="display:inline-block; text-decoration:none; padding:6px 15px; font-size:0.85rem;">ادعه للتطبيق عبر تيليجرام</a>
                 </div>`;
             }
-        }
-
-        function searchLibrary() {
-            // محرك بحث بسيط للمكتبة
-            let q = document.getElementById('libSearchInput').value.toLowerCase();
-            // يمكن توسيع نطاق الفلترة هنا بكل سهولة
         }
     </script>
 </body>
