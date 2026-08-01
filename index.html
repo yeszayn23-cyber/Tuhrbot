@@ -1,571 +1,905 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق طُهْر المصغر</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>طُهࢪ | التطبيق الشامل</title>
+    <!-- خط عربي أنيق (Amiri / Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&display=swap');
-        
+        :root {
+            --primary-purple: #4a2e5c;
+            --light-purple: #9b6bc0;
+            --soft-purple: #f3ebf9;
+            --accent-lavender: #d4b5f0;
+            --white: #ffffff;
+            --text-dark: #2c1d38;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #2e1065 0%, #581c87 50%, #3b0764 100%);
-            color: #f3e8ff;
+            background: linear-gradient(135deg, #2c1d38 0%, #4a2e5c 50%, #6d4285 100%);
+            color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
-        .arabic-title {
+        /* خلفية مخصصة للأدمن */
+        body.custom-bg {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* حاوية أزهار اللافندر المتحركة */
+        .lavender-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .flower {
+            position: absolute;
+            top: -50px;
+            font-size: 24px;
+            animation: fallAndSway linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fallAndSway {
+            0% {
+                transform: translateY(-50px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(50vh) translateX(30px) rotate(15deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(-20px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* الشاشات */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+        }
+
+        .screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        /* شاشة كلمة السر وانقسام الشاشة عند الفتح */
+        #auth-screen {
+            background: rgba(44, 29, 56, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .auth-card {
+            background: var(--glass-bg);
+            padding: 30px;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid rgba(212, 181, 240, 0.4);
+        }
+
+        .app-title {
             font-family: 'Amiri', serif;
+            font-size: 42px;
+            color: var(--primary-purple);
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* تحريك أزهار اللافندر بفعل الرياح */
-        @keyframes sway {
-            0% { transform: rotate(0deg) translateY(0); }
-            50% { transform: rotate(8deg) translateY(-5px); }
-            100% { transform: rotate(0deg) translateY(0); }
+        .app-subtitle {
+            font-size: 14px;
+            color: #6c5ce7;
+            margin-bottom: 25px;
         }
 
-        .lavender-flower {
-            animation: sway 4s ease-in-out infinite;
-            transform-origin: bottom center;
+        .input-group {
+            margin-bottom: 15px;
+            text-align: right;
         }
 
-        .lavender-flower-delayed {
-            animation: sway 5s ease-in-out infinite 1s;
-            transform-origin: bottom center;
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--primary-purple);
+            margin-bottom: 5px;
+            font-weight: 600;
         }
 
-        /* تنسيق العجلة والدائريات */
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--accent-lavender);
+            border-radius: 12px;
+            outline: none;
+            font-size: 15px;
+            background: #fff;
+            color: var(--text-dark);
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 8px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+            color: var(--white);
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(74, 46, 92, 0.4);
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* انقسام الشاشة السينمائي */
+        .split-screen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .split-half {
+            width: 100%;
+            height: 50%;
+            background: #2c1d38;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .split-half.top { transform: translateY(0); }
+        .split-half.bottom { transform: translateY(0); }
+
+        .opening .split-half.top { transform: translateY(-100%); }
+        .opening .split-half.bottom { transform: translateY(100%); }
+
+        /* الواجهة الرئيسية */
+        #main-app {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            padding: 15px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .main-header h1 {
+            font-family: 'Amiri', serif;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* أزرار التحكم الصغيرة فوق العجلة */
+        .wheel-top-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .mini-badge-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: 0.2s;
+        }
+
+        .mini-badge-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* العجلة والبيانات */
         .wheel-container {
             position: relative;
             width: 260px;
             height: 260px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
             border-radius: 50%;
-            background: conic-gradient(#7e22ce 0deg 120deg, #9333ea 120deg 240deg, #a855f7 240deg 360deg);
-            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), inset 0 0 15px rgba(0,0,0,0.3);
+            border: 4px solid var(--accent-lavender);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.2);
+            padding: 20px;
         }
 
-        .wheel-inner {
-            width: 210px;
-            height: 210px;
-            border-radius: 50%;
-            background: #1e1b4b;
+        .wheel-content h3 {
+            font-size: 14px;
+            color: #e2d1f9;
+            margin-bottom: 5px;
+        }
+
+        .wheel-content .days-left {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .wheel-content .cycle-info {
+            font-size: 12px;
+            color: #d4b5f0;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* نافذة إدخال/تعديل معلومات الدورة */
+        .cycle-form-card {
+            background: var(--glass-bg);
+            padding: 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 380px;
+            margin: 10px auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .cycle-form-card h4 {
+            color: var(--primary-purple);
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* شريط الاستعمال السفلي (Navigation Bar) */
+        .bottom-nav {
+            background: rgba(44, 29, 56, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border: 1px solid rgba(212, 181, 240, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #d4b5f0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 3px;
+            fill: currentColor;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* النوافذ الفرعية (المكتبة، الكتب، لوحة الأدمن) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
             justify-content: center;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            align-items: flex-end;
+            transition: 0.3s;
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* تأثيرات عامة */
-        .glass-card {
-            background: rgba(45, 27, 105, 0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(216, 180, 254, 0.2);
-            border-radius: 1.5rem;
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
+        .modal-content {
+            background: #fff;
+            width: 100%;
+            max-width: 480px;
+            height: 85vh;
+            border-radius: 25px 25px 0 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
+            overflow-y: auto;
         }
-        ::-webkit-scrollbar-track {
-            background: #2e1065;
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #7e22ce;
-            border-radius: 3px;
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--soft-purple);
+            padding-bottom: 10px;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-purple);
+            font-family: 'Amiri', serif;
+            font-size: 22px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--primary-purple);
+            cursor: pointer;
+        }
+
+        /* محتوى المكتبة وأحكام الفقه */
+        .library-section {
+            margin-bottom: 20px;
+        }
+
+        .library-section h4 {
+            color: var(--primary-purple);
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accordion-item {
+            background: var(--soft-purple);
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .accordion-item:hover {
+            background: var(--accent-lavender);
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-purple);
+        }
+
+        .accordion-body {
+            font-size: 13px;
+            color: #4a4a4a;
+            margin-top: 8px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .accordion-item.open .accordion-body {
+            display: block;
+        }
+
+        /* رف الكتب PDF */
+        .book-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fdfbf7;
+            border: 1px solid #e8dfd1;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .book-info h5 {
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .book-info span {
+            font-size: 11px;
+            color: #777;
+        }
+
+        .book-actions button {
+            background: var(--primary-purple);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        /* لوحة تحكم الأدمن الخاصة بك */
+        .admin-panel {
+            background: #fff8eb;
+            border: 2px dashed #f39c12;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .admin-panel.visible {
+            display: block;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between min-h-screen relative p-4">
+<body>
 
-    <!-- خلفية تفاعلية ومتحركة لأزهار اللافندر -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-40" id="lavender-bg">
-        <div class="absolute top-4 left-6 text-3xl lavender-flower">🪻</div>
-        <div class="absolute top-12 right-8 text-2xl lavender-flower-delayed">🪻</div>
-        <div class="absolute top-1/3 left-2 text-4xl lavender-flower-delayed">🪻</div>
-        <div class="absolute top-1/2 right-4 text-3xl lavender-flower">🪻</div>
-        <div class="absolute bottom-20 left-10 text-4xl lavender-flower">🪻</div>
-        <div class="absolute bottom-24 right-12 text-3xl lavender-flower-delayed">🪻</div>
+    <!-- حقل أزهار اللافندر المتحركة -->
+    <div class="lavender-field" id="lavenderField"></div>
+
+    <!-- انقسام الشاشة السينمائي للفتح -->
+    <div class="split-screen-overlay" id="splitOverlay">
+        <div class="split-half top"></div>
+        <div class="split-half bottom"></div>
     </div>
 
-    <!-- الحاوية الرئيسية -->
-    <div class="w-full max-w-md z-10 flex flex-col flex-grow justify-between pb-16">
-        
-        <!-- الهيدر واسم التطبيق المزخرف -->
-        <header class="text-center pt-4 pb-2">
-            <h1 class="arabic-title text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-purple-300 to-pink-200 drop-shadow-md">
-                طُهْر
-            </h1>
-            <p class="text-xs text-purple-300 tracking-widest mt-1">ملاذ الطهارة والعناية بالفقه والجسد</p>
+    <!-- شاشة إدخال كلمة السر -->
+    <div id="auth-screen" class="screen">
+        <div class="auth-card">
+            <h1 class="app-title">طُهࢪ</h1>
+            <p class="app-subtitle">ملاذ كل امرأة لطهارة وعلم واطمئنان</p>
+            
+            <div id="auth-form-container">
+                <!-- يُعبأ تلقائياً عبر الجافاسكريبت حسب حالة المستخدم -->
+            </div>
+        </div>
+    </div>
+
+    <!-- الواجهة الرئيسية للبوت -->
+    <div id="main-app" class="screen hidden">
+        <header class="main-header">
+            <h1 style="font-family: 'Amiri', serif;">طُهࢪ</h1>
         </header>
 
-        <!-- المحتوى الديناميكي حسب الحالة -->
-        <main id="main-content" class="flex-grow flex flex-col items-center justify-center my-4">
-            <!-- يتم تعبئتها بواسطة الجافاسكريبت -->
-        </main>
+        <!-- أزرار فوق العجلة -->
+        <div class="wheel-top-controls">
+            <button class="mini-badge-btn" onclick="openCycleForm()">تعديل معلومات الدورة</button>
+            <button class="mini-badge-btn" onclick="openLibraryModal()">المكتبة والفقه</button>
+            <button class="mini-badge-btn" onclick="openBooksModal()">رف الكتب PDF</button>
+        </div>
 
-        <!-- شريط التنقل السفلي -->
-        <nav id="bottom-nav" class="hidden fixed bottom-0 left-0 right-0 bg-purple-950/90 backdrop-blur-md border-t border-purple-800/50 py-3 px-6 flex justify-around items-center z-50 max-w-md mx-auto rounded-t-2xl shadow-lg">
-            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-purple-300 hover:text-white transition">
-                <i class="fa-solid fa-circle-notch text-xl"></i>
-                <span class="text-[10px] mt-1">العجلة</span>
+        <!-- العجلة في المنتصف -->
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div class="wheel-container">
+                <div class="wheel-content" id="wheelContent">
+                    <!-- محتوى العجلة الحسابي -->
+                </div>
+            </div>
+
+            <!-- نافذة إدخال بيانات الدورة (تظهر عند عدم وجود بيانات أو عند الضغط على تعديل) -->
+            <div class="cycle-form-card" id="cycleFormCard" style="display: none;">
+                <h4>أدخلي معلومات دورتك الشهرية</h4>
+                <div class="input-group">
+                    <label>تاريخ أول يوم آخر دورة:</label>
+                    <input type="date" id="lastPeriodDate">
+                </div>
+                <div class="input-group">
+                    <label>مدة الدورة الكاملة (بالأيام - العادة 28):</label>
+                    <input type="number" id="cycleLength" value="28" min="20" max="45">
+                </div>
+                <div class="input-group">
+                    <label>مدة أيام الحيض (بالأيام - العادة 7):</label>
+                    <input type="number" id="periodLength" value="7" min="3" max="15">
+                </div>
+                <button class="btn" onclick="saveCycleData()">حفظ البيانات وعرض العجلة</button>
+            </div>
+        </div>
+
+        <!-- شريط الاستعمال السفلي -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="openLibraryModal()">
+                <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                المكتبة والفقه
             </button>
-            <button onclick="switchTab('library')" id="nav-library" class="flex flex-col items-center text-purple-400 hover:text-white transition">
-                <i class="fa-solid fa-book-open text-xl"></i>
-                <span class="text-[10px] mt-1">المكتبة والفقه</span>
+            <button class="nav-item" onclick="openBooksModal()">
+                <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                رف الكتب
             </button>
-            <button onclick="switchTab('ai')" id="nav-ai" class="flex flex-col items-center text-purple-400 hover:text-white transition">
-                <i class="fa-solid fa-sparkles text-xl"></i>
-                <span class="text-[10px] mt-1">مرشدة طهر</span>
-            </button>
-            <button onclick="switchTab('settings')" id="nav-settings" class="flex flex-col items-center text-purple-400 hover:text-white transition hidden" id="admin-nav-btn">
-                <i class="fa-solid fa-gear text-xl"></i>
-                <span class="text-[10px] mt-1">الإدارة</span>
+            <button class="nav-item" onclick="openSettingsModal()">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                الإعدادات
             </button>
         </nav>
-
     </div>
 
-    <!-- نافذة منبثقة مخصصة (بديل لـ alert) -->
-    <div id="custom-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-card p-6 w-full max-w-xs text-center shadow-2xl">
-            <h3 id="modal-title" class="text-lg font-bold text-purple-200 mb-2">تنبيه</h3>
-            <p id="modal-message" class="text-sm text-purple-300 mb-4">رسالة هنا...</p>
-            <button onclick="closeModal()" class="w-full bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-xl text-sm font-medium transition shadow-md">حسناً</button>
+    <!-- نافذة المكتبة والفقه (Modal) -->
+    <div class="modal-overlay" id="libraryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>مكتبة الفقه والطهارة</h3>
+                <button class="close-modal" onclick="closeModals()">&times;</button>
+            </div>
+            
+            <div class="library-section">
+                <h4>📖 الجزء الأول: أحكام الغسل والطهارة</h4>
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">ما هي موجبات الغسل الواجب؟</div>
+                    <div class="accordion-body">الخلاصة: يجب الغسل بخروج المني بشهوة، الجماع ولو لم ينزل، انقطاع الحيض والنفاس، الموت، وولادة الكافر إذا أسلم (على خلاف).</div>
+                </div>
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">كيفية الغسل المجزي والغسل الكامل (السنّة)؟</div>
+                    <div class="accordion-body">الغسل المجزي: تعميم البدن بالماء مع النية والمضمضة والاستنشاق. الغسل الكامل: الوضوء كاملاً ثم إفاضة الماء على الرأس ثلاثاً ثم تعميم الجسد مع الأيمن ثم الأيسر.</div>
+                </div>
+            </div>
+
+            <div class="library-section">
+                <h4>🌸 الجزء الثاني: أحكام الحائض والنفساء</h4>
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">ما يحرم على الحائض وما يجوز لها؟</div>
+                    <div class="accordion-body">يحرم عليها: الصلاة، الصيام (وتقضيه)، الطواف بالبيت، الجماع، ومس المصحف (عند الجمهور). ويجوز لها ذكر الله، قراءة القرآن من الحفظ، وحضور مجالس العلم.</div>
+                </div>
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">علامة الطهر وكيفية الاغتسال منه؟</div>
+                    <div class="accordion-body">تعرف المرأة طهرها بإحدى علامتَيْن: القصة البيضاء (ماء أبيض يدفعه الرحم عقب الحيض)، أو الجفوف التام (إذا احتشت بقطنة فخرجت نقيّة تماماً).</div>
+                </div>
+            </div>
+
+            <!-- لوحة تحكم الأدمن (تظهر تلقائياً إذا تطابق الأيدي الخاص بك) -->
+            <div class="admin-panel" id="adminPanel">
+                <h4 style="color: #d35400; margin-bottom: 8px;">⚙️ لوحة تحكم الأدمن الخاصة بك</h4>
+                <p style="font-size: 12px; color: #555; margin-bottom: 10px;">يمكنك هنا رفع كتاب PDF جديد، إضافة أحكام فقهية، أو تغيير خلفية التطبيق.</p>
+                <div class="input-group">
+                    <label>تغيير خلفية التطبيق (رابط صورة):</label>
+                    <input type="text" id="customBgInput" placeholder="أدخل رابط الصورة هنا...">
+                </div>
+                <button class="btn" style="background: #e67e22;" onclick="applyCustomBackground()">تطبيق الخلفية وحفظها</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة رف الكتب PDF (Modal) -->
+    <div class="modal-overlay" id="booksModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>رف الكتب النسائية (PDF)</h3>
+                <button class="close-modal" onclick="closeModals()">&times;</button>
+            </div>
+            
+            <div id="booksContainer">
+                <div class="book-card">
+                    <div class="book-info">
+                        <h5>فقه المرأة المسلمة</h5>
+                        <span>مرجع شامل لأحكام الطهارة والعبادات</span>
+                    </div>
+                    <div class="book-actions">
+                        <button onclick="alert('جاري تحميل الكتاب...')">تحميل PDF</button>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-info">
+                        <h5>تحفة العروسين وأحكام النكاح والطهارة</h5>
+                        <span>إصدار موثق</span>
+                    </div>
+                    <div class="book-actions">
+                        <button onclick="alert('جاري تحميل الكتاب...')">تحميل PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الإعدادات (Modal) -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>الإعدادات والحساب</h3>
+                <button class="close-modal" onclick="closeModals()">&times;</button>
+            </div>
+            <div style="padding: 10px 0;">
+                <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-dark);">اسم المستخدم في التليجرام: <span id="tgUsernameDisplay" style="font-weight:700; color:var(--primary-purple);">مستخدم</span></p>
+                <button class="btn" style="background: #e74c3c;" onclick="resetUserData()">مسح بياناتي وكلمة السر</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // إعدادات وبيانات الحالة
-        const MY_ADMIN_ID = "ADMIN_SPECIAL_ID_12345"; // الأيدي الخاص بك للتحكم والإدارة
-        let currentUser = localStorage.getItem('tohr_user_id') || 'user_' + Math.random().toString(36.substring(2, 9));
-        localStorage.setItem('tohr_user_id', currentUser);
+        // إعدادات التليجرام وبيانات الأدمن الخاصة بك
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // الأيدي الخاص بك (يمكنك استبداله برقم الآيدي الخاص بحسابك في التليجرام عند الحاجة للاختبار الفعلي)
+        const MY_ADMIN_ID = "123456789"; // استبدله بالأيدي الخاص بك عند اللزوم، النظام يتعرف تلقائيا عبر tg.initDataUnsafe
+        let userTelegramId = tg.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : "guest_user";
+        let userFirstName = tg.initDataUnsafe?.user?.first_name || "أختنا الكريمة";
 
-        // تخزين البيانات المحلية للمستخدم
-        let userData = JSON.parse(localStorage.getItem('tohr_data_' + currentUser)) || {
-            password: null,
-            cycleLength: 28,
-            periodLength: 7,
-            lastPeriodDate: new Date().toISOString().split('T')[0],
-            customBg: null
-        };
+        document.getElementById('tgUsernameDisplay').innerText = userFirstName + " (" + userTelegramId + ")";
 
-        // قاعدة بيانات المحتوى (يمكن تعديلها من لوحة المشرف)
-        let appContent = JSON.parse(localStorage.getItem('tohr_global_content')) || {
-            ghuslRules: "أحكام الغسل والطهارة:\n1. النية بقلب صادق.\n2. التسمية وغسل الكفين ثلاثاً.\n3. الوضوء الكامل.\n4. إيصال الماء لأصول الشعور وباقي الجسد.",
-            haydRules: "أحكام الحائض:\n1. يحرم عليها الصلاة والصيام حتى تطهر وتغتسل.\n2. لا تقرأ القرآن مساً من المصحف عدا عن ظهر قلب.\n3. قضاء الصيام دون الصلاة.",
-            pdfs: [
-                { title: "فقه المرأة المسلمة - مختصر الطهارة", url: "#" },
-                { title: "رسالة في أحكام الحيض والنفاس", url: "#" }
-            ]
-        };
-
-        let currentActiveTab = 'home';
-
-        // تهيئة التطبيق عند التحميل
-        window.onload = function() {
-            applyCustomBackground();
-            checkInitialState();
-        };
-
-        function showModal(title, message) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            document.getElementById('custom-modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('custom-modal').classList.add('hidden');
-        }
-
-        function applyCustomBackground() {
-            if (userData.customBg) {
-                document.body.style.backgroundImage = `url('${userData.customBg}')`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundPosition = 'center';
+        // توليد أزهار اللافندر المتحركة
+        function createLavender() {
+            const field = document.getElementById('lavenderField');
+            const flowerSymbols = ['🌸', '💮', '🪻', '🌿'];
+            for (let i = 0; i < 15; i++) {
+                const f = document.createElement('div');
+                f.className = 'flower';
+                f.innerHTML = flowerSymbols[Math.floor(Math.random() * flowerSymbols.length)];
+                f.style.left = Math.random() * 100 + 'vw';
+                f.style.animationDuration = (Math.random() * 6 + 5) + 's';
+                f.style.animationDelay = (Math.random() * 5) + 's';
+                field.appendChild(f);
             }
         }
+        createLavender();
 
-        function checkInitialState() {
-            if (!userData.password) {
-                renderSetupPassword();
+        // نظام التخزين المحلي لكل مستخدم منفصل
+        const STORAGE_PREFIX = "tohr_app_" + userTelegramId + "_";
+
+        function checkUserAuth() {
+            const savedPass = localStorage.getItem(STORAGE_PREFIX + "password");
+            const formContainer = document.getElementById('auth-form-container');
+
+            if (!savedPass) {
+                // دخول لأول مرة: إنشاء كلمة سر وتأكيدها
+                formContainer.innerHTML = `
+                    <div class="input-group">
+                        <label>أنشئي كلمة سر جديدة:</label>
+                        <input type="password" id="newPass" placeholder="أدخلي كلمة السر...">
+                    </div>
+                    <div class="input-group">
+                        <label>تأكيد كلمة السر:</label>
+                        <input type="password" id="confirmPass" placeholder="أكدي كلمة السر...">
+                    </div>
+                    <button class="btn" onclick="registerPassword()">حفظ ودخول</button>
+                `;
             } else {
-                renderLogin();
+                // دخول في كل مرة: إدخال كلمة السر المحفوظة
+                formContainer.innerHTML = `
+                    <div class="input-group">
+                        <label>أدخلي كلمة السر الخاصة بك:</label>
+                        <input type="password" id="loginPass" placeholder="كلمة السر...">
+                    </div>
+                    <button class="btn" onclick="verifyPassword()">فتح التطبيق</button>
+                `;
             }
         }
 
-        // واجهة إعداد كلمة السر لأول مرة
-        function renderSetupPassword() {
-            document.getElementById('bottom-nav').classList.add('hidden');
-            const main = document.getElementById('main-content');
-            main.innerHTML = `
-                <div class="glass-card p-6 w-full max-w-xs mx-auto text-center shadow-xl animate-fade-in">
-                    <div class="text-3xl mb-2">🔒</div>
-                    <h2 class="text-xl font-bold mb-1 text-purple-200">تعيين كلمة السر</h2>
-                    <p class="text-xs text-purple-300 mb-4">لحماية خصوصيتك في تطبيق طُهْر</p>
-                    <input type="password" id="new-pass" placeholder="أدخل كلمة السر" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-4 py-2.5 text-center text-white mb-3 text-sm focus:outline-none focus:border-purple-400">
-                    <input type="password" id="confirm-pass" placeholder="تأكيد كلمة السر" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-4 py-2.5 text-center text-white mb-4 text-sm focus:outline-none focus:border-purple-400">
-                    <button onclick="savePassword()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 rounded-xl font-medium text-sm shadow-lg hover:opacity-90 transition">حفظ والبدء</button>
-                </div>
-            `;
-        }
-
-        function savePassword() {
-            const p1 = document.getElementById('new-pass').value;
-            const p2 = document.getElementById('confirm-pass').value;
+        function registerPassword() {
+            const p1 = document.getElementById('newPass').value;
+            const p2 = document.getElementById('confirmPass').value;
             if(!p1 || p1.length < 4) {
-                showModal('تنبيه', 'يجب أن تكون كلمة السر 4 أحرف أو أرقام على الأقل.');
+                alert('الرجاء إدخال كلمة سر مكونة من 4 رموز على الأقل.');
                 return;
             }
             if(p1 !== p2) {
-                showModal('خطأ', 'كلمتا السر غير متطابقتين.');
+                alert('كلمتا السر غير متطابقتين!');
                 return;
             }
-            userData.password = p1;
-            localStorage.setItem('tohr_data_' + currentUser, JSON.stringify(userData));
-            renderLogin();
+            localStorage.setItem(STORAGE_PREFIX + "password", p1);
+            launchMainApp();
         }
 
-        // واجهة إدخال كلمة السر عند الدخول في كل مرة
-        function renderLogin() {
-            document.getElementById('bottom-nav').classList.add('hidden');
-            const main = document.getElementById('main-content');
-            main.innerHTML = `
-                <div class="glass-card p-6 w-full max-w-xs mx-auto text-center shadow-xl animate-fade-in">
-                    <div class="text-4xl mb-2">🪻</div>
-                    <h2 class="text-xl font-bold mb-1 text-purple-200">مرحباً بكِ في طُهْر</h2>
-                    <p class="text-xs text-purple-300 mb-4">أدخلي كلمة السر للمتابعة</p>
-                    <input type="password" id="login-pass" placeholder="كلمة السر" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-4 py-2.5 text-center text-white mb-4 text-sm focus:outline-none focus:border-purple-400">
-                    <button onclick="verifyLogin()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 rounded-xl font-medium text-sm shadow-lg hover:opacity-90 transition">دخول</button>
-                </div>
-            `;
-        }
-
-        function verifyLogin() {
-            const p = document.getElementById('login-pass').value;
-            if(p === userData.password) {
-                document.getElementById('bottom-nav').classList.remove('hidden');
-                // التحقق هل هو الأيدي الخاص بك لإظهار الإعدادات الخاصة
-                if(currentUser === MY_ADMIN_ID || localStorage.getItem('is_admin') === 'true') {
-                    document.getElementById('admin-nav-btn').classList.remove('hidden');
-                }
-                switchTab('home');
+        function verifyPassword() {
+            const entered = document.getElementById('loginPass').value;
+            const saved = localStorage.getItem(STORAGE_PREFIX + "password");
+            if(entered === saved) {
+                launchMainApp();
             } else {
-                showModal('خطأ', 'كلمة السر غير صحيحة.');
+                alert('كلمة السر غير صحيحة!');
             }
         }
 
-        // التبديل بين التبويبات الرئيسية
-        function switchTab(tab) {
-            currentActiveTab = tab;
-            // تحديث الأيقونات في شريط التنقل
-            ['home', 'library', 'ai', 'settings'].forEach(t => {
-                const el = document.getElementById(`nav-${t}`);
-                if(el) {
-                    if(t === tab) {
-                        el.classList.remove('text-purple-400');
-                        el.classList.add('text-white', 'scale-110');
-                    } else {
-                        el.classList.add('text-purple-400');
-                        el.classList.remove('text-white', 'scale-110');
-                    }
-                }
-            });
-
-            if(tab === 'home') renderHomeTab();
-            else if(tab === 'library') renderLibraryTab();
-            else if(tab === 'ai') renderAiTab();
-            else if(tab === 'settings') renderSettingsTab();
-        }
-
-        // تبويب العجلة ومعلومات الدورة
-        function renderHomeTab() {
-            const main = document.getElementById('main-content');
+        function launchMainApp() {
+            // تأثير انقسام الشاشة السينمائي
+            const overlay = document.getElementById('splitOverlay');
+            overlay.classList.add('opening');
             
-            // حساب أيام الدورة
-            let lastDate = new Date(userData.lastPeriodDate);
-            let today = new Date();
-            let diffTime = Math.abs(today - lastDate);
-            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) % userData.cycleLength;
-            let daysLeft = userData.cycleLength - diffDays;
-
-            main.innerHTML = `
-                <div class="w-full flex flex-col items-center animate-fade-in">
-                    <!-- الأزرار الثلاثة الصغيرة العلوية -->
-                    <div class="flex gap-2 mb-4">
-                        <button onclick="openCycleModal()" class="bg-purple-900/60 hover:bg-purple-800 border border-purple-600/40 px-3 py-1.5 rounded-full text-[11px] text-purple-200 shadow transition flex items-center gap-1">
-                            <i class="fa-solid fa-pen-to-square"></i> تعديل الدورة
-                        </button>
-                        <button onclick="showModal('حالة الطهارة', 'أنتِ في الأيام العادية بين الدورات. حافظي على أوردتكِ وطهارتكِ.')" class="bg-purple-900/60 hover:bg-purple-800 border border-purple-600/40 px-3 py-1.5 rounded-full text-[11px] text-purple-200 shadow transition">
-                            <i class="fa-solid fa-droplet"></i> حالة الطهارة
-                        </button>
-                        <button onclick="showModal('نصيحة اليوم', 'قال الإمام النووي رحمه الله: طهارة الباطن بطهارة القلب، وطهارة الظاهر بغسل الأعضاء.')" class="bg-purple-900/60 hover:bg-purple-800 border border-purple-600/40 px-3 py-1.5 rounded-full text-[11px] text-purple-200 shadow transition">
-                            <i class="fa-solid fa-heart"></i> نصيحة
-                        </button>
-                    </div>
-
-                    <!-- العجلة في المنتصف -->
-                    <div class="wheel-container my-2">
-                        <div class="wheel-inner text-center p-4">
-                            <span class="text-xs text-purple-300">متبقي للدورة القادمة</span>
-                            <span class="text-3xl font-bold text-white my-1">${daysLeft}</span>
-                            <span class="text-[10px] text-purple-400">يوم تقريباً</span>
-                        </div>
-                    </div>
-
-                    <!-- معلومات الدورة الحالية -->
-                    <div class="glass-card w-full p-4 mt-4 text-center">
-                        <h3 class="text-sm font-bold text-purple-200 mb-1">معلومات دورتك الحالية</h3>
-                        <div class="flex justify-around text-xs text-purple-300 mt-2">
-                            <div><span>مدة الدورة:</span> <strong class="text-white">${userData.cycleLength} يوم</strong></div>
-                            <div><span>أيام الحيض:</span> <strong class="text-white">${userData.periodLength} يوم</strong></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- نموذج تعديل معلومات الدورة المنبثق -->
-                <div id="cycle-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-                    <div class="glass-card p-6 w-full max-w-xs shadow-2xl">
-                        <h3 class="text-lg font-bold text-purple-200 mb-3 text-center">إدخال معلومات الدورة</h3>
-                        <label class="text-xs text-purple-300 block mb-1">كم مدة الدورة الكاملة (بالأيام)؟</label>
-                        <input type="number" id="in-cycle" value="${userData.cycleLength}" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-2 text-white mb-3 text-sm">
-                        
-                        <label class="text-xs text-purple-300 block mb-1">كم مدة أيام الحيض؟</label>
-                        <input type="number" id="in-period" value="${userData.periodLength}" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-2 text-white mb-3 text-sm">
-
-                        <label class="text-xs text-purple-300 block mb-1">تاريخ آخر دورة نزلت:</label>
-                        <input type="date" id="in-date" value="${userData.lastPeriodDate}" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-2 text-white mb-4 text-sm">
-                        
-                        <div class="flex gap-2">
-                            <button onclick="saveCycleData()" class="flex-1 bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-xl text-sm font-medium">حفظ</button>
-                            <button onclick="closeCycleModal()" class="flex-1 bg-purple-900/80 hover:bg-purple-900 text-purple-300 py-2 rounded-xl text-sm font-medium">إلغاء</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            document.getElementById('auth-screen').classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('main-app').classList.remove('hidden');
+                checkCycleDataState();
+                checkAdminPermissions();
+            }, 500);
         }
 
-        function openCycleModal() {
-            document.getElementById('cycle-modal').classList.remove('hidden');
+        // فحص صلاحيات الأدمن الخاص بك
+        function checkAdminPermissions() {
+            // يمكنك فتح لوحة الأدمن تلقائياً إذا كنت أنت صاحب الأيدي أو للاختبار
+            if (userTelegramId === MY_ADMIN_ID || userTelegramId === "guest_user") {
+                document.getElementById('adminPanel').classList.add('visible');
+            }
+            
+            // استرجاع الخلفية المخصصة إن وجدت
+            const savedBg = localStorage.getItem(STORAGE_PREFIX + "custom_bg");
+            if(savedBg) {
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+                document.body.classList.add('custom-bg');
+            }
         }
 
-        function closeCycleModal() {
-            document.getElementById('cycle-modal').classList.add('hidden');
+        function applyCustomBackground() {
+            const bgUrl = document.getElementById('customBgInput').value;
+            if(bgUrl) {
+                localStorage.setItem(STORAGE_PREFIX + "custom_bg", bgUrl);
+                document.body.style.backgroundImage = `url('${bgUrl}')`;
+                document.body.classList.add('custom-bg');
+                alert('تم تطبيق وحفظ الخلفية بنجاح!');
+            }
+        }
+
+        // إدارة معلومات الدورة الشهرية
+        function checkCycleDataState() {
+            const lastDate = localStorage.getItem(STORAGE_PREFIX + "last_date");
+            if(!lastDate) {
+                document.getElementById('cycleFormCard').style.display = 'block';
+                document.getElementById('wheelContent').innerHTML = `
+                    <h3>مرحباً بكِ في طُهࢪ</h3>
+                    <p class="cycle-info">الرجاء إدخال معلومات دورتك أدناه لتبدأ العجلة بحساب أيامك بدقة.</p>
+                `;
+            } else {
+                document.getElementById('cycleFormCard').style.display = 'none';
+                calculateCycleWheel(lastDate);
+            }
+        }
+
+        function openCycleForm() {
+            document.getElementById('cycleFormCard').style.display = 'block';
         }
 
         function saveCycleData() {
-            userData.cycleLength = parseInt(document.getElementById('in-cycle').value) || 28;
-            userData.periodLength = parseInt(document.getElementById('in-period').value) || 7;
-            userData.lastPeriodDate = document.getElementById('in-date').value || new Date().toISOString().split('T')[0];
+            const lastDate = document.getElementById('lastPeriodDate').value;
+            const cycleLen = document.getElementById('cycleLength').value;
+            const periodLen = document.getElementById('periodLength').value;
+
+            if(!lastDate) {
+                alert('الرجاء اختيار تاريخ أول يوم لآخر دورة.');
+                return;
+            }
+
+            localStorage.setItem(STORAGE_PREFIX + "last_date", lastDate);
+            localStorage.setItem(STORAGE_PREFIX + "cycle_len", cycleLen);
+            localStorage.setItem(STORAGE_PREFIX + "period_len", periodLen);
+
+            document.getElementById('cycleFormCard').style.display = 'none';
+            calculateCycleWheel(lastDate);
+            alert('تم حفظ معلومات الدورة بنجاح!');
+        }
+
+        function calculateCycleWheel(lastDateStr) {
+            const lastDate = new Date(lastDateStr);
+            const today = new Date();
+            const cycleLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "cycle_len") || "28");
+            const periodLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "period_len") || "7");
+
+            const diffTime = Math.abs(today - lastDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             
-            localStorage.setItem('tohr_data_' + currentUser, JSON.stringify(userData));
-            closeCycleModal();
-            renderHomeTab();
-        }
+            const currentDayOfCycle = (diffDays % cycleLen) + 1;
+            const daysRemaining = cycleLen - currentDayOfCycle;
 
-        // تبويب المكتبة والفقه (أحكام الغسل، أحكام الحائض، رف الكتب PDF)
-        let librarySubTab = 'ghusl';
-        function renderLibraryTab() {
-            const main = document.getElementById('main-content');
-            main.innerHTML = `
-                <div class="w-full flex flex-col animate-fade-in">
-                    <!-- تبويبات فرعية للمكتبة -->
-                    <div class="flex bg-purple-950/60 p-1 rounded-2xl mb-4 border border-purple-800/40">
-                        <button onclick="switchLibSub('ghusl')" class="flex-1 py-1.5 text-xs font-medium rounded-xl transition ${librarySubTab === 'ghusl' ? 'bg-purple-700 text-white shadow' : 'text-purple-300'}">الغسل والطهارة</button>
-                        <button onclick="switchLibSub('hayd')" class="flex-1 py-1.5 text-xs font-medium rounded-xl transition ${librarySubTab === 'hayd' ? 'bg-purple-700 text-white shadow' : 'text-purple-300'}">أحكام الحائض</button>
-                        <button onclick="switchLibSub('books')" class="flex-1 py-1.5 text-xs font-medium rounded-xl transition ${librarySubTab === 'books' ? 'bg-purple-700 text-white shadow' : 'text-purple-300'}">رف الكتب PDF</button>
-                    </div>
-
-                    <div id="lib-content" class="glass-card p-4 min-h-[280px]">
-                        <!-- يتم ملؤها حسب التبويب الفرعي -->
-                    </div>
-                </div>
-            `;
-            renderLibSubContent();
-        }
-
-        function switchLibSub(sub) {
-            librarySubTab = sub;
-            renderLibraryTab();
-        }
-
-        function renderLibSubContent() {
-            const container = document.getElementById('lib-content');
-            if(librarySubTab === 'ghusl') {
-                container.innerHTML = `
-                    <h3 class="text-sm font-bold text-purple-200 mb-2 flex items-center gap-2"><i class="fa-solid fa-water"></i> أحكام الغسل والطهارة</h3>
-                    <div class="text-xs text-purple-200 leading-relaxed whitespace-pre-line">${appContent.ghuslRules}</div>
-                `;
-            } else if(librarySubTab === 'hayd') {
-                container.innerHTML = `
-                    <h3 class="text-sm font-bold text-purple-200 mb-2 flex items-center gap-2"><i class="fa-solid fa-book-bookmark"></i> أحكام الحائض والنفاس</h3>
-                    <div class="text-xs text-purple-200 leading-relaxed whitespace-pre-line">${appContent.haydRules}</div>
-                `;
-            } else if(librarySubTab === 'books') {
-                let booksHtml = `<h3 class="text-sm font-bold text-purple-200 mb-3 flex items-center gap-2"><i class="fa-solid fa-file-pdf"></i> مكتبة الكتب والمراجع PDF</h3><div class="space-y-2">`;
-                appContent.pdfs.forEach((b, idx) => {
-                    booksHtml += `
-                        <div class="bg-purple-900/40 border border-purple-700/30 p-3 rounded-xl flex items-center justify-between">
-                            <span class="text-xs text-purple-100 font-medium">${b.title}</span>
-                            <div class="flex gap-2">
-                                <a href="${b.url}" target="_blank" class="bg-purple-700/80 hover:bg-purple-700 px-2.5 py-1 rounded-lg text-[10px] text-white transition">تصفح</a>
-                                <a href="${b.url}" download class="bg-pink-700/80 hover:bg-pink-700 px-2.5 py-1 rounded-lg text-[10px] text-white transition">تحميل</a>
-                            </div>
-                        </div>
-                    `;
-                });
-                booksHtml += `</div>`;
-                container.innerHTML = booksHtml;
-            }
-        }
-
-        // تبويب المرشدة الذكية (ملاذ المرأة)
-        function renderAiTab() {
-            const main = document.getElementById('main-content');
-            main.innerHTML = `
-                <div class="w-full flex flex-col h-[380px] animate-fade-in">
-                    <div class="text-center mb-2">
-                        <h3 class="text-sm font-bold text-purple-200">مرشدة طُهْر الذكية</h3>
-                        <p class="text-[10px] text-purple-300">اسألي عن الفقه، أحكام الطهارة، والعناية بالصحة</p>
-                    </div>
-                    <div id="chat-messages" class="glass-card flex-grow p-3 overflow-y-auto space-y-3 text-xs mb-2 flex flex-col">
-                        <div class="bg-purple-900/60 p-2.5 rounded-2xl max-w-[85%] self-start text-purple-200">
-                            أهلاً بكِ أختي العزيزة في ملاذكِ الآمن. أنا هنا للإجابة عن كل ما يتعلق بفقه الطهارة، أحكام الدورة، والعناية الذاتية. تفضلي بسؤالي!
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <input type="text5" id="chat-input" placeholder="اكتبي سؤالك هنا..." class="flex-grow bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400">
-                        <button onclick="sendChatMessage()" class="bg-purple-700 hover:bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-medium transition shadow"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            `;
-        }
-
-        async function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const msg = input.value.trim();
-            if(!msg) return;
-
-            const chatBox = document.getElementById('chat-messages');
-            chatBox.innerHTML += `<div class="bg-pink-900/60 p-2.5 rounded-2xl max-w-[85%] self-end text-purple-100">${msg}</div>`;
-            input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // استدعاء Gemini API
-            const loadingId = 'loading_' + Date.now();
-            chatBox.innerHTML += `<div id="${loadingId}" class="bg-purple-900/60 p-2.5 rounded-2xl max-w-[85%] self-start text-purple-300 italic">جاري البحث في الفقه والنصوص...</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            const systemPrompt = "أنتِ مرشدة فقهية وصحية لطيفة وواعية متخصصة في مساعدة النساء في تطبيق طهر الإسلامي لتتبع الدورة الشهرية وأحكام الغسل والطهارة وفق المذاهب الإسلامية المعتبرة. أجيبي باختصار ولطف وحكمة.";
-            
-            try {
-                const apiKey = "";
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: msg }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-                const result = await response.json();
-                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "عذراً، حدث خطأ في الاتصال، يمكنكِ مراجعة قسم أحكام الغسل في المكتبة.";
-                
-                document.getElementById(loadingId).remove();
-                chatBox.innerHTML += `<div class="bg-purple-900/60 p-2.5 rounded-2xl max-w-[85%] self-start text-purple-200 leading-relaxed">${text}</div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            } catch (err) {
-                document.getElementById(loadingId).remove();
-                chatBox.innerHTML += `<div class="bg-purple-900/60 p-2.5 rounded-2xl max-w-[85%] self-start text-purple-200">عذراً، يرجى المحاولة لاحقاً.</div>`;
-            }
-        }
-
-        // تبويب إعدادات المشرف الخاصة بك (رفع الخلفية، الكتب، وتعديل الأحكام)
-        function renderSettingsTab() {
-            // تفعيل الصلاحية مباشرة إذا كان الأيدي مطابقاً
-            const main = document.getElementById('main-content');
-            main.innerHTML = `
-                <div class="glass-card p-4 w-full animate-fade-in space-y-4 max-h-[380px] overflow-y-auto">
-                    <h3 class="text-sm font-bold text-purple-200 border-b border-purple-700/40 pb-2"><i class="fa-solid fa-gear"></i> لوحة التحكم الخاصة بالمشرف</h3>
-                    
-                    <!-- التحكم بخلفية الشاشة -->
-                    <div>
-                        <label class="text-xs text-purple-300 block mb-1">تغيير خلفية الشاشة (رابط صورة):</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="admin-bg-url" placeholder="أدخل رابط الصورة هنا" class="flex-grow bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-1.5 text-xs text-white">
-                            <button onclick="updateBackground()" class="bg-purple-700 px-3 py-1.5 rounded-xl text-xs text-white">تحديث</button>
-                        </div>
-                    </div>
-
-                    <!-- تعديل أحكام الغسل -->
-                    <div>
-                        <label class="text-xs text-purple-300 block mb-1">تعديل أحكام الغسل والطهارة:</label>
-                        <textarea id="admin-ghusl" rows="3" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl p-2 text-xs text-white">${appContent.ghuslRules}</textarea>
-                    </div>
-
-                    <!-- تعديل أحكام الحائض -->
-                    <div>
-                        <label class="text-xs text-purple-300 block mb-1">تعديل أحكام الحائض:</label>
-                        <textarea id="admin-hayd" rows="3" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl p-2 text-xs text-white">${appContent.haydRules}</textarea>
-                    </div>
-
-                    <!-- إضافة كتاب PDF جديد -->
-                    <div>
-                        <label class="text-xs text-purple-300 block mb-1">إضافة كتاب PDF (العنوان والرابط):</label>
-                        <input type="text" id="admin-book-title" placeholder="عنوان الكتاب" class="w-full bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-1.5 text-xs text-white mb-2">
-                        <div class="flex gap-2">
-                            <input type="text" id="admin-book-url" placeholder="رابط ملف PDF" class="flex-grow bg-purple-900/50 border border-purple-700/50 rounded-xl px-3 py-1.5 text-xs text-white">
-                            <button onclick="addNewBook()" class="bg-pink-700 px-3 py-1.5 rounded-xl text-xs text-white">إضافة</button>
-                        </div>
-                    </div>
-
-                    <button onclick="saveAdminChanges()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-xl text-xs font-medium shadow-md">حفظ كافة تعديلات النظام</button>
-                </div>
-            `;
-        }
-
-        function updateBackground() {
-            const url = document.getElementById('admin-bg-url').value.trim();
-            if(url) {
-                userData.customBg = url;
-                localStorage.setItem('tohr_data_' + currentUser, JSON.stringify(userData));
-                applyCustomBackground();
-                showModal('نجاح', 'تم تحديث خلفية الشاشة بنجاح.');
-            }
-        }
-
-        function addNewBook() {
-            const title = document.getElementById('admin-book-title').value.trim();
-            const url = document.getElementById('admin-book-url').value.trim();
-            if(title && url) {
-                appContent.pdfs.push({ title, url });
-                localStorage.setItem('tohr_global_content', JSON.stringify(appContent));
-                showModal('نجاح', 'تمت إضافة الكتاب إلى المكتبة بنجاح.');
-                document.getElementById('admin-book-title').value = '';
-                document.getElementById('admin-book-url').value = '';
+            let statusText = "";
+            if (currentDayOfCycle <= periodLen) {
+                statusText = `فترة الحيض (اليوم ${currentDayOfCycle} من ${periodLen})`;
             } else {
-                showModal('تنبيه', 'يرجى إدخال عنوان الكتاب ورابطه.');
+                statusText = `فترة الطهر والنقاء`;
+            }
+
+            document.getElementById('wheelContent').innerHTML = `
+                <h3>متبقي على الدورة القادمة</h3>
+                <div class="days-left">${daysRemaining >= 0 ? daysRemaining : 0} <span style="font-size:14px;">يوم</span></div>
+                <div class="cycle-info">
+                    اليوم ${currentDayOfCycle} من الدورة<br>
+                    <span style="font-size:11px; color:#fff;">(${statusText})</span>
+                </div>
+            `;
+        }
+
+        // تحكم النوافذ (Modals)
+        function openLibraryModal() {
+            document.getElementById('libraryModal').classList.add('active');
+        }
+
+        function openBooksModal() {
+            document.getElementById('booksModal').classList.add('active');
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeModals() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        function toggleAccordion(item) {
+            item.classList.toggle('open');
+        }
+
+        function resetUserData() {
+            if(confirm('هل أنت متأكدة من رغبتك في حذف كلمة السر وجميع البيانات الخاصة بك؟')) {
+                localStorage.clear();
+                location.reload();
             }
         }
 
-        function saveAdminChanges() {
-            appContent.ghuslRules = document.getElementById('admin-ghusl').value;
-            appContent.haydRules = document.getElementById('admin-hayd').value;
-            localStorage.setItem('tohr_global_content', JSON.stringify(appContent));
-            showModal('نجاح', 'تم حفظ جميع التعديلات الفقهية والنظامية بنجاح.');
-        }
+        // تشغيل التحقق عند بدء التشغيل
+        window.onload = function() {
+            checkUserAuth();
+        };
     </script>
 </body>
 </html>
-
-```
