@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>طُهࢪ | التطبيق الشامل</title>
-    <!-- خطوط عربية فاخرة جداً -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&family=Reem+Kufi:wght@600&display=swap" rel="stylesheet">
+    <title>طُهࢪ | الواجهة الملكية</title>
+    <!-- خطوط عربية فاخرة وأنثوية (Amiri & Reem Kufi & Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --primary-purple: #4a2e5c;
-            --light-purple: #9b6bc0;
-            --soft-purple: #f3ebf9;
-            --accent-lavender: #d4b5f0;
+            --royal-purple-dark: #3b1f4a;
+            --royal-purple: #5c3270;
+            --royal-purple-light: #8d5ab8;
+            --lavender-accent: #e4c7f5;
+            --rose-gold: #e0a96d;
             --white: #ffffff;
-            --text-dark: #2c1d38;
-            --glass-bg: rgba(255, 255, 255, 0.88);
-            --wood-brown: #5c3a21;
-            --wood-light: #8a5736;
+            --text-dark: #2a1b36;
+            --glass-royal: rgba(59, 31, 74, 0.85);
+            --glass-white: rgba(255, 255, 255, 0.92);
+            --wood-shelf: #4a2c16;
         }
 
         * {
@@ -29,7 +30,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #2c1d38 0%, #4a2e5c 50%, #6d4285 100%);
+            background: linear-gradient(135deg, #23122e 0%, #4a255e 50%, #72428c 100%);
             color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
@@ -39,7 +40,7 @@
             background-repeat: no-repeat;
         }
 
-        /* حاوية أزهار اللافندر المتحركة */
+        /* حاوية أزهار اللافندر المتحركة الملكية */
         .lavender-field {
             position: fixed;
             top: 0;
@@ -56,17 +57,17 @@
             top: -50px;
             font-size: 24px;
             animation: fallAndSway linear infinite;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         @keyframes fallAndSway {
             0% { transform: translateY(-50px) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.9; }
-            50% { transform: translateY(50vh) translateX(30px) rotate(15deg); }
-            100% { transform: translateY(105vh) translateX(-20px) rotate(45deg); opacity: 0; }
+            10% { opacity: 0.95; }
+            50% { transform: translateY(50vh) translateX(25px) rotate(20deg); }
+            100% { transform: translateY(105vh) translateX(-15px) rotate(50deg); opacity: 0; }
         }
 
-        /* الشاشات */
+        /* الشاشات العامة */
         .screen {
             position: fixed;
             top: 0;
@@ -79,70 +80,71 @@
             align-items: center;
             z-index: 10;
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 20px;
+            padding: 15px;
         }
 
         .screen.hidden {
             opacity: 0;
             pointer-events: none;
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
         #auth-screen {
-            background: rgba(44, 29, 56, 0.92);
-            backdrop-filter: blur(10px);
+            background: rgba(35, 18, 46, 0.95);
+            backdrop-filter: blur(12px);
             z-index: 100;
         }
 
         .auth-card {
-            background: var(--glass-bg);
+            background: var(--glass-white);
             padding: 30px;
-            border-radius: 25px;
+            border-radius: 30px;
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            border: 1px solid rgba(212, 181, 240, 0.4);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+            border: 2px solid var(--rose-gold);
         }
 
-        /* كلمة طهر بخط فخم جداً */
-        .app-title-luxury {
+        /* اسم طُهࢪ الملكي الفخم جداً */
+        .app-title-royal {
             font-family: 'Amiri', serif;
-            font-size: 52px;
+            font-size: 58px;
             font-weight: 700;
-            background: linear-gradient(45deg, #4a2e5c, #8a5736, #4a2e5c);
+            background: linear-gradient(45deg, #5c3270, #964d7c, #b8860b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: 2px;
+            margin-bottom: 2px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+            letter-spacing: 3px;
         }
 
         .app-subtitle {
             font-size: 13px;
-            color: #6c5ce7;
+            color: #7b4f9c;
             margin-bottom: 25px;
             font-weight: 600;
+            letter-spacing: 1px;
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             text-align: right;
         }
 
         .input-group label {
             display: block;
             font-size: 13px;
-            color: var(--primary-purple);
-            margin-bottom: 5px;
-            font-weight: 600;
+            color: var(--royal-purple);
+            margin-bottom: 6px;
+            font-weight: 700;
         }
 
         .input-group input, .input-group select, .input-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--accent-lavender);
-            border-radius: 12px;
+            padding: 12px 16px;
+            border: 2px solid var(--lavender-accent);
+            border-radius: 14px;
             outline: none;
             font-size: 15px;
             background: #fff;
@@ -151,28 +153,29 @@
         }
 
         .input-group input:focus {
-            border-color: var(--primary-purple);
-            box-shadow: 0 0 8px rgba(108, 92, 231, 0.3);
+            border-color: var(--royal-purple);
+            box-shadow: 0 0 10px rgba(92, 50, 112, 0.3);
         }
 
-        .btn {
-            background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
+        .btn-royal {
+            background: linear-gradient(135deg, var(--royal-purple), var(--royal-purple-light));
             color: var(--white);
             border: none;
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 13px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(74, 46, 92, 0.4);
+            box-shadow: 0 6px 20px rgba(92, 50, 112, 0.4);
             transition: 0.3s;
             margin-top: 10px;
+            letter-spacing: 0.5px;
         }
 
-        .btn:active { transform: scale(0.98); }
+        .btn-royal:active { transform: scale(0.98); }
 
-        /* انقسام الشاشة السينمائي */
+        /* انقسام الشاشة السينمائي الفخم */
         .split-screen-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -180,7 +183,7 @@
             display: flex; flex-direction: column;
         }
         .split-half {
-            width: 100%; height: 50%; background: #2c1d38;
+            width: 100%; height: 50%; background: #23122e;
             transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
         }
         .split-half.top { transform: translateY(0); }
@@ -207,250 +210,291 @@
             display: flex;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
         .mini-badge-btn {
             background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--rose-gold);
             color: #fff;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: 0.2s;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            transition: 0.3s;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
 
-        .mini-badge-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        .mini-badge-btn:hover { background: rgba(255, 255, 255, 0.4); transform: translateY(-2px); }
 
         /* العجلة */
         .wheel-container {
             position: relative;
-            width: 250px;
-            height: 250px;
+            width: 260px;
+            height: 260px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(18px);
             border-radius: 50%;
-            border: 4px solid var(--accent-lavender);
+            border: 5px solid var(--rose-gold);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 0 25px rgba(255,255,255,0.4);
             padding: 20px;
         }
 
-        .wheel-content h3 { font-size: 13px; color: #f0e6fc; margin-bottom: 5px; }
-        .wheel-content .days-left { font-size: 34px; font-weight: 700; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-        .wheel-content .cycle-info { font-size: 11px; color: #e2d1f9; margin-top: 4px; line-height: 1.4; }
+        .wheel-content h3 { font-size: 14px; color: #f9f0ff; margin-bottom: 5px; font-weight: 600; }
+        .wheel-content .days-left { font-size: 38px; font-weight: 700; color: #fff; text-shadow: 0 3px 8px rgba(0,0,0,0.4); }
+        .wheel-content .cycle-info { font-size: 12px; color: #e4c7f5; margin-top: 5px; line-height: 1.4; }
 
         .cycle-form-card {
-            background: var(--glass-bg);
-            padding: 18px;
-            border-radius: 20px;
+            background: var(--glass-white);
+            padding: 20px;
+            border-radius: 24px;
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
             margin: 10px auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--rose-gold);
         }
 
-        .cycle-form-card h4 { color: var(--primary-purple); font-size: 14px; margin-bottom: 8px; text-align: center; }
+        .cycle-form-card h4 { color: var(--royal-purple); font-size: 15px; margin-bottom: 10px; text-align: center; font-weight: 700; }
 
         /* شريط الاستعمال السفلي */
         .bottom-nav {
-            background: rgba(44, 29, 56, 0.88);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 10px 15px;
+            background: rgba(35, 18, 46, 0.92);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            padding: 10px 18px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border: 1px solid rgba(212, 181, 240, 0.3);
+            border: 1px solid var(--rose-gold);
             margin-bottom: 10px;
         }
 
         .nav-item {
             background: none;
             border: none;
-            color: #d4b5f0;
+            color: var(--lavender-accent);
             display: flex;
             flex-direction: column;
             align-items: center;
             font-size: 11px;
             cursor: pointer;
             transition: 0.3s;
+            font-weight: 600;
         }
 
-        .nav-item svg { width: 22px; height: 22px; margin-bottom: 3px; fill: currentColor; }
-        .nav-item.active, .nav-item:hover { color: #fff; transform: translateY(-2px); }
+        .nav-item svg { width: 24px; height: 24px; margin-bottom: 3px; fill: currentColor; }
+        .nav-item.active, .nav-item:hover { color: #fff; transform: translateY(-3px); }
 
-        /* النوافذ الفرعية */
-        .modal-overlay {
+        /* فتح الخانات في الشاشة كلها (Full Screen Modal) */
+        .full-screen-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
+            background: linear-gradient(135deg, #2b1538 0%, #4a255e 100%);
+            z-index: 2000;
             display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            transition: 0.3s;
+            flex-direction: column;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+            overflow-y: auto;
             opacity: 0;
             pointer-events: none;
         }
 
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .modal-content {
-            background: #fff;
-            width: 100%;
-            max-width: 480px;
-            height: 88vh;
-            border-radius: 25px 25px 0 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
-            overflow-y: auto;
+        .full-screen-modal.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-
-        .modal-header {
+        .modal-top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--soft-purple);
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--rose-gold);
+            padding-bottom: 12px;
         }
 
-        .modal-header h3 { color: var(--primary-purple); font-family: 'Amiri', serif; font-size: 20px; }
-        .close-modal { background: none; border: none; font-size: 22px; color: var(--primary-purple); cursor: pointer; }
+        .modal-top-bar h2 {
+            color: #fff;
+            font-family: 'Amiri', serif;
+            font-size: 26px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
 
-        /* تصميم الكتاب للمقالات والاحكام (صفحات تتغير) */
-        .book-container {
-            background: #fcf8f2;
-            border: 2px solid #e3d5c6;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.1);
-            min-height: 320px;
+        .close-full-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid var(--rose-gold);
+            color: #fff;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            transition: 0.3s;
+        }
+        .close-full-btn:hover { background: rgba(255,255,255,0.4); }
+
+        /* تصميم كتاب المقالات في الشاشة الكاملة (صفحات تتغير + دعم صور مرفوعة) */
+        .royal-book-box {
+            background: #fffcf7;
+            border: 3px solid var(--rose-gold);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
+            margin-bottom: 15px;
         }
 
         .book-page-title {
             font-family: 'Amiri', serif;
-            font-size: 20px;
-            color: var(--wood-brown);
+            font-size: 24px;
+            color: var(--royal-purple-dark);
             margin-bottom: 12px;
-            border-bottom: 1px dashed #d9c5b2;
-            padding-bottom: 5px;
+            border-bottom: 2px dashed #e6d2b5;
+            padding-bottom: 8px;
+        }
+
+        .book-page-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #d4be9c;
+            display: none;
         }
 
         .book-page-body {
-            font-size: 14px;
-            color: #443;
-            line-height: 1.8;
+            font-size: 15px;
+            color: #3b2e3f;
+            line-height: 1.9;
             flex: 1;
             white-space: pre-line;
         }
 
-        .book-navigation {
+        .book-nav-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 15px;
-            border-top: 1px solid #e3d5c6;
-            padding-top: 10px;
+            border-top: 1px solid #e6d2b5;
+            padding-top: 12px;
         }
 
-        .book-btn {
-            background: var(--wood-brown);
+        .book-nav-btn {
+            background: var(--royal-purple);
             color: #fff;
             border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
             cursor: pointer;
+            font-weight: 600;
         }
+        .book-nav-btn:disabled { background: #d0c4d6; cursor: not-allowed; }
+        .page-indicator { font-size: 13px; color: var(--royal-purple); font-weight: 700; }
 
-        .book-btn:disabled { background: #ccc; cursor: not-allowed; }
-        .page-counter { font-size: 12px; color: #776; font-weight: 600; }
-
-        /* رف الكتب الخشبي الحقيقي (بني دافئ) */
-        .wooden-shelf-container {
-            background: linear-gradient(to bottom, #4a2c16 0%, #38200f 100%);
+        /* رف الكتب الخشبي الحقيقي الفخم */
+        .wooden-shelf-royal {
+            background: linear-gradient(to bottom, #5c3a21 0%, #3d2311 100%);
             border: 6px solid #28170a;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4), inset 0 2px 5px rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 2px 8px rgba(255,255,255,0.15);
             margin-bottom: 15px;
         }
 
-        .shelf-title-bar {
-            color: #f3e9dc;
+        .shelf-header {
+            color: #fcefdc;
             font-family: 'Amiri', serif;
-            font-size: 16px;
-            margin-bottom: 12px;
+            font-size: 18px;
+            margin-bottom: 15px;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-            padding-bottom: 5px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
         }
 
-        .book-spine-card {
+        .book-spine-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #fff;
-            border-right: 6px solid var(--wood-brown);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border-right: 8px solid var(--royal-purple);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
         }
 
-        .book-info h5 { font-size: 14px; color: var(--text-dark); font-weight: 700; }
-        .book-info span { font-size: 11px; color: #666; }
+        .book-info h5 { font-size: 15px; color: var(--text-dark); font-weight: 700; }
+        .book-info span { font-size: 12px; color: #666; }
 
         .book-actions button {
-            background: var(--wood-brown);
+            background: var(--royal-purple);
             color: #fff;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 13px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
         }
-        .book-actions button:hover { background: var(--wood-light); }
 
-        /* لوحة تحكم الأدمن الشاملة لكل الواجهات والخلفيات والكتب */
-        .admin-panel {
-            background: #fff8eb;
-            border: 2px dashed #d35400;
-            padding: 15px;
-            border-radius: 15px;
+        /* لوحة التحكم الإدارية الفخمة */
+        .admin-control-box {
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px dashed var(--rose-gold);
+            padding: 18px;
+            border-radius: 20px;
             margin-top: 15px;
-            display: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
-        .admin-panel.visible { display: block; }
+
+        .admin-control-box h4 {
+            color: var(--royal-purple);
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-family: 'Amiri', serif;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-wrapper input[type=file] {
+            font-size: 14px;
+            color: #444;
+            padding: 8px;
+            background: #f4ecf9;
+            border: 2px dashed var(--royal-purple-light);
+            border-radius: 12px;
+            width: 100%;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body id="appBody">
 
-    <!-- حقل أزهار اللافندر المتحركة -->
+    <!-- حقل أزهار اللافندر المتحركة الملكية -->
     <div class="lavender-field" id="lavenderField"></div>
 
     <!-- انقسام الشاشة السينمائي للفتح -->
@@ -459,10 +503,10 @@
         <div class="split-half bottom"></div>
     </div>
 
-    <!-- شاشة كلمة السر -->
+    <!-- شاشة إدخال كلمة السر -->
     <div id="auth-screen" class="screen">
         <div class="auth-card">
-            <h1 class="app-title-luxury">طُهࢪ</h1>
+            <h1 class="app-title-royal">طُهࢪ</h1>
             <p class="app-subtitle">ملاذ كل امرأة لطهارة وعلم واطمئنان</p>
             <div id="auth-form-container"></div>
         </div>
@@ -471,15 +515,15 @@
     <!-- الواجهة الرئيسية -->
     <div id="main-app" class="screen hidden">
         <header class="main-header">
-            <h1 class="app-title-luxury" style="font-size: 38px;">طُهࢪ</h1>
+            <h1 class="app-title-royal" style="font-size: 40px;">طُهࢪ</h1>
         </header>
 
-        <!-- أزرار فوق العجلة -->
+        <!-- أزرار التحكم السريعة -->
         <div class="wheel-top-controls">
             <button class="mini-badge-btn" onclick="openCycleForm()">معلومات الدورة</button>
-            <button class="mini-badge-btn" onclick="openLibraryModal()">المكتبة والكتاب</button>
-            <button class="mini-badge-btn" onclick="openBooksModal()">رف الكتب الخشبي</button>
-            <button class="mini-badge-btn" onclick="openSettingsModal()" style="background: rgba(211, 84, 0, 0.4);">الإعدادات</button>
+            <button class="mini-badge-btn" onclick="openLibraryScreen()">المكتبة والكتاب</button>
+            <button class="mini-badge-btn" onclick="openBooksScreen()">رف الكتب الخشبي</button>
+            <button class="mini-badge-btn" onclick="openSettingsScreen()" style="background: rgba(224, 169, 109, 0.4);">الإعدادات والخلفيات</button>
         </div>
 
         <!-- العجلة في المنتصف -->
@@ -502,125 +546,125 @@
                     <label>مدة أيام الحيض (بالأيام - العادة 7):</label>
                     <input type="number" id="periodLength" value="7" min="3" max="15">
                 </div>
-                <button class="btn" onclick="saveCycleData()">حفظ البيانات وعرض العجلة</button>
+                <button class="btn-royal" onclick="saveCycleData()">حفظ البيانات وعرض العجلة</button>
             </div>
         </div>
 
         <!-- شريط الاستعمال السفلي -->
         <nav class="bottom-nav">
-            <button class="nav-item active" onclick="openLibraryModal()">
+            <button class="nav-item active" onclick="openLibraryScreen()">
                 <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
                 المكتبة والكتاب
             </button>
-            <button class="nav-item" onclick="openBooksModal()">
+            <button class="nav-item" onclick="openBooksScreen()">
                 <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
                 رف الكتب
             </button>
-            <button class="nav-item" onclick="openSettingsModal()">
-                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            <button class="nav-item" onclick="openSettingsScreen()">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c-.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                 الإعدادات
             </button>
         </nav>
     </div>
 
-    <!-- نافذة المكتبة (الكتاب ذو الصفحات المتغيرة) -->
-    <div class="modal-overlay" id="libraryModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>مكتبة الفقه والمقالات (الكتاب)</h3>
-                <button class="close-modal" onclick="closeModals()">&times;</button>
-            </div>
-            
-            <!-- شكل الكتاب الذي تتغير صفحاته -->
-            <div class="book-container">
-                <div>
-                    <h4 class="book-page-title" id="bookPageTitle">عنوان الصفحة</h4>
-                    <div class="book-page-body" id="bookPageBody">محتوى الصفحة...</div>
-                </div>
-                <div class="book-navigation">
-                    <button class="book-btn" id="prevPageBtn" onclick="changeBookPage(-1)">الصفحة السابقة</button>
-                    <span class="page-counter" id="pageCounter">صفحة 1 من 3</span>
-                    <button class="book-btn" id="nextPageBtn" onclick="changeBookPage(1)">الصفحة التالية</button>
-                </div>
-            </div>
+    <!-- شاشة المكتبة وكتاب المقالات (تفتح في الشاشة كلها) -->
+    <div class="full-screen-modal" id="libraryScreen">
+        <div class="modal-top-bar">
+            <h2>مكتبة الفقه والمقالات الملكية</h2>
+            <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
+        </div>
 
-            <!-- لوحة التحكم الخاصة بك لإضافة وتعديل صفحات الكتاب والمقالات الخلفيات -->
-            <div class="admin-panel" id="adminPanelBook">
-                <h4 style="color: #d35400; margin-bottom: 8px;">✍️ لوحة التحكم: تعديل/إضافة مقال جديد للكتاب</h4>
-                <div class="input-group">
-                    <label>عنوان المقال/الصفحة:</label>
-                    <input type="text" id="newArticleTitle" placeholder="أدخل العنوان...">
-                </div>
-                <div class="input-group">
-                    <label>محتوى الصفحة:</label>
-                    <textarea id="newArticleBody" rows="4" placeholder="اكتبي نص المقال أو الحكم الشرعي هنا..."></textarea>
-                </div>
-                <button class="btn" style="background: #d35400;" onclick="addNewArticlePage()">إضافة صفحة جديدة للكتاب</button>
+        <!-- الكتاب ذو الصفحات المتغيرة -->
+        <div class="royal-book-box">
+            <div>
+                <h3 class="book-page-title" id="bookPageTitle">عنوان الصفحة</h3>
+                <img id="bookPageImg" class="book-page-image" src="" alt="صورة المقال">
+                <div class="book-page-body" id="bookPageBody">محتوى الصفحة...</div>
             </div>
+            <div class="book-nav-bar">
+                <button class="book-nav-btn" id="prevPageBtn" onclick="changeBookPage(-1)">الصفحة السابقة</button>
+                <span class="page-indicator" id="pageCounter">صفحة 1 من 2</span>
+                <button class="book-nav-btn" id="nextPageBtn" onclick="changeBookPage(1)">الصفحة التالية</button>
+            </div>
+        </div>
+
+        <!-- لوحة تحكمك لإضافة مقال بصورة من الهاتف -->
+        <div class="admin-control-box">
+            <h4>✍️ إضافة مقال جديد للكتاب (عنوان ومقال وصورة من الهاتف)</h4>
+            <div class="input-group">
+                <label>عنوان المقال:</label>
+                <input type="text" id="newArticleTitle" placeholder="أدخل العنوان...">
+            </div>
+            <div class="input-group">
+                <label>محتوى المقال:</label>
+                <textarea id="newArticleBody" rows="3" placeholder="اكتبي نص المقال هنا..."></textarea>
+            </div>
+            <div class="input-group">
+                <label>إرفاق صورة للمقال من الهاتف:</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="newArticleImgFile" accept="image/*">
+                </div>
+            </div>
+            <button class="btn-royal" onclick="addNewArticlePage()">نشر الصفحة في الكتاب</button>
         </div>
     </div>
 
-    <!-- نافذة رف الكتب الخشبي (PDF) -->
-    <div class="modal-overlay" id="booksModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>رف الكتب النسائية (PDF)</h3>
-                <button class="close-modal" onclick="closeModals()">&times;</button>
-            </div>
-            
-            <div class="wooden-shelf-container">
-                <div class="shelf-title-bar">📚 الرف الخشبي للمكتبة النسائية 📚</div>
-                <div id="booksContainer">
-                    <!-- تعبأ ديناميكياً -->
-                </div>
-            </div>
+    <!-- شاشة رف الكتب الخشبي (تفتح في الشاشة كلها) -->
+    <div class="full-screen-modal" id="booksScreen">
+        <div class="modal-top-bar">
+            <h2>رف الكتب النسائية</h2>
+            <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
+        </div>
 
-            <!-- لوحة تحكم الأدمن لرفع الكتب وتحميلها في تلجرام -->
-            <div class="admin-panel" id="adminPanelBooks" style="display: block; margin-top: 10px;">
-                <h4 style="color: #d35400; margin-bottom: 8px;">📥 رفع كتاب PDF جديد</h4>
-                <div class="input-group">
-                    <label>عنوان الكتاب:</label>
-                    <input type="text" id="newBookTitle" placeholder="اسم الكتاب...">
-                </div>
-                <div class="input-group">
-                    <label>وصف مختصر:</label>
-                    <input type="text" id="newBookDesc" placeholder="وصف الكتاب...">
-                </div>
-                <div class="input-group">
-                    <label>رابط ملف الـ PDF:</label>
-                    <input type="text" id="newBookUrl" placeholder="رابط التحميل المباشر للـ PDF...">
-                </div>
-                <button class="btn" style="background: #8a5736;" onclick="addNewPdfBook()">إضافة الكتاب للرف الخشبي</button>
+        <div class="wooden-shelf-royal">
+            <div class="shelf-header">📚 مكتبة المراجع والكتب النسائية (PDF) 📚</div>
+            <div id="booksContainer"></div>
+        </div>
+
+        <div class="admin-control-box" style="margin-top: 15px;">
+            <h4>📥 إضافة كتاب PDF جديد للرف</h4>
+            <div class="input-group">
+                <label>اسم الكتاب:</label>
+                <input type="text" id="newBookTitle" placeholder="اسم الكتاب...">
             </div>
+            <div class="input-group">
+                <label>وصف الكتاب:</label>
+                <input type="text" id="newBookDesc" placeholder="وصف مختصر...">
+            </div>
+            <div class="input-group">
+                <label>رابط الـ PDF أو تليجرام:</label>
+                <input type="text" id="newBookUrl" placeholder="رابط التحميل...">
+            </div>
+            <button class="btn-royal" style="background: #8a5736;" onclick="addNewPdfBook()">إضافة الكتاب للرف</button>
         </div>
     </div>
 
-    <!-- نافذة الإعدادات وتغيير الخلفيات لكل الواجهات -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>الإعدادات وخلفيات الواجهات</h3>
-                <button class="close-modal" onclick="closeModals()">&times;</button>
-            </div>
-            <div style="padding: 10px 0;">
-                <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-dark);">حسابك: <span id="tgUsernameDisplay" style="font-weight:700; color:var(--primary-purple);">مستخدم</span></p>
-                
-                <div class="admin-panel visible" style="margin-top: 0;">
-                    <h4 style="color: #d35400; margin-bottom: 8px;">🖼️ التحكم بخلفيات الواجهات</h4>
-                    <div class="input-group">
-                        <label>رابط صورة الخلفية الجديدة:</label>
-                        <input type="text" id="customBgInput" placeholder="أدخلي رابط الصورة هنا...">
-                    </div>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn" style="background: #27ae60;" onclick="applyCustomBackground()">حفظ وتطبيق الخلفية</button>
-                        <button class="btn" style="background: #c0392b;" onclick="removeCustomBackground()">حذف الخلفية</button>
-                    </div>
-                </div>
+    <!-- شاشة الإعدادات وخلفيات الواجهات (تفتح في الشاشة كلها مع رفع صورة الخلفية من الهاتف) -->
+    <div class="full-screen-modal" id="settingsScreen">
+        <div class="modal-top-bar">
+            <h2>الإعدادات وخلفيات الواجهات</h2>
+            <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
+        </div>
 
-                <div style="margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px;">
-                    <button class="btn" style="background: #e74c3c;" onclick="resetUserData()">مسح بياناتي وكلمة السر</button>
+        <div class="admin-control-box" style="display: block;">
+            <h4>🖼️ تخصيص خلفيات التطبيق من هاتفك</h4>
+            <p style="font-size: 13px; color: #555; margin-bottom: 12px;">يمكنك اختيار صورة من هاتفك مباشرة لتكون خلفية فاخرة للتطبيق، وحفظها أو حذفها متى شئتِ.</p>
+            
+            <div class="input-group">
+                <label>اختر صورة الخلفية من الهاتف:</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="bgImageFile" accept="image/*">
                 </div>
             </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-royal" style="background: #27ae60;" onclick="applyPhoneBackground()">حفظ وتطبيق الخلفية</button>
+                <button class="btn-royal" style="background: #c0392b;" onclick="removeCustomBackground()">حذف الخلفية</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <p style="font-size: 13px; color: #fff; margin-bottom: 15px;">حسابك في التليجرام: <span id="tgUsernameDisplay" style="font-weight:700; color:var(--rose-gold);">مستخدم</span></p>
+            <button class="btn-royal" style="background: #c0392b; max-width: 250px; margin: 0 auto;" onclick="resetUserData()">مسح بياناتي وكلمة السر</button>
         </div>
     </div>
 
@@ -629,14 +673,14 @@
         tg.expand();
         
         let userTelegramId = tg.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : "admin_user_local";
-        let userFirstName = tg.initDataUnsafe?.user?.first_name || "أختنا الكريمة";
+        let userFirstName = tg.initDataUnsafe?.user?.first_name || "أميرتنا الكريمة";
         document.getElementById('tgUsernameDisplay').innerText = userFirstName + " (" + userTelegramId + ")";
 
         // أزهار اللافندر المتحركة
         function createLavender() {
             const field = document.getElementById('lavenderField');
-            const flowerSymbols = ['🌸', '💮', '🪻', '🌿'];
-            for (let i = 0; i < 14; i++) {
+            const flowerSymbols = ['🌸', '💮', '🪻', '🌿', '✨'];
+            for (let i = 0; i < 16; i++) {
                 const f = document.createElement('div');
                 f.className = 'flower';
                 f.innerHTML = flowerSymbols[Math.floor(Math.random() * flowerSymbols.length)];
@@ -648,9 +692,9 @@
         }
         createLavender();
 
-        const STORAGE_PREFIX = "tohr_app_" + userTelegramId + "_";
+        const STORAGE_PREFIX = "tohr_royal_" + userTelegramId + "_";
 
-        // إدارة كلمات السر
+        // المصادقة وكلمة السر
         function checkUserAuth() {
             const savedPass = localStorage.getItem(STORAGE_PREFIX + "password");
             const formContainer = document.getElementById('auth-form-container');
@@ -659,12 +703,12 @@
                 formContainer.innerHTML = `
                     <div class="input-group"><label>أنشئي كلمة سر جديدة:</label><input type="password" id="newPass" placeholder="كلمة السر..."></div>
                     <div class="input-group"><label>تأكيد كلمة السر:</label><input type="password" id="confirmPass" placeholder="تأكيد كلمة السر..."></div>
-                    <button class="btn" onclick="registerPassword()">حفظ ودخول</button>
+                    <button class="btn-royal" onclick="registerPassword()">حفظ ودخول</button>
                 `;
             } else {
                 formContainer.innerHTML = `
                     <div class="input-group"><label>أدخلي كلمة السر الخاصة بك:</label><input type="password" id="loginPass" placeholder="كلمة السر..."></div>
-                    <button class="btn" onclick="verifyPassword()">فتح التطبيق</button>
+                    <button class="btn-royal" onclick="verifyPassword()">فتح التطبيق الملكي</button>
                 `;
             }
         }
@@ -697,20 +741,27 @@
             }, 500);
         }
 
-        // تحكم الخلفيات لجميع الواجهات
-        function applyCustomBackground() {
-            const bgUrl = document.getElementById('customBgInput').value;
-            if(bgUrl) {
-                localStorage.setItem(STORAGE_PREFIX + "custom_bg", bgUrl);
-                document.body.style.backgroundImage = `url('${bgUrl}')`;
-                alert('تم حفظ وتطبيق الخلفية بنجاح!');
+        // رفع خلفية الواجهات كصورة من الهاتف وحفظها أو حذفها
+        function applyPhoneBackground() {
+            const fileInput = document.getElementById('bgImageFile');
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Img = e.target.result;
+                    localStorage.setItem(STORAGE_PREFIX + "custom_bg", base64Img);
+                    document.body.style.backgroundImage = `url('${base64Img}')`;
+                    alert('تم حفظ وتطبيق الخلفية من هاتفك بنجاح!');
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                alert('الرجاء اختيار صورة أولاً من الهاتف.');
             }
         }
 
         function removeCustomBackground() {
             localStorage.removeItem(STORAGE_PREFIX + "custom_bg");
             document.body.style.backgroundImage = 'none';
-            alert('تم حذف الخلفية المخصصة والعودة للوضع الافتراضي.');
+            alert('تم حذف الخلفية المخصصة.');
         }
 
         function loadCustomBackground() {
@@ -720,10 +771,10 @@
             }
         }
 
-        // نظام صفحات الكتاب (المقالات والأحكام)
+        // كتاب المقالات مع دعم رفع صورة من الهاتف لكل صفحة
         let defaultPages = [
-            { title: "الجزء الأول: أحكام الغسل والطهارة", body: "ما هي موجبات الغسل الواجب؟\nيجب الغسل بخروج المني بشهوة، الجماع ولو لم ينزل، انقطاع الحيض والنفاس، والموت.\n\nكيفية الغسل:\nالغسل المجزي: تعميم البدن بالماء مع النية.\nالغسل الكامل: الوضوء كاملاً ثم إفاضة الماء على الرأس ثلاثاً ثم تعميم الجسد." },
-            { title: "الجزء الثاني: أحكام الحائض والنفساء", body: "ما يحرم على الحائض وما يجوز لها:\nيحرم عليها: الصلاة، الصيام (وتقضيه)، الطواف، والجماع، ومس المصحف.\nويجوز لها: ذكر الله، قراءة القرآن من الحفظ، وحضور مجالس العلم.\n\nعلامات الطهر:\nتعرف المرأة طهرها بإحدى علامتَيْن: القصة البيضاء أو الجفوف التام." }
+            { title: "الجزء الأول: أحكام الغسل والطهارة", body: "موجبات الغسل الواجب:\n1. خروج المني بشهوة.\n2. الجماع ولو لم ينزل.\n3. انقطاع الحيض والنفاس.\n\nكيفية الغسل المجزي والكامل:\nتعميم البدن بالماء مع النية والمضمضة والاستنشاق.", img: "" },
+            { title: "الجزء الثاني: أحكام الحائض والنفساء", body: "ما يحرم على الحائض:\nالصلاة، الصيام ( وتقضيه )، الطواف، والجماع، ومس المصحف.\n\nعلامات الطهر:\nتعرف المرأة طهرها بعلامتين: القصة البيضاء أو الجفوف التام.", img: "" }
         ];
 
         let bookPages = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "book_pages")) || defaultPages;
@@ -734,8 +785,16 @@
             const p = bookPages[currentPageIndex];
             document.getElementById('bookPageTitle').innerText = p.title;
             document.getElementById('bookPageBody').innerText = p.body;
-            document.getElementById('pageCounter').innerText = `صفحة ${currentPageIndex + 1} من ${bookPages.length}`;
             
+            const imgEl = document.getElementById('bookPageImg');
+            if(p.img) {
+                imgEl.src = p.img;
+                imgEl.style.display = 'block';
+            } else {
+                imgEl.style.display = 'none';
+            }
+
+            document.getElementById('pageCounter').innerText = `صفحة ${currentPageIndex + 1} من ${bookPages.length}`;
             document.getElementById('prevPageBtn').disabled = currentPageIndex === 0;
             document.getElementById('nextPageBtn').disabled = currentPageIndex === bookPages.length - 1;
         }
@@ -748,18 +807,33 @@
         function addNewArticlePage() {
             const title = document.getElementById('newArticleTitle').value;
             const body = document.getElementById('newArticleBody').value;
+            const fileInput = document.getElementById('newArticleImgFile');
+
             if(!title || !body) { alert('الرجاء إدخال العنوان والمحتوى.'); return; }
-            
-            bookPages.push({ title, body });
+
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    saveNewPageData(title, body, e.target.result);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveNewPageData(title, body, "");
+            }
+        }
+
+        function saveNewPageData(title, body, imgBase64) {
+            bookPages.push({ title, body, img: imgBase64 });
             localStorage.setItem(STORAGE_PREFIX + "book_pages", JSON.stringify(bookPages));
             document.getElementById('newArticleTitle').value = '';
             document.getElementById('newArticleBody').value = '';
+            document.getElementById('newArticleImgFile').value = '';
             currentPageIndex = bookPages.length - 1;
             loadBookPages();
-            alert('تمت إضافة الصفحة بنجاح إلى الكتاب!');
+            alert('تمت إضافة المقال بصورة ناجحة إلى الكتاب الملكي!');
         }
 
-        // نظام رف الكتب الخشبي وتحميلها عبر تلجرام
+        // رف الكتب وتوجيه التحميل للبوت
         let defaultBooks = [
             { title: "فقه المرأة المسلمة", desc: "مرجع شامل لأحكام الطهارة والعبادات", url: "https://t.me/YourBotName?start=book_1" },
             { title: "تحفة العروسين وأحكام الطهارة", desc: "إصدار موثق ومهم", url: "https://t.me/YourBotName?start=book_2" }
@@ -772,7 +846,7 @@
             container.innerHTML = '';
             pdfBooks.forEach((book, index) => {
                 container.innerHTML += `
-                    <div class="book-spine-card">
+                    <div class="book-spine-item">
                         <div class="book-info">
                             <h5>📚 ${book.title}</h5>
                             <span>${book.desc}</span>
@@ -801,7 +875,6 @@
         }
 
         function downloadBookViaTelegram(title, url) {
-            // توجيه التحميل لمحادثة البوت في تلجرام
             if(tg.openTelegramLink) {
                 tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('أريد تحميل كتاب: ' + title)}`);
             } else {
@@ -809,7 +882,7 @@
             }
         }
 
-        // حسابات العجلة
+        // العجلة الحسابية
         function checkCycleDataState() {
             const lastDate = localStorage.getItem(STORAGE_PREFIX + "last_date");
             if(!lastDate) {
@@ -850,18 +923,18 @@
             document.getElementById('wheelContent').innerHTML = `
                 <h3>متبقي على الدورة القادمة</h3>
                 <div class="days-left">${daysRemaining >= 0 ? daysRemaining : 0} <span style="font-size:13px;">يوم</span></div>
-                <div class="cycle-info">اليوم ${currentDayOfCycle} من الدورة<br><span style="font-size:10px;">(${statusText})</span></div>
+                <div class="cycle-info">اليوم ${currentDayOfCycle} من الدورة<br><span style="font-size:11px; color:#fff;">(${statusText})</span></div>
             `;
         }
 
-        // النوافذ
-        function openLibraryModal() { document.getElementById('libraryModal').classList.add('active'); }
-        function openBooksModal() { document.getElementById('booksModal').classList.add('active'); }
-        function openSettingsModal() { document.getElementById('settingsModal').classList.add('active'); }
-        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
+        // فتح وإغلاق الشاشات الكاملة
+        function openLibraryScreen() { document.getElementById('libraryScreen').classList.add('active'); }
+        function openBooksScreen() { document.getElementById('booksScreen').classList.add('active'); }
+        function openSettingsScreen() { document.getElementById('settingsScreen').classList.add('active'); }
+        function closeAllScreens() { document.querySelectorAll('.full-screen-modal').forEach(m => m.classList.remove('active')); }
 
         function resetUserData() {
-            if(confirm('هل أنت متأكدة من حذف البيانات؟')) { localStorage.clear(); location.reload(); }
+            if(confirm('هل أنت متأكدة من حذف البيانات وكلمة السر؟')) { localStorage.clear(); location.reload(); }
         }
 
         window.onload = function() { checkUserAuth(); };
