@@ -9,15 +9,18 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --royal-purple-dark: #2a1238;
-            --royal-purple: #4d2661;
-            --royal-purple-light: #7b4696;
-            --lavender-accent: #e9d5f8;
-            --rose-gold: #dfb17b;
+            --royal-bg-deep: #12051b;
+            --royal-purple-dark: #200a2d;
+            --royal-purple: #421857;
+            --royal-purple-light: #6d2f8c;
+            --lavender-accent: #f2e3ff;
+            --rose-gold: #e5b97d;
+            --rose-gold-light: #f5d8a8;
             --white: #ffffff;
-            --text-dark: #22152b;
-            --glass-royal: rgba(42, 18, 56, 0.88);
-            --glass-white: rgba(255, 255, 255, 0.94);
+            --text-dark: #1d0f26;
+            --glass-royal: rgba(32, 10, 45, 0.92);
+            --glass-white: rgba(255, 255, 255, 0.96);
+            --shadow-gold: 0 0 25px rgba(229, 185, 125, 0.35);
         }
 
         * {
@@ -29,7 +32,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #180a22 0%, #3a1a4c 50%, #613679 100%);
+            background: linear-gradient(135deg, var(--royal-bg-deep) 0%, #29103c 45%, #4f2268 100%);
             color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
@@ -54,16 +57,16 @@
         .flower {
             position: absolute;
             top: -50px;
-            font-size: 22px;
+            font-size: 20px;
             animation: fallAndSway linear infinite;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
         @keyframes fallAndSway {
             0% { transform: translateY(-50px) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.9; }
-            50% { transform: translateY(50vh) translateX(20px) rotate(15deg); }
-            100% { transform: translateY(105vh) translateX(-15px) rotate(45deg); opacity: 0; }
+            15% { opacity: 0.8; }
+            50% { transform: translateY(50vh) translateX(25px) rotate(20deg); }
+            100% { transform: translateY(105vh) translateX(-20px) rotate(50deg); opacity: 0; }
         }
 
         /* الشاشات العامة */
@@ -89,40 +92,41 @@
         }
 
         #auth-screen {
-            background: rgba(24, 10, 34, 0.96);
-            backdrop-filter: blur(15px);
+            background: rgba(18, 5, 27, 0.98);
+            backdrop-filter: blur(20px);
             z-index: 100;
         }
 
         .auth-card {
             background: var(--glass-white);
-            padding: 28px;
-            border-radius: 28px;
+            padding: 32px 24px;
+            border-radius: 30px;
             width: 100%;
             max-width: 380px;
             text-align: center;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6), var(--shadow-gold);
             border: 2px solid var(--rose-gold);
         }
 
         /* اسم طُهࢪ الملكي الفخم جداً */
         .app-title-royal {
             font-family: 'Amiri', serif;
-            font-size: 52px;
+            font-size: 56px;
             font-weight: 700;
-            background: linear-gradient(45deg, #4d2661, #803d72, #c59b47);
+            background: linear-gradient(45deg, #421857, #84399e, #e5b97d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 2px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-            letter-spacing: 2px;
+            text-shadow: 0 4px 15px rgba(229, 185, 125, 0.25);
+            letter-spacing: 3px;
         }
 
         .app-subtitle {
             font-size: 13px;
-            color: #6c3f87;
-            margin-bottom: 20px;
-            font-weight: 600;
+            color: #71428c;
+            margin-bottom: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .input-group {
@@ -140,9 +144,9 @@
 
         .input-group input, .input-group select, .input-group textarea {
             width: 100%;
-            padding: 11px 15px;
-            border: 2px solid var(--lavender-accent);
-            border-radius: 12px;
+            padding: 12px 16px;
+            border: 2px solid #e2cff2;
+            border-radius: 14px;
             outline: none;
             font-size: 14px;
             background: #fff;
@@ -151,27 +155,28 @@
         }
 
         .input-group input:focus, .input-group textarea:focus {
-            border-color: var(--royal-purple);
-            box-shadow: 0 0 10px rgba(77, 38, 97, 0.25);
+            border-color: var(--rose-gold);
+            box-shadow: 0 0 12px rgba(229, 185, 125, 0.4);
         }
 
         .btn-royal {
             background: linear-gradient(135deg, var(--royal-purple), var(--royal-purple-light));
             color: var(--white);
-            border: none;
+            border: 1px solid var(--rose-gold);
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 13px;
+            border-radius: 14px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 5px 18px rgba(77, 38, 97, 0.35);
+            box-shadow: 0 6px 20px rgba(66, 24, 87, 0.4);
             transition: 0.3s;
             margin-top: 8px;
             letter-spacing: 0.5px;
         }
 
         .btn-royal:active { transform: scale(0.98); }
+        .btn-royal:hover { box-shadow: 0 8px 25px rgba(229, 185, 125, 0.4); }
 
         /* انقسام الشاشة السينمائي الفخم */
         .split-screen-overlay {
@@ -181,8 +186,8 @@
             display: flex; flex-direction: column;
         }
         .split-half {
-            width: 100%; height: 50%; background: #180a22;
-            transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+            width: 100%; height: 50%; background: var(--royal-bg-deep);
+            transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
         }
         .split-half.top { transform: translateY(0); }
         .split-half.bottom { transform: translateY(0); }
@@ -206,23 +211,23 @@
 
         /* شريط الأذكار والأدعية المتحرك العلوي */
         .dhikr-banner {
-            background: rgba(255, 255, 255, 0.22);
-            backdrop-filter: blur(10px);
+            background: rgba(32, 10, 45, 0.65);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--rose-gold);
-            border-radius: 16px;
-            padding: 7px 12px;
+            border-radius: 18px;
+            padding: 8px 14px;
             text-align: center;
-            color: #fff;
+            color: var(--rose-gold-light);
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             animation: pulseGlow 4s infinite alternate;
         }
 
         @keyframes pulseGlow {
-            0% { border-color: rgba(223, 177, 123, 0.4); }
-            100% { border-color: rgba(223, 177, 123, 1); }
+            0% { border-color: rgba(229, 185, 125, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+            100% { border-color: rgba(229, 185, 125, 1); box-shadow: 0 4px 20px rgba(229, 185, 125, 0.35); }
         }
 
         .wheel-top-controls {
@@ -234,90 +239,92 @@
         }
 
         .mini-badge-btn {
-            background: rgba(255, 255, 255, 0.22);
+            background: rgba(42, 16, 59, 0.75);
             border: 1px solid var(--rose-gold);
-            color: #fff;
-            padding: 5px 11px;
-            border-radius: 18px;
+            color: var(--lavender-accent);
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .mini-badge-btn:hover { background: rgba(255, 255, 255, 0.35); transform: translateY(-2px); }
+        .mini-badge-btn:hover { background: var(--royal-purple); color: #fff; transform: translateY(-2px); border-color: #fff; }
 
-        /* العجلة في المنتصف */
+        /* العجلة الملكية في المنتصف */
         .wheel-container {
             position: relative;
-            width: 235px;
-            height: 235px;
+            width: 245px;
+            height: 245px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(16px);
+            background: radial-gradient(circle, rgba(66, 24, 87, 0.85) 0%, rgba(20, 7, 30, 0.92) 100%);
+            backdrop-filter: blur(18px);
             border-radius: 50%;
-            border: 4px solid var(--rose-gold);
+            border: 5px solid var(--rose-gold);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3), inset 0 0 20px rgba(255,255,255,0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), inset 0 0 25px rgba(229, 185, 125, 0.3), var(--shadow-gold);
             padding: 15px;
         }
 
-        .wheel-content h3 { font-size: 13px; color: #f6ecff; margin-bottom: 3px; font-weight: 600; }
-        .wheel-content .days-left { font-size: 34px; font-weight: 700; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,0.4); }
-        .wheel-content .cycle-info { font-size: 11px; color: #e9d5f8; margin-top: 3px; line-height: 1.3; }
+        .wheel-content h3 { font-size: 13px; color: var(--rose-gold-light); margin-bottom: 4px; font-weight: 700; font-family: 'Amiri', serif; }
+        .wheel-content .days-left { font-size: 38px; font-weight: 700; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); font-family: 'Reem Kufi', sans-serif; }
+        .wheel-content .cycle-info { font-size: 11px; color: #e9d5f8; margin-top: 3px; line-height: 1.4; }
 
         .cycle-form-card {
             background: var(--glass-white);
-            padding: 16px;
-            border-radius: 20px;
+            padding: 18px;
+            border-radius: 22px;
             width: 100%;
             max-width: 380px;
-            margin: 6px auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            border: 1px solid var(--rose-gold);
+            margin: 8px auto;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4), var(--shadow-gold);
+            border: 2px solid var(--rose-gold);
         }
 
-        .cycle-form-card h4 { color: var(--royal-purple); font-size: 14px; margin-bottom: 8px; text-align: center; font-weight: 700; }
+        .cycle-form-card h4 { color: var(--royal-purple); font-size: 14px; margin-bottom: 10px; text-align: center; font-weight: 700; font-family: 'Amiri', serif; }
 
-        /* شريط الاستعمال السفلي */
+        /* شريط الاستعمال السفلي الملكي */
         .bottom-nav {
-            background: rgba(24, 10, 34, 0.92);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 8px 12px;
+            background: rgba(18, 5, 27, 0.95);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            padding: 9px 14px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border: 1px solid var(--rose-gold);
+            border: 2px solid var(--rose-gold);
             margin-bottom: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), var(--shadow-gold);
         }
 
         .nav-item {
             background: none;
             border: none;
-            color: var(--lavender-accent);
+            color: #d1b3ee;
             display: flex;
             flex-direction: column;
             align-items: center;
             font-size: 10px;
             cursor: pointer;
             transition: 0.3s;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .nav-item svg { width: 22px; height: 22px; margin-bottom: 2px; fill: currentColor; }
-        .nav-item.active, .nav-item:hover { color: #fff; transform: translateY(-2px); }
+        .nav-item svg { width: 22px; height: 22px; margin-bottom: 2px; fill: currentColor; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .nav-item.active, .nav-item:hover { color: var(--rose-gold); transform: translateY(-2px); }
 
         /* فتح الخانات في الشاشة كلها (Full Screen Modal) */
         .full-screen-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #22102f 0%, #3a1a4c 100%);
+            background: linear-gradient(135deg, #150622 0%, #34134a 100%);
             z-index: 2000;
             display: flex;
             flex-direction: column;
@@ -345,32 +352,32 @@
         }
 
         .modal-top-bar h2 {
-            color: #fff;
+            color: var(--rose-gold-light);
             font-family: 'Amiri', serif;
             font-size: 22px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
 
         .close-full-btn {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
             border: 1px solid var(--rose-gold);
             color: #fff;
-            width: 35px; height: 35px;
+            width: 36px; height: 36px;
             border-radius: 50%;
             font-size: 18px;
             cursor: pointer;
             display: flex; justify-content: center; align-items: center;
             transition: 0.3s;
         }
-        .close-full-btn:hover { background: rgba(255,255,255,0.4); }
+        .close-full-btn:hover { background: var(--rose-gold); color: var(--royal-bg-deep); }
 
-        /* تصميم كتاب المقالات في الشاشة الكاملة مع تبديل الثيم و زر المشاركة كبطاقة */
+        /* تصميم كتاب المقالات في الشاشة الكاملة الفخم */
         .royal-book-box {
-            background: #fffcf7;
+            background: #fffefb;
             border: 3px solid var(--rose-gold);
-            border-radius: 18px;
+            border-radius: 20px;
             padding: 18px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), var(--shadow-gold);
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -380,20 +387,20 @@
         }
 
         .royal-book-box.night-mode {
-            background: #1f1427;
-            border-color: #7b4696;
-            color: #f3e6ff;
+            background: #190924;
+            border-color: var(--royal-purple-light);
+            color: #f6ecff;
         }
-        .royal-book-box.night-mode .book-page-title { color: var(--rose-gold); border-bottom-color: #4d2661; }
-        .royal-book-box.night-mode .book-page-body { color: #ebd8fc; }
+        .royal-book-box.night-mode .book-page-title { color: var(--rose-gold); border-bottom-color: var(--royal-purple); }
+        .royal-book-box.night-mode .book-page-body { color: #eedcff; }
         .royal-book-box.night-mode .page-indicator { color: var(--rose-gold); }
 
         .book-page-title {
             font-family: 'Amiri', serif;
             font-size: 22px;
-            color: var(--royal-purple-dark);
+            color: var(--royal-purple);
             margin-bottom: 10px;
-            border-bottom: 2px dashed #e6d2b5;
+            border-bottom: 2px dashed #ebd9bd;
             padding-bottom: 6px;
         }
 
@@ -401,15 +408,15 @@
             width: 100%;
             max-height: 180px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 10px;
-            border: 1px solid #d4be9c;
+            border: 1px solid var(--rose-gold);
             display: none;
         }
 
         .book-page-body {
             font-size: 14px;
-            color: #3b2e3f;
+            color: #2b1d31;
             line-height: 1.8;
             flex: 1;
             white-space: pre-line;
@@ -420,43 +427,45 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 12px;
-            border-top: 1px solid #e6d2b5;
+            border-top: 1px solid #ebd9bd;
             padding-top: 10px;
         }
 
-        .royal-book-box.night-mode .book-nav-bar { border-top-color: #4d2661; }
+        .royal-book-box.night-mode .book-nav-bar { border-top-color: var(--royal-purple); }
 
         .book-nav-btn {
             background: var(--royal-purple);
             color: #fff;
-            border: none;
+            border: 1px solid var(--rose-gold);
             padding: 7px 14px;
-            border-radius: 9px;
+            border-radius: 10px;
             font-size: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
+            transition: 0.3s;
         }
-        .book-nav-btn:disabled { background: #d0c4d6; cursor: not-allowed; }
+        .book-nav-btn:disabled { background: #6b5873; border-color: transparent; cursor: not-allowed; opacity: 0.6; }
+        .book-nav-btn:hover:not(:disabled) { background: var(--royal-purple-light); }
         .page-indicator { font-size: 12px; color: var(--royal-purple); font-weight: 700; }
 
-        /* رف الكتب الخشبي الحقيقي الفخم */
+        /* رف الكتب الخشبي الملكي الفخم */
         .wooden-shelf-royal {
-            background: linear-gradient(to bottom, #4d2e1b, #321b0e);
-            border: 5px solid #201006;
-            border-radius: 18px;
-            padding: 15px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+            background: linear-gradient(to bottom, #3b2011, #221107);
+            border: 6px solid #140904;
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.8);
             margin-bottom: 12px;
         }
 
         .shelf-header {
-            color: #fcefdc;
+            color: var(--rose-gold-light);
             font-family: 'Amiri', serif;
-            font-size: 17px;
+            font-size: 18px;
             margin-bottom: 12px;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(229, 185, 125, 0.3);
+            padding-bottom: 6px;
         }
 
         .book-spine-item {
@@ -464,11 +473,11 @@
             justify-content: space-between;
             align-items: center;
             background: #fff;
-            border-right: 7px solid var(--royal-purple);
-            padding: 12px;
-            border-radius: 10px;
+            border-right: 8px solid var(--royal-purple);
+            padding: 12px 14px;
+            border-radius: 12px;
             margin-bottom: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
 
         .book-info h5 { font-size: 14px; color: var(--text-dark); font-weight: 700; }
@@ -477,9 +486,9 @@
         .book-actions button {
             background: var(--royal-purple);
             color: #fff;
-            border: none;
+            border: 1px solid var(--rose-gold);
             padding: 6px 12px;
-            border-radius: 7px;
+            border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
             font-weight: 700;
@@ -487,19 +496,20 @@
 
         /* لوحة التحكم الإدارية الفخمة */
         .admin-control-box {
-            background: rgba(255, 255, 255, 0.94);
-            border: 2px dashed var(--rose-gold);
-            padding: 16px;
-            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 2px solid var(--rose-gold);
+            padding: 18px;
+            border-radius: 20px;
             margin-top: 12px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3), var(--shadow-gold);
         }
 
         .admin-control-box h4 {
             color: var(--royal-purple);
             font-size: 15px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-family: 'Amiri', serif;
+            font-weight: 700;
         }
 
         .file-upload-wrapper {
@@ -512,25 +522,25 @@
         .file-upload-wrapper input[type=file] {
             font-size: 13px;
             color: #444;
-            padding: 7px;
-            background: #f4ecf9;
+            padding: 8px;
+            background: #f7effd;
             border: 2px dashed var(--royal-purple-light);
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
             cursor: pointer;
         }
 
-        /* مذكرة الطُهر و سجل المزاج والخاطرة */
+        /* مذكرة الطُهر و سجل المزاج والخاطرة الملكية */
         .diary-card {
             background: #fff;
-            border: 1px solid var(--lavender-accent);
-            padding: 12px;
-            border-radius: 12px;
+            border: 1px solid var(--rose-gold);
+            padding: 14px;
+            border-radius: 14px;
             margin-bottom: 10px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .diary-card h5 { font-size: 13px; color: var(--royal-purple); margin-bottom: 3px; font-weight: 700; }
-        .diary-card p { font-size: 13px; color: #444; line-height: 1.5; }
+        .diary-card h5 { font-size: 13px; color: var(--royal-purple); margin-bottom: 4px; font-weight: 700; }
+        .diary-card p { font-size: 13px; color: #444; line-height: 1.6; }
     </style>
 </head>
 <body id="appBody">
@@ -556,7 +566,7 @@
     <!-- الواجهة الرئيسية -->
     <div id="main-app" class="screen hidden">
         <header class="main-header">
-            <h1 class="app-title-royal" style="font-size: 36px;">طُهࢪ</h1>
+            <h1 class="app-title-royal" style="font-size: 38px;">طُهࢪ</h1>
             <!-- شريط الأذكار والأدعية اليومية المتجددة -->
             <div class="dhikr-banner" id="dhikrBanner">✨ اللهم طهر قلبي واشرح صدري ويسر أمري ✨</div>
         </header>
@@ -567,7 +577,7 @@
             <button class="mini-badge-btn" onclick="openLibraryScreen()">مكتبة الفقه</button>
             <button class="mini-badge-btn" onclick="openBooksScreen()">رف الكتب</button>
             <button class="mini-badge-btn" onclick="openDiaryScreen()">مذكرة الطُهر</button>
-            <button class="mini-badge-btn" onclick="openSettingsScreen()" style="background: rgba(223, 177, 123, 0.35);">الإعدادات</button>
+            <button class="mini-badge-btn" onclick="openSettingsScreen()" style="border-color: var(--rose-gold); color: var(--rose-gold);">الإعدادات</button>
         </div>
 
         <!-- العجلة في المنتصف -->
@@ -590,7 +600,7 @@
                     <label>مدة أيام الحيض (بالأيام - العادة 7):</label>
                     <input type="number" id="periodLength" value="7" min="3" max="15">
                 </div>
-                <button class="btn-royal" onclick="saveCycleData()">حفظ البيانات وعرض العجلة</button>
+                <button class="btn-royal" onclick="saveCycleData()">حفظ البيانات وعرض العجلة الملكية</button>
             </div>
         </div>
 
@@ -615,20 +625,18 @@
         </nav>
     </div>
 
-    <!-- شاشة المكتبة وكتاب المقالات (تفتح في الشاشة كلها + بحث ومشاركة كبطاقة) -->
+    <!-- شاشة المكتبة وكتاب المقالات -->
     <div class="full-screen-modal" id="libraryScreen">
         <div class="modal-top-bar">
             <h2>مكتبة الفقه والمقالات الملكية</h2>
             <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
         </div>
 
-        <!-- شريط البحث الفوري ومبدل الثيم -->
         <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-            <input type="text" id="articleSearchInput" placeholder="ابحثي في المقالات والأحكام..." oninput="filterArticles()" style="flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--rose-gold); font-size: 13px;">
-            <button class="book-nav-btn" onclick="toggleBookTheme()" style="background: var(--rose-gold); color: #22152b;">وضع القراءة (ليلي/نهاري)</button>
+            <input type="text" id="articleSearchInput" placeholder="ابحثي في المقالات والأحكام..." oninput="filterArticles()" style="flex: 1; padding: 11px 14px; border-radius: 12px; border: 2px solid var(--rose-gold); font-size: 13px;">
+            <button class="book-nav-btn" onclick="toggleBookTheme()" style="background: var(--rose-gold); color: #1a0824; border: none;">وضع القراءة</button>
         </div>
 
-        <!-- الكتاب ذو الصفحات المتغيرة -->
         <div class="royal-book-box" id="royalBookContainer">
             <div>
                 <h3 class="book-page-title" id="bookPageTitle">عنوان الصفحة</h3>
@@ -637,15 +645,14 @@
             </div>
             <div class="book-nav-bar">
                 <button class="book-nav-btn" id="prevPageBtn" onclick="changeBookPage(-1)">السابقة</button>
-                <button class="book-nav-btn" onclick="shareArticleAsCard()" style="background: #c59b47;">مشاركة كبطاقة 🌸</button>
+                <button class="book-nav-btn" onclick="shareArticleAsCard()" style="background: var(--rose-gold); color: #1a0824;">مشاركة كبطاقة 🌸</button>
                 <span class="page-indicator" id="pageCounter">صفحة 1 من 2</span>
                 <button class="book-nav-btn" id="nextPageBtn" onclick="changeBookPage(1)">التالية</button>
             </div>
         </div>
 
-        <!-- لوحة تحكمك لإضافة مقال بصورة من الهاتف -->
         <div class="admin-control-box">
-            <h4>✍️ إضافة مقال جديد للكتاب (عنوان ومقال وصورة من الهاتف)</h4>
+            <h4>✍️ إضافة مقال جديد للكتاب الملكي</h4>
             <div class="input-group">
                 <label>عنوان المقال:</label>
                 <input type="text" id="newArticleTitle" placeholder="أدخل العنوان...">
@@ -664,7 +671,7 @@
         </div>
     </div>
 
-    <!-- شاشة رف الكتب الخشبي (تفتح في الشاشة كلها) -->
+    <!-- شاشة رف الكتب الخشبي -->
     <div class="full-screen-modal" id="booksScreen">
         <div class="modal-top-bar">
             <h2>رف الكتب النسائية</h2>
@@ -690,7 +697,7 @@
                 <label>رابط الـ PDF أو تليجرام:</label>
                 <input type="text" id="newBookUrl" placeholder="رابط التحميل...">
             </div>
-            <button class="btn-royal" style="background: #8a5736;" onclick="addNewPdfBook()">إضافة الكتاب للرف</button>
+            <button class="btn-royal" style="background: #744123;" onclick="addNewPdfBook()">إضافة الكتاب للرف</button>
         </div>
     </div>
 
@@ -717,7 +724,7 @@
         <div id="diaryListContainer" style="flex: 1; overflow-y: auto;"></div>
     </div>
 
-    <!-- شاشة الإعدادات وخلفيات الواجهات (تفتح في الشاشة كلها مع رفع صورة الخلفية من الهاتف) -->
+    <!-- شاشة الإعدادات وخلفيات الواجهات -->
     <div class="full-screen-modal" id="settingsScreen">
         <div class="modal-top-bar">
             <h2>الإعدادات وخلفيات الواجهات</h2>
@@ -758,12 +765,12 @@
         function createLavender() {
             const field = document.getElementById('lavenderField');
             const flowerSymbols = ['🌸', '💮', '🪻', '🌿', '✨'];
-            for (let i = 0; i < 14; i++) {
+            for (let i = 0; i < 16; i++) {
                 const f = document.createElement('div');
                 f.className = 'flower';
                 f.innerHTML = flowerSymbols[Math.floor(Math.random() * flowerSymbols.length)];
                 f.style.left = Math.random() * 100 + 'vw';
-                f.style.animationDuration = (Math.random() * 6 + 5) + 's';
+                f.style.animationDuration = (Math.random() * 6 + 6) + 's';
                 f.style.animationDelay = (Math.random() * 5) + 's';
                 field.appendChild(f);
             }
@@ -790,7 +797,7 @@
                 formContainer.innerHTML = `
                     <div class="input-group"><label>أنشئي كلمة سر جديدة:</label><input type="password" id="newPass" placeholder="كلمة السر..."></div>
                     <div class="input-group"><label>تأكيد كلمة السر:</label><input type="password" id="confirmPass" placeholder="تأكيد كلمة السر..."></div>
-                    <button class="btn-royal" onclick="registerPassword()">حفظ ودخول</button>
+                    <button class="btn-royal" onclick="registerPassword()">حفظ ودخول الملكي</button>
                 `;
             } else {
                 formContainer.innerHTML = `
@@ -829,7 +836,6 @@
             }, 500);
         }
 
-        // رفع خلفية الواجهات كصورة من الهاتف وحفظها أو حذفها
         function applyPhoneBackground() {
             const fileInput = document.getElementById('bgImageFile');
             if(fileInput.files && fileInput.files[0]) {
@@ -859,7 +865,6 @@
             }
         }
 
-        // كتاب المقالات مع بحث، وضع قراءة ليلي، وبطاقة مشاركة
         let defaultPages = [
             { title: "الجزء الأول: أحكام الغسل والطهارة", body: "موجبات الغسل الواجب:\n1. خروج المني بشهوة.\n2. الجماع ولو لم ينزل.\n3. انقطاع الحيض والنفاس.\n\nكيفية الغسل المجزي والكامل:\nتعميم البدن بالماء مع النية والمضمضة والاستنشاق.", img: "" },
             { title: "الجزء الثاني: أحكام الحائض والنفساء", body: "ما يحرم على الحائض:\nالصلاة، الصيام ( وتقضيه )، الطواف، والجماع، ومس المصحف.\n\nعلامات الطهر:\nتعرف المرأة طهرها بعلامتين: القصة البيضاء أو الجفوف التام.", img: "" }
@@ -953,7 +958,6 @@
             alert('تمت إضافة المقال بصورة ناجحة إلى الكتاب الملكي!');
         }
 
-        // رف الكتب
         let defaultBooks = [
             { title: "فقه المرأة المسلمة", desc: "مرجع شامل لأحكام الطهارة والعبادات", url: "https://t.me/YourBotName?start=book_1" },
             { title: "تحفة العروسين وأحكام الطهارة", desc: "إصدار موثق ومهم", url: "https://t.me/YourBotName?start=book_2" }
@@ -1002,7 +1006,6 @@
             }
         }
 
-        // مذكرة الطُهر والخواطر الشخصية
         let diaryEntries = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "diary_entries")) || [];
 
         function loadDiaryEntries() {
@@ -1036,7 +1039,6 @@
             alert('تم حفظ الخاطرة في مذكرة الطُهر الخاصة بكِ بنجاح!');
         }
 
-        // العجلة الحسابية
         function checkCycleDataState() {
             const lastDate = localStorage.getItem(STORAGE_PREFIX + "last_date");
             if(!lastDate) {
@@ -1077,11 +1079,10 @@
             document.getElementById('wheelContent').innerHTML = `
                 <h3>متبقي على الدورة القادمة</h3>
                 <div class="days-left">${daysRemaining >= 0 ? daysRemaining : 0} <span style="font-size:12px;">يوم</span></div>
-                <div class="cycle-info">اليوم ${currentDayOfCycle} من الدورة<br><span style="font-size:10px; color:#fff;">(${statusText})</span></div>
+                <div class="cycle-info">اليوم ${currentDayOfCycle} من الدورة<br><span style="font-size:10px; color:var(--rose-gold-light);">(${statusText})</span></div>
             `;
         }
 
-        // فتح وإغلاق الشاشات الكاملة
         function openLibraryScreen() { document.getElementById('libraryScreen').classList.add('active'); }
         function openBooksScreen() { document.getElementById('booksScreen').classList.add('active'); }
         function openDiaryScreen() { document.getElementById('diaryScreen').classList.add('active'); }
