@@ -801,182 +801,176 @@
                 `;
             } else {
                 formContainer.innerHTML = `
-                    <div class="input-group"><label>أدخلي كلمة السر الخاصة بك:</label><input type="password" id="loginPass" placeholder="كلمة السر..."></div>
-                    <button class="btn-royal" onclick="verifyPassword()">فتح التطبيق الملكي</button>
+                    <div class="input-group"><label>أدخلي كلمة السر الخاصة بكِ:</label><input type="password" id="loginPass" placeholder="كلمة السر..."></div>
+                    <button class="btn-royal" onclick="verifyPassword()">دخول التطبيق الملكي</button>
                 `;
             }
+            loadCustomBackgroundStartup();
         }
 
         function registerPassword() {
             const p1 = document.getElementById('newPass').value;
             const p2 = document.getElementById('confirmPass').value;
-            if(!p1 || p1.length < 4) { alert('الرجاء إدخال 4 رموز على الأقل.'); return; }
-            if(p1 !== p2) { alert('كلمتا السر غير متطابقتين!'); return; }
+            if(!p1 || p1 !== p2) { alert("يرجى التأكد من تطابق كلمة السر!"); return; }
             localStorage.setItem(STORAGE_PREFIX + "password", p1);
             launchMainApp();
         }
 
         function verifyPassword() {
-            const entered = document.getElementById('loginPass').value;
-            if(entered === localStorage.getItem(STORAGE_PREFIX + "password")) {
-                launchMainApp();
-            } else { alert('كلمة السر غير صحيحة!'); }
+            const p = document.getElementById('loginPass').value;
+            const saved = localStorage.getItem(STORAGE_PREFIX + "password");
+            if(p !== saved) { alert("كلمة السر غير صحيحة!"); return; }
+            launchMainApp();
         }
 
         function launchMainApp() {
-            document.getElementById('splitOverlay').classList.add('opening');
             document.getElementById('auth-screen').classList.add('hidden');
+            const overlay = document.getElementById('splitOverlay');
+            overlay.classList.add('opening');
             setTimeout(() => {
                 document.getElementById('main-app').classList.remove('hidden');
-                checkCycleDataState();
-                loadCustomBackground();
-                loadBookPages();
-                loadPdfBooks();
-                loadDiaryEntries();
-            }, 500);
+                initCycleWheel();
+                loadArticles();
+                loadBooks();
+                loadDiaries();
+            }, 600);
         }
 
-        function applyPhoneBackground() {
-            const fileInput = document.getElementById('bgImageFile');
-            if(fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Img = e.target.result;
-                    localStorage.setItem(STORAGE_PREFIX + "custom_bg", base64Img);
-                    document.body.style.backgroundImage = `url('${base64Img}')`;
-                    alert('تم حفظ وتطبيق الخلفية من هاتفك بنجاح!');
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                alert('الرجاء اختيار صورة أولاً من الهاتف.');
-            }
-        }
-
-        function removeCustomBackground() {
-            localStorage.removeItem(STORAGE_PREFIX + "custom_bg");
-            document.body.style.backgroundImage = 'none';
-            alert('تم حذف الخلفية المخصصة.');
-        }
-
-        function loadCustomBackground() {
-            const savedBg = localStorage.getItem(STORAGE_PREFIX + "custom_bg");
-            if(savedBg) {
-                document.body.style.backgroundImage = `url('${savedBg}')`;
-            }
-        }
-
-        let defaultPages = [
-            { title: "الجزء الأول: أحكام الغسل والطهارة", body: "موجبات الغسل الواجب:\n1. خروج المني بشهوة.\n2. الجماع ولو لم ينزل.\n3. انقطاع الحيض والنفاس.\n\nكيفية الغسل المجزي والكامل:\nتعميم البدن بالماء مع النية والمضمضة والاستنشاق.", img: "" },
-            { title: "الجزء الثاني: أحكام الحائض والنفساء", body: "ما يحرم على الحائض:\nالصلاة، الصيام ( وتقضيه )، الطواف، والجماع، ومس المصحف.\n\nعلامات الطهر:\nتعرف المرأة طهرها بعلامتين: القصة البيضاء أو الجفوف التام.", img: "" }
-        ];
-
-        let bookPages = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "book_pages")) || defaultPages;
-        let filteredPages = bookPages;
-        let currentPageIndex = 0;
-
-        function loadBookPages() {
-            if(filteredPages.length === 0) {
-                document.getElementById('bookPageTitle').innerText = "لا توجد نتائج مطابقة";
-                document.getElementById('bookPageBody').innerText = "جربي البحث بكلمة أخرى.";
-                document.getElementById('bookPageImg').style.display = 'none';
-                document.getElementById('pageCounter').innerText = "صفحة 0 من 0";
+        // عجلة الدورة الشهرية
+        function initCycleWheel() {
+            const lastDate = localStorage.getItem(STORAGE_PREFIX + "lastDate");
+            const cycleLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "cycleLen") || "28");
+            
+            if(!lastDate) {
+                document.getElementById('cycleFormCard').style.display = "block";
+                document.getElementById('wheelContent').innerHTML = `<h3>مرحباً بكِ</h3><div class="days-left" style="font-size:18px;">اضغطي أدناه لإدخال بيانات الدورة</div>`;
                 return;
             }
-            if(currentPageIndex >= filteredPages.length) currentPageIndex = 0;
-            const p = filteredPages[currentPageIndex];
-            document.getElementById('bookPageTitle').innerText = p.title;
-            document.getElementById('bookPageBody').innerText = p.body;
-            
-            const imgEl = document.getElementById('bookPageImg');
-            if(p.img) {
-                imgEl.src = p.img;
-                imgEl.style.display = 'block';
-            } else {
-                imgEl.style.display = 'none';
-            }
 
-            document.getElementById('pageCounter').innerText = `صفحة ${currentPageIndex + 1} من ${filteredPages.length}`;
-            document.getElementById('prevPageBtn').disabled = currentPageIndex === 0;
-            document.getElementById('nextPageBtn').disabled = currentPageIndex === filteredPages.length - 1;
+            document.getElementById('cycleFormCard').style.display = "none";
+            const last = new Date(lastDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - last);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+            const currentDayOfCycle = (diffDays % cycleLen) + 1;
+            const daysRemaining = cycleLen - currentDayOfCycle;
+
+            let statusText = "فترة الطهر والاطمئنان";
+            if(currentDayOfCycle <= 7) statusText = "أيام الحيض المباركة";
+            else if(currentDayOfCycle >= cycleLen - 14) statusText = "فترة الإباضة المتوقعة";
+
+            document.getElementById('wheelContent').innerHTML = `
+                <h3>اليوم ${currentDayOfCycle} من الدورة</h3>
+                <div class="days-left">${daysRemaining >= 0 ? daysRemaining : 0}</div>
+                <div style="font-size:11px; color:var(--rose-gold-light);">يوم متبقٍ للدورة القادمة</div>
+                <div class="cycle-info">${statusText}</div>
+            `;
+        }
+
+        function openCycleForm() {
+            const card = document.getElementById('cycleFormCard');
+            card.style.display = card.style.display === "none" ? "block" : "none";
+        }
+
+        function saveCycleData() {
+            const date = document.getElementById('lastPeriodDate').value;
+            const cLen = document.getElementById('cycleLength').value;
+            if(!date) { alert("يرجى إدخال تاريخ أول يوم آخر دورة!"); return; }
+            localStorage.setItem(STORAGE_PREFIX + "lastDate", date);
+            localStorage.setItem(STORAGE_PREFIX + "cycleLen", cLen);
+            initCycleWheel();
+        }
+
+        // كتاب المقالات والفقه
+        let defaultArticles = [
+            { title: "أحكام الحيض والاستحاضة الأساسية", body: "الحيض هو دم طبيعي كتبه الله على بنات آدم، ومرجعه إلى العادة والتمييز. وأما الاستحاضة فهي دم عرق فساد يتطهر له لكل صلاة بعد الوضوء...", img: "" },
+            { title: "سنة الاغتسال والوضوء الشرعي", body: "الطهارة نصف الإيمان، وعند انقضاء الحيض يجب الغسل بتعشيم الشعر وإيصال الماء لأصوله مع النية الصادقة واليقين بالطهور...", img: "" }
+        ];
+
+        let articles = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "articles") || JSON.stringify(defaultArticles));
+        let currentArticleIndex = 0;
+
+        function loadArticles() {
+            if(articles.length === 0) return;
+            const art = articles[currentArticleIndex];
+            document.getElementById('bookPageTitle').innerText = art.title;
+            document.getElementById('bookPageBody').innerText = art.body;
+            const imgEl = document.getElementById('bookPageImg');
+            if(art.img) { imgEl.src = art.img; imgEl.style.display = "block"; } else { imgEl.style.display = "none"; }
+            document.getElementById('pageCounter').innerText = `صفحة ${currentArticleIndex + 1} من ${articles.length}`;
+            document.getElementById('prevPageBtn').disabled = currentArticleIndex === 0;
+            document.getElementById('nextPageBtn').disabled = currentArticleIndex === articles.length - 1;
         }
 
         function changeBookPage(direction) {
-            currentPageIndex += direction;
-            loadBookPages();
-        }
-
-        function filterArticles() {
-            const query = document.getElementById('articleSearchInput').value.toLowerCase();
-            filteredPages = bookPages.filter(p => p.title.toLowerCase().includes(query) || p.body.toLowerCase().includes(query));
-            currentPageIndex = 0;
-            loadBookPages();
+            currentArticleIndex += direction;
+            loadArticles();
         }
 
         function toggleBookTheme() {
             document.getElementById('royalBookContainer').classList.toggle('night-mode');
         }
 
-        function shareArticleAsCard() {
-            const p = filteredPages[currentPageIndex];
-            if(!p) return;
-            const shareText = `🌸 *بطاقة طُهࢪ الملكية* 🌸\n\n📌 *${p.title}*\n\n${p.body}\n\n✨ تطبيق طُهࢪ النسائي`;
-            if(tg.openTelegramLink) {
-                tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent('https://t.me/YourBotName')}&text=${encodeURIComponent(shareText)}`);
-            } else {
-                navigator.clipboard.writeText(shareText);
-                alert('تم نسخ المقال كبطاقة أنيقة وجاهزة للمشاركة!');
-            }
-        }
-
         function addNewArticlePage() {
             const title = document.getElementById('newArticleTitle').value;
             const body = document.getElementById('newArticleBody').value;
             const fileInput = document.getElementById('newArticleImgFile');
-
-            if(!title || !body) { alert('الرجاء إدخال العنوان والمحتوى.'); return; }
+            if(!title || !body) { alert("يرجى كتابة العنوان والمحتوى!"); return; }
 
             if(fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    saveNewPageData(title, body, e.target.result);
-                }
+                    articles.push({ title, body, img: e.target.result });
+                    localStorage.setItem(STORAGE_PREFIX + "articles", JSON.stringify(articles));
+                    currentArticleIndex = articles.length - 1;
+                    loadArticles();
+                    alert("تم نشر الصفحة في الكتاب بنجاح! 🌸");
+                    document.getElementById('newArticleTitle').value = "";
+                    document.getElementById('newArticleBody').value = "";
+                    fileInput.value = "";
+                };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                saveNewPageData(title, body, "");
+                articles.push({ title, body, img: "" });
+                localStorage.setItem(STORAGE_PREFIX + "articles", JSON.stringify(articles));
+                currentArticleIndex = articles.length - 1;
+                loadArticles();
+                alert("تم نشر الصفحة في الكتاب بنجاح! 🌸");
+                document.getElementById('newArticleTitle').value = "";
+                document.getElementById('newArticleBody').value = "";
             }
         }
 
-        function saveNewPageData(title, body, imgBase64) {
-            bookPages.push({ title, body, img: imgBase64 });
-            localStorage.setItem(STORAGE_PREFIX + "book_pages", JSON.stringify(bookPages));
-            filteredPages = bookPages;
-            document.getElementById('newArticleTitle').value = '';
-            document.getElementById('newArticleBody').value = '';
-            document.getElementById('newArticleImgFile').value = '';
-            currentPageIndex = bookPages.length - 1;
-            loadBookPages();
-            alert('تمت إضافة المقال بصورة ناجحة إلى الكتاب الملكي!');
+        function shareArticleAsCard() {
+            const art = articles[currentArticleIndex];
+            const textToShare = `🌸 من كتاب ${document.title} 🌸\n\n📌 ${art.title}\n\n${art.body}\n\n✨ تطبيق طُهࢪ الملكي ✨`;
+            if(navigator.share) {
+                navigator.share({ title: art.title, text: textToShare }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(textToShare);
+                alert("تم نسخ محتوى الصفحة كبطاقة جاهزة للمشاركة! 📋✨");
+            }
         }
 
+        // رف الكتب (PDF)
         let defaultBooks = [
-            { title: "فقه المرأة المسلمة", desc: "مرجع شامل لأحكام الطهارة والعبادات", url: "https://t.me/YourBotName?start=book_1" },
-            { title: "تحفة العروسين وأحكام الطهارة", desc: "إصدار موثق ومهم", url: "https://t.me/YourBotName?start=book_2" }
+            { title: "فقه النساء الميسر", desc: "مرجع شامل لأحكام الطهارة والعبادات", url: "https://t.me/" },
+            { title: "رسائل في الطهارة والسكينة", desc: "خواطر وأحكام فقهية بأسلوب لطيف", url: "https://t.me/" }
         ];
+        let pdfBooks = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "pdfBooks") || JSON.stringify(defaultBooks));
 
-        let pdfBooks = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "pdf_books")) || defaultBooks;
-
-        function loadPdfBooks() {
+        function loadBooks() {
             const container = document.getElementById('booksContainer');
-            container.innerHTML = '';
-            pdfBooks.forEach((book, index) => {
+            container.innerHTML = "";
+            pdfBooks.forEach((b, idx) => {
                 container.innerHTML += `
                     <div class="book-spine-item">
                         <div class="book-info">
-                            <h5>📚 ${book.title}</h5>
-                            <span>${book.desc}</span>
+                            <h5>📚 ${b.title}</h5>
+                            <span>${b.desc}</span>
                         </div>
                         <div class="book-actions">
-                            <button onclick="downloadBookViaTelegram('${book.title}', '${book.url}')">تحميل</button>
+                            <button onclick="window.open('${b.url}', '_blank')">تصفح/تحميل</button>
                         </div>
                     </div>
                 `;
@@ -987,113 +981,99 @@
             const title = document.getElementById('newBookTitle').value;
             const desc = document.getElementById('newBookDesc').value;
             const url = document.getElementById('newBookUrl').value;
-            if(!title || !url) { alert('الرجاء إدخال اسم الكتاب والرابط.'); return; }
-
+            if(!title || !url) { alert("يرجى إدخال اسم الكتاب والرابط!"); return; }
             pdfBooks.push({ title, desc, url });
-            localStorage.setItem(STORAGE_PREFIX + "pdf_books", JSON.stringify(pdfBooks));
-            document.getElementById('newBookTitle').value = '';
-            document.getElementById('newBookDesc').value = '';
-            document.getElementById('newBookUrl').value = '';
-            loadPdfBooks();
-            alert('تمت إضافة الكتاب للرف الخشبي بنجاح!');
+            localStorage.setItem(STORAGE_PREFIX + "pdfBooks", JSON.stringify(pdfBooks));
+            loadBooks();
+            alert("تم إضافة الكتاب للرف بنجاح! 📚");
+            document.getElementById('newBookTitle').value = "";
+            document.getElementById('newBookDesc').value = "";
+            document.getElementById('newBookUrl').value = "";
         }
 
-        function downloadBookViaTelegram(title, url) {
-            if(tg.openTelegramLink) {
-                tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('أريد تحميل كتاب: ' + title)}`);
-            } else {
-                alert(`سيتم إرسال طلب تحميل كتاب "${title}" إلى محادثة البوت في تلجرام.`);
-            }
+        // مذكرة الطُهر والخواطر
+        function saveDiaryEntry() {
+            const title = document.getElementById('diaryTitle').value;
+            const body = document.getElementById('diaryBody').value;
+            if(!title || !body) { alert("يرجى إدخال العنوان والمحتوى!"); return; }
+            let diaries = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "diaries") || "[]");
+            diaries.unshift({ title, body, date: new Date().toLocaleDateString('ar-SA') });
+            localStorage.setItem(STORAGE_PREFIX + "diaries", JSON.stringify(diaries));
+            loadDiaries();
+            alert("تم الحفظ في مذكرتك الخاصة بثبات واطمئنان 💜");
+            document.getElementById('diaryTitle').value = "";
+            document.getElementById('diaryBody').value = "";
         }
 
-        let diaryEntries = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "diary_entries")) || [];
-
-        function loadDiaryEntries() {
+        function loadDiaries() {
             const container = document.getElementById('diaryListContainer');
-            container.innerHTML = '';
-            if(diaryEntries.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color:#fff; font-size:13px; margin-top:20px;">لا توجد خواطر مسجلة بعد. اكتبي أول خاطرة لكِ اليوم!</p>`;
+            let diaries = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "diaries") || "[]");
+            container.innerHTML = "";
+            if(diaries.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#ddd; font-size:13px; margin-top:20px;">لا توجد تدوينات بعد. اكتبي خاطرتك الأولى اليوم!</p>`;
                 return;
             }
-            diaryEntries.forEach((entry, idx) => {
+            diaries.forEach(d => {
                 container.innerHTML += `
                     <div class="diary-card">
-                        <h5>🌸 ${entry.title} <span style="font-size:10px; color:#888; float:left;">${entry.date}</span></h5>
-                        <p>${entry.body}</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                            <h5>📝 ${d.title}</h5>
+                            <span style="font-size:10px; color:#888;">${d.date}</span>
+                        </div>
+                        <p>${d.body}</p>
                     </div>
                 `;
             });
         }
 
-        function saveDiaryEntry() {
-            const title = document.getElementById('diaryTitle').value;
-            const body = document.getElementById('diaryBody').value;
-            if(!title || !body) { alert('الرجاء إدخال العنوان والمحتوى.'); return; }
-            
-            const dateStr = new Date().toLocaleDateString('ar-EG');
-            diaryEntries.unshift({ title, body, date: dateStr });
-            localStorage.setItem(STORAGE_PREFIX + "diary_entries", JSON.stringify(diaryEntries));
-            document.getElementById('diaryTitle').value = '';
-            document.getElementById('diaryBody').value = '';
-            loadDiaryEntries();
-            alert('تم حفظ الخاطرة في مذكرة الطُهر الخاصة بكِ بنجاح!');
-        }
-
-        function checkCycleDataState() {
-            const lastDate = localStorage.getItem(STORAGE_PREFIX + "last_date");
-            if(!lastDate) {
-                document.getElementById('cycleFormCard').style.display = 'block';
-                document.getElementById('wheelContent').innerHTML = `<h3>مرحباً بكِ في طُهࢪ</h3><p class="cycle-info">أدخلي معلومات دورتك للبدء.</p>`;
+        // تخصيص الخلفيات من الهاتف
+        function applyPhoneBackground() {
+            const fileInput = document.getElementById('bgImageFile');
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    document.body.style.backgroundImage = `url('${imgUrl}')`;
+                    localStorage.setItem(STORAGE_PREFIX + "bgImg", imgUrl);
+                    alert("تم تطبيق الخلفية الملكية بنجاح! ✨");
+                };
+                reader.readAsDataURL(fileInput.files[0]);
             } else {
-                document.getElementById('cycleFormCard').style.display = 'none';
-                calculateCycleWheel(lastDate);
+                alert("يرجى اختيار صورة من الهاتف أولاً!");
             }
         }
 
-        function openCycleForm() { document.getElementById('cycleFormCard').style.display = 'block'; }
-
-        function saveCycleData() {
-            const lastDate = document.getElementById('lastPeriodDate').value;
-            const cycleLen = document.getElementById('cycleLength').value;
-            const periodLen = document.getElementById('periodLength').value;
-            if(!lastDate) { alert('اختر التاريخ.'); return; }
-
-            localStorage.setItem(STORAGE_PREFIX + "last_date", lastDate);
-            localStorage.setItem(STORAGE_PREFIX + "cycle_len", cycleLen);
-            localStorage.setItem(STORAGE_PREFIX + "period_len", periodLen);
-            document.getElementById('cycleFormCard').style.display = 'none';
-            calculateCycleWheel(lastDate);
-            alert('تم الحفظ بنجاح!');
+        function loadCustomBackgroundStartup() {
+            const savedBg = localStorage.getItem(STORAGE_PREFIX + "bgImg");
+            if(savedBg) {
+                document.body.style.backgroundImage = `url('${savedBg}')`;
+            }
         }
 
-        function calculateCycleWheel(lastDateStr) {
-            const lastDate = new Date(lastDateStr);
-            const today = new Date();
-            const cycleLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "cycle_len") || "28");
-            const periodLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "period_len") || "7");
-            const diffDays = Math.floor(Math.abs(today - lastDate) / (1000 * 60 * 60 * 24));
-            const currentDayOfCycle = (diffDays % cycleLen) + 1;
-            const daysRemaining = cycleLen - currentDayOfCycle;
-            const statusText = currentDayOfCycle <= periodLen ? `فترة الحيض (اليوم ${currentDayOfCycle})` : `فترة الطهر والنقاء`;
-
-            document.getElementById('wheelContent').innerHTML = `
-                <h3>متبقي على الدورة القادمة</h3>
-                <div class="days-left">${daysRemaining >= 0 ? daysRemaining : 0} <span style="font-size:12px;">يوم</span></div>
-                <div class="cycle-info">اليوم ${currentDayOfCycle} من الدورة<br><span style="font-size:10px; color:var(--rose-gold-light);">(${statusText})</span></div>
-            `;
+        function removeCustomBackground() {
+            localStorage.removeItem(STORAGE_PREFIX + "bgImg");
+            document.body.style.backgroundImage = "none";
+            alert("تمت إزالة الخلفية المخصصة بنجاح.");
         }
-
-        function openLibraryScreen() { document.getElementById('libraryScreen').classList.add('active'); }
-        function openBooksScreen() { document.getElementById('booksScreen').classList.add('active'); }
-        function openDiaryScreen() { document.getElementById('diaryScreen').classList.add('active'); }
-        function openSettingsScreen() { document.getElementById('settingsScreen').classList.add('active'); }
-        function closeAllScreens() { document.querySelectorAll('.full-screen-modal').forEach(m => m.classList.remove('active')); }
 
         function resetUserData() {
-            if(confirm('هل أنت متأكدة من حذف البيانات وكلمة السر؟')) { localStorage.clear(); location.reload(); }
+            if(confirm("هل أنتِ متأكدة من رغبتك في مسح كافة بياناتك وكلمة السر؟")) {
+                localStorage.clear();
+                location.reload();
+            }
         }
 
-        window.onload = function() { checkUserAuth(); };
+        // التنقل بين الشاشات الكاملة
+        function openLibraryScreen() { document.getElementById('libraryScreen').classList.add('active'); loadArticles(); }
+        function openBooksScreen() { document.getElementById('booksScreen').classList.add('active'); loadBooks(); }
+        function openDiaryScreen() { document.getElementById('diaryScreen').classList.add('active'); loadDiaries(); }
+        function openSettingsScreen() { document.getElementById('settingsScreen').classList.add('active'); }
+        function closeAllScreens() {
+            document.querySelectorAll('.full-screen-modal').forEach(m => m.classList.remove('active'));
+        }
+
+        // بدء التحقق عند التحميل
+        window.onload = checkUserAuth;
     </script>
 </body>
 </html>
