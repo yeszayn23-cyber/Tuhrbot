@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>طُهࢪ | الواجهة الملكية المتكاملة</title>
-    <!-- خطوط عربية فاخرة وأنثوية (Amiri & Reem Kufi & Cairo) -->
+    <!-- خطوط عربية فاخرة وأنثوية -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -21,6 +21,12 @@
             --glass-royal: rgba(32, 10, 45, 0.92);
             --glass-white: rgba(255, 255, 255, 0.96);
             --shadow-gold: 0 0 25px rgba(229, 185, 125, 0.35);
+        }
+
+        [data-theme="dark"] {
+            --glass-white: rgba(26, 10, 38, 0.95);
+            --text-dark: #f6ecff;
+            --royal-bg-deep: #0a0210;
         }
 
         * {
@@ -45,21 +51,13 @@
         /* حاوية أزهار اللافندر المتحركة الملكية */
         .lavender-field {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; overflow: hidden; z-index: 1;
         }
 
         .flower {
-            position: absolute;
-            top: -50px;
-            font-size: 20px;
-            animation: fallAndSway linear infinite;
-            opacity: 0.7;
+            position: absolute; top: -50px; font-size: 20px;
+            animation: fallAndSway linear infinite; opacity: 0.7;
         }
 
         @keyframes fallAndSway {
@@ -69,27 +67,13 @@
             100% { transform: translateY(105vh) translateX(-20px) rotate(50deg); opacity: 0; }
         }
 
-        /* الشاشات العامة */
         .screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 15px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 15px;
         }
 
-        .screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.96);
-        }
+        .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.96); }
 
         #auth-screen {
             background: rgba(18, 5, 27, 0.98);
@@ -99,30 +83,30 @@
 
         /* إطار زجاجي فخم لكلمة السر */
         .auth-card {
-            background: rgba(32, 10, 45, 0.75);
-            backdrop-filter: blur(25px);
+            background: rgba(32, 10, 45, 0.85);
+            backdrop-filter: blur(16px);
             padding: 35px 26px;
-            border-radius: 32px;
+            border-radius: 30px;
             width: 100%;
-            max-width: 390px;
+            max-width: 380px;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0,0,0,0.7), var(--shadow-gold);
             border: 2px solid var(--rose-gold);
         }
 
-        /* شعار طهر المتدرج المتحرك */
+        /* شعار طُهࢪ بتدرج لوني متحرك */
         .app-title-royal {
             font-family: 'Amiri', serif;
-            font-size: 58px;
+            font-size: 52px;
             font-weight: 700;
-            background: linear-gradient(45deg, #f2e3ff, #c278eb, #e5b97d, #9041b3);
+            background: linear-gradient(45deg, #d19fff, #84399e, #e5b97d, #ffffff);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradientShift 6s ease infinite;
             margin-bottom: 2px;
             text-shadow: 0 4px 20px rgba(229, 185, 125, 0.3);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         @keyframes gradientShift {
@@ -133,14 +117,14 @@
 
         .app-subtitle {
             font-size: 13px;
-            color: var(--lavender-accent);
-            margin-bottom: 25px;
+            color: var(--rose-gold-light);
+            margin-bottom: 22px;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
 
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             text-align: right;
         }
 
@@ -148,28 +132,26 @@
             display: block;
             font-size: 13px;
             color: var(--rose-gold-light);
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             font-weight: 700;
         }
 
-        /* إطار زجاجي فخم لمدخلات النصوص */
         .input-group input, .input-group select, .input-group textarea {
             width: 100%;
-            padding: 13px 16px;
+            padding: 12px 16px;
             border: 2px solid rgba(229, 185, 125, 0.4);
             border-radius: 16px;
             outline: none;
             font-size: 14px;
-            background: rgba(20, 7, 30, 0.6);
+            background: rgba(18, 5, 27, 0.8);
             color: #fff;
             transition: 0.3s;
             backdrop-filter: blur(10px);
         }
 
-        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+        .input-group input:focus, .input-group textarea:focus {
             border-color: var(--rose-gold);
             box-shadow: 0 0 15px rgba(229, 185, 125, 0.5);
-            background: rgba(30, 10, 45, 0.8);
         }
 
         .btn-royal {
@@ -177,37 +159,21 @@
             color: var(--white);
             border: 1px solid var(--rose-gold);
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border-radius: 16px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(66, 24, 87, 0.5);
             transition: 0.3s;
-            margin-top: 10px;
+            margin-top: 8px;
             letter-spacing: 0.5px;
         }
 
         .btn-royal:active { transform: scale(0.98); }
-        .btn-royal:hover { box-shadow: 0 8px 25px rgba(229, 185, 125, 0.5); background: linear-gradient(135deg, var(--royal-purple-light), #84399e); }
+        .btn-royal:hover { box-shadow: 0 8px 25px rgba(229, 185, 125, 0.5); }
 
-        /* انقسام الشاشة السينمائي الفخم */
-        .split-screen-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 99;
-            display: flex; flex-direction: column;
-        }
-        .split-half {
-            width: 100%; height: 50%; background: var(--royal-bg-deep);
-            transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        .split-half.top { transform: translateY(0); }
-        .split-half.bottom { transform: translateY(0); }
-        .opening .split-half.top { transform: translateY(-100%); }
-        .opening .split-half.bottom { transform: translateY(100%); }
-
-        /* الواجهة الرئيسية */
+        /* الشاشة الرئيسية وتتبع الدورة */
         #main-app {
             position: relative;
             z-index: 5;
@@ -220,69 +186,28 @@
             margin: 0 auto;
         }
 
-        .main-header { text-align: center; }
-
-        /* شريط الأذكار والأدعية المتحرك العلوي */
-        .dhikr-banner {
-            background: rgba(32, 10, 45, 0.65);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--rose-gold);
-            border-radius: 18px;
-            padding: 8px 14px;
-            text-align: center;
-            color: var(--rose-gold-light);
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            animation: pulseGlow 4s infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { border-color: rgba(229, 185, 125, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-            100% { border-color: rgba(229, 185, 125, 1); box-shadow: 0 4px 20px rgba(229, 185, 125, 0.35); }
-        }
-
-        /* العجلة الملكية في المنتصف مع شريط التقدم الدائري المتعدد الألوان */
-        .wheel-container-wrapper {
+        /* الدائرة الكبرى في المنتصف وشريط التقدم الدائري */
+        .wheel-container {
             position: relative;
             width: 260px;
             height: 260px;
             margin: 0 auto;
-        }
-
-        .progress-ring {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-circle {
-            transition: stroke-dashoffset 0.8s ease;
-            transform-origin: 50% 50%;
-        }
-
-        .wheel-container {
-            position: absolute;
-            top: 10px; left: 10px;
-            width: 240px;
-            height: 240px;
             background: radial-gradient(circle, rgba(66, 24, 87, 0.9) 0%, rgba(20, 7, 30, 0.95) 100%);
             backdrop-filter: blur(18px);
             border-radius: 50%;
-            border: 4px solid var(--rose-gold);
+            border: 6px solid var(--rose-gold);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 25px rgba(229, 185, 125, 0.3), var(--shadow-gold);
-            padding: 15px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6), inset 0 0 25px rgba(229, 185, 125, 0.3), var(--shadow-gold);
+            padding: 20px;
         }
 
-        .wheel-content h3 { font-size: 13px; color: var(--rose-gold-light); margin-bottom: 4px; font-weight: 700; font-family: 'Amiri', serif; }
-        .wheel-content .days-left { font-size: 38px; font-weight: 700; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.6); font-family: 'Reem Kufi', sans-serif; }
-        .wheel-content .cycle-info { font-size: 11px; color: #e9d5f8; margin-top: 3px; line-height: 1.4; }
+        .wheel-content h3 { font-size: 14px; color: var(--rose-gold-light); margin-bottom: 4px; font-weight: 700; font-family: 'Amiri', serif; }
+        .wheel-content .days-left { font-size: 42px; font-weight: 700; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.7); font-family: 'Reem Kufi', sans-serif; }
+        .wheel-content .cycle-info { font-size: 12px; color: #e9d5f8; margin-top: 4px; line-height: 1.4; font-weight: 600; }
 
         .cycle-form-card {
             background: var(--glass-white);
@@ -294,25 +219,26 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.4), var(--shadow-gold);
             border: 2px solid var(--rose-gold);
         }
+
         .cycle-form-card h4 { color: var(--royal-purple); font-size: 14px; margin-bottom: 10px; text-align: center; font-weight: 700; font-family: 'Amiri', serif; }
 
-        /* شريط الاستعمال السفلي الملكي (بحدود ذهبية وأيقونات هندسية دقيقة) */
+        /* شريط الاستعمال السفلي بحدود ذهبية وأيقونات هندسية غير إيموجي */
         .bottom-nav {
             background: rgba(18, 5, 27, 0.95);
             backdrop-filter: blur(18px);
-            border-radius: 22px;
-            padding: 8px 12px;
+            border-radius: 24px;
+            padding: 10px 14px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             border: 2px solid var(--rose-gold);
-            margin-bottom: 6px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), var(--shadow-gold);
+            margin-bottom: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), var(--shadow-gold);
         }
 
         .nav-item {
             background: none;
-            border: 1px solid transparent;
+            border: none;
             color: #d1b3ee;
             display: flex;
             flex-direction: column;
@@ -321,460 +247,347 @@
             cursor: pointer;
             transition: 0.3s;
             font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 12px;
         }
 
-        .nav-item svg { width: 22px; height: 22px; margin-bottom: 2px; fill: currentColor; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-        .nav-item.active, .nav-item:hover { color: var(--rose-gold); border-color: var(--rose-gold); background: rgba(229, 185, 125, 0.1); transform: translateY(-2px); }
+        .nav-item svg {
+            width: 24px; height: 24px; margin-bottom: 3px; fill: currentColor;
+            filter: drop-shadow(0 2px 4px rgba(229, 185, 125, 0.3));
+        }
 
-        /* فتح الخانات في الشاشة كلها (Full Screen Modal) */
+        .nav-item.active, .nav-item:hover { color: var(--rose-gold); transform: translateY(-2px); }
+
+        /* الشاشات المنبثقة الكاملة */
         .full-screen-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #150622 0%, #34134a 100%);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            padding: 16px;
-            transform: translateY(100%);
-            transition: transform 0.45s cubic-bezier(0.1, 0.9, 0.2, 1);
-            overflow-y: auto;
-            opacity: 0;
-            pointer-events: none;
+            z-index: 2000; display: flex; flex-direction: column; padding: 16px;
+            transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.1, 0.9, 0.2, 1);
+            overflow-y: auto; opacity: 0; pointer-events: none;
         }
 
-        .full-screen-modal.active {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .full-screen-modal.active { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
         .modal-top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--rose-gold);
-            padding-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; border-bottom: 2px solid var(--rose-gold); padding-bottom: 10px;
         }
 
         .modal-top-bar h2 {
-            color: var(--rose-gold-light);
-            font-family: 'Amiri', serif;
-            font-size: 22px;
+            color: var(--rose-gold-light); font-family: 'Amiri', serif; font-size: 22px;
             text-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
 
         .close-full-btn {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid var(--rose-gold);
-            color: #fff;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            transition: 0.3s;
+            background: rgba(255,255,255,0.15); border: 1px solid var(--rose-gold);
+            color: #fff; width: 36px; height: 36px; border-radius: 50%; font-size: 18px;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s;
         }
         .close-full-btn:hover { background: var(--rose-gold); color: var(--royal-bg-deep); }
 
-        /* الملف الشخصي الملكي */
+        /* الملف الشخصي والفريملس المدمج مع تلجرام */
         .profile-card-royal {
-            background: rgba(32, 10, 45, 0.85);
-            backdrop-filter: blur(20px);
+            background: rgba(32, 10, 45, 0.9);
             border: 2px solid var(--rose-gold);
-            border-radius: 24px;
-            padding: 24px;
+            border-radius: 22px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5), var(--shadow-gold);
             margin-bottom: 15px;
+            position: relative;
         }
 
-        .profile-avatar-large {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid var(--rose-gold);
-            object-fit: cover;
-            margin: 0 auto 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        .profile-avatar {
+            width: 85px; height: 85px; border-radius: 50%;
+            border: 3px solid var(--rose-gold); object-fit: cover;
+            margin: 0 auto 10px auto; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
-        .profile-name-text {
-            font-family: 'Amiri', serif;
-            font-size: 22px;
-            color: var(--rose-gold-light);
-            margin-bottom: 4px;
-        }
+        .profile-name { font-family: 'Amiri', serif; font-size: 20px; color: var(--rose-gold-light); margin-bottom: 4px; }
+        .profile-bio { font-size: 12px; color: #d8c2ec; line-height: 1.5; }
 
-        .profile-bio-text {
-            font-size: 13px;
-            color: #d1b3ee;
-            margin-bottom: 15px;
-        }
-
-        /* رف الكتب الخشبي الملكي الفخم */
+        /* رفوف الكتب والمكتبة */
         .wooden-shelf-royal {
             background: linear-gradient(to bottom, #3b2011, #221107);
-            border: 6px solid #140904;
-            border-radius: 20px;
-            padding: 16px;
+            border: 6px solid #140904; border-radius: 20px; padding: 16px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.8);
             margin-bottom: 12px;
         }
 
         .shelf-header {
-            color: var(--rose-gold-light);
-            font-family: 'Amiri', serif;
-            font-size: 18px;
-            margin-bottom: 12px;
-            text-align: center;
-            border-bottom: 1px solid rgba(229, 185, 125, 0.3);
-            padding-bottom: 6px;
+            color: var(--rose-gold-light); font-family: 'Amiri', serif; font-size: 18px;
+            margin-bottom: 12px; text-align: center; border-bottom: 1px solid rgba(229, 185, 125, 0.3); padding-bottom: 6px;
         }
 
         .book-spine-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-            border-right: 8px solid var(--royal-purple);
-            padding: 12px 14px;
-            border-radius: 12px;
-            margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: #fff; border-right: 8px solid var(--royal-purple);
+            padding: 12px 14px; border-radius: 12px; margin-bottom: 10px;
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
-
         .book-info h5 { font-size: 14px; color: var(--text-dark); font-weight: 700; }
         .book-info span { font-size: 11px; color: #666; }
 
-        .book-actions button {
-            background: var(--royal-purple);
-            color: #fff;
-            border: 1px solid var(--rose-gold);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        /* قارئ الكتب والمقالات مع علامة التوقف والمفضلة */
-        .royal-book-box {
-            background: #fffefb;
-            border: 3px solid var(--rose-gold);
-            border-radius: 20px;
-            padding: 18px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5), var(--shadow-gold);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .book-page-title {
-            font-family: 'Amiri', serif;
-            font-size: 22px;
-            color: var(--royal-purple);
-            margin-bottom: 10px;
-            border-bottom: 2px dashed #ebd9bd;
-            padding-bottom: 6px;
-        }
-
-        .book-page-image {
-            width: 100%;
-            max-height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            border: 1px solid var(--rose-gold);
-            display: none;
-        }
-
-        .book-page-body {
-            font-size: 14px;
-            color: #2b1d31;
-            line-height: 1.8;
-            flex: 1;
-            white-space: pre-line;
-        }
-
-        /* قسم الأذكار والمصحف المسموع */
-        .audio-player-card {
-            background: rgba(32, 10, 45, 0.85);
-            border: 2px solid var(--rose-gold);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-        .audio-player-card h4 { color: var(--rose-gold-light); font-family: 'Amiri', serif; font-size: 18px; margin-bottom: 8px; }
-        .audio-player-card audio { width: 100%; margin-top: 8px; outline: none; }
-
-        /* لوحة التحكم الإدارية الخاصة بالمبرمجة (الأيدي 8421694319) */
+        /* لوحة التحكم الإدارية الخاصة بالمبرمجة زينب */
         .admin-control-box {
             background: rgba(255, 255, 255, 0.96);
-            border: 2px solid var(--rose-gold);
-            padding: 18px;
-            border-radius: 20px;
-            margin-top: 12px;
+            border: 2px solid var(--rose-gold); padding: 18px;
+            border-radius: 20px; margin-top: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3), var(--shadow-gold);
         }
-
         .admin-control-box h4 {
-            color: var(--royal-purple);
-            font-size: 15px;
-            margin-bottom: 10px;
-            font-family: 'Amiri', serif;
-            font-weight: 700;
+            color: var(--royal-purple); font-size: 15px; margin-bottom: 10px;
+            font-family: 'Amiri', serif; font-weight: 700;
         }
-
-        .file-upload-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
+        .file-upload-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
         .file-upload-wrapper input[type=file] {
-            font-size: 13px;
-            color: #444;
-            padding: 8px;
-            background: #f7effd;
-            border: 2px dashed var(--royal-purple-light);
-            border-radius: 12px;
-            width: 100%;
-            cursor: pointer;
+            font-size: 13px; color: #444; padding: 8px; background: #f7effd;
+            border: 2px dashed var(--royal-purple-light); border-radius: 12px; width: 100%; cursor: pointer;
         }
     </style>
 </head>
 <body id="appBody">
 
-    <!-- حقل أزهار اللافندر المتحركة الملكية -->
+    <!-- أزهار اللافندر المتحركة -->
     <div class="lavender-field" id="lavenderField"></div>
 
-    <!-- انقسام الشاشة السينمائي للفتح -->
-    <div class="split-screen-overlay" id="splitOverlay">
-        <div class="split-half top"></div>
-        <div class="split-half bottom"></div>
-    </div>
-
-    <!-- شاشة إدخال كلمة السر بإطار زجاجي فخم -->
+    <!-- شاشة إدخال كلمة السر الملكية -->
     <div id="auth-screen" class="screen">
         <div class="auth-card">
             <h1 class="app-title-royal">طُهࢪ</h1>
-            <p class="app-subtitle">ملاذ كل امرأة لطهارة وعلم واطمئنان</p>
+            <p class="app-subtitle" data-i18n="subtitle">ملاذ كل امرأة لطهارة وعلم واطمئنان</p>
             <div id="auth-form-container"></div>
         </div>
     </div>
 
     <!-- الواجهة الرئيسية -->
     <div id="main-app" class="screen hidden">
-        <header class="main-header">
-            <h1 class="app-title-royal" style="font-size: 38px;">طُهࢪ</h1>
-            <div class="dhikr-banner" id="dhikrBanner">✨ اللهم طهر قلبي واشرح صدري ويسر أمري ✨</div>
+        <header style="text-align: center;">
+            <h1 class="app-title-royal" style="font-size: 36px;">طُهࢪ</h1>
+            <div id="dhikrBanner" style="background: rgba(32,10,45,0.7); border:1px solid var(--rose-gold); border-radius:15px; padding:6px 12px; color:var(--rose-gold-light); font-size:11px; font-weight:700;">✨ اللهم طهر قلبي واشرح صدري ✨</div>
         </header>
 
-        <!-- العجلة المركزية وشريط التقدم الدائري -->
+        <!-- الدائرة الكبرى في المنتصف -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <div class="wheel-container-wrapper" id="wheelWrapper" style="display: none;">
-                <svg class="progress-ring" width="260" height="260">
-                    <circle class="progress-ring-circle" id="ringPeriod" stroke="#c0392b" stroke-width="8" fill="transparent" r="120" cx="130" cy="130"/>
-                    <circle class="progress-ring-circle" id="ringOvulation" stroke="#e5b97d" stroke-width="8" fill="transparent" r="120" cx="130" cy="130"/>
-                    <circle class="progress-ring-circle" id="ringSafe" stroke="#27ae60" stroke-width="8" fill="transparent" r="120" cx="130" cy="130"/>
-                </svg>
-                <div class="wheel-container">
-                    <div class="wheel-content" id="wheelContent"></div>
-                </div>
+            <div class="wheel-container">
+                <div class="wheel-content" id="wheelContent"></div>
             </div>
 
             <div class="cycle-form-card" id="cycleFormCard" style="display: none;">
-                <h4>أدخلي معلومات دورتك الشهرية لأول مرة</h4>
+                <h4 data-i18n="cycle_form_title">أدخلي معلومات دورتك الشهرية</h4>
                 <div class="input-group">
-                    <label>تاريخ أول يوم لآخر دورة:</label>
+                    <label data-i18n="last_period">تاريخ أول يوم آخر دورة:</label>
                     <input type="date" id="lastPeriodDate">
                 </div>
                 <div class="input-group">
-                    <label>مدة الدورة الكاملة (بالأيام - العادة 28):</label>
+                    <label data-i18n="cycle_len">مدة الدورة الكاملة (بالأيام - 28):</label>
                     <input type="number" id="cycleLength" value="28" min="20" max="45">
                 </div>
                 <div class="input-group">
-                    <label>مدة أيام الحيض (بالأيام - العادة 7):</label>
+                    <label data-i18n="period_len">مدة أيام الحيض (بالأيام - 7):</label>
                     <input type="number" id="periodLength" value="7" min="3" max="15">
                 </div>
-                <button class="btn-royal" onclick="saveCycleData()">حفظ البيانات وعرض العجلة الملكية</button>
+                <button class="btn-royal" onclick="saveCycleData()" data-i18n="save_btn">حفظ البيانات وعرض العجلة الملكية</button>
             </div>
         </div>
 
-        <!-- شريط الاستعمال السفلي الملكي (بأيقونات هندسية ذات حدود ذهبية رفيعة) -->
+        <!-- شريط التنقل السفلي المطور بأيقونات هندسية ذهبية -->
         <nav class="bottom-nav">
-            <button class="nav-item" onclick="openDhikrScreen()" title="الأذكار والمصحف">
-                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                الأذكار
+            <!-- 1. الأذكار والمصحف المسموع -->
+            <button class="nav-item" onclick="openAdhkarScreen()">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                <span data-i18n="nav_adhkar">الأذكار والمصحف</span>
             </button>
-            <button class="nav-item" onclick="openLibraryScreen()" title="المكتبة">
+            <!-- 2. المكتبة والكتب (PDF) -->
+            <button class="nav-item" onclick="openLibraryScreen()">
                 <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-                المكتبة
+                <span data-i18n="nav_library">المكتبة</span>
             </button>
-            <button class="nav-item active" onclick="closeAllScreens()" title="الرئيسية">
+            <!-- 3. الشاشة الرئيسية (البيت بحدود ذهبية) -->
+            <button class="nav-item active" onclick="closeAllScreens()">
                 <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                الرئيسية
+                <span data-i18n="nav_home">الرئيسية</span>
             </button>
-            <button class="nav-item" onclick="openProfileScreen()" title="الملف الشخصي">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6.1 0-8 3.1-8 5v1h16v-1c0-1.9-1.9-5-8-5z"/></svg>
-                الملف
+            <!-- 4. الملف الشخصي (دائرة بحدود ذهبية) -->
+            <button class="nav-item" onclick="openProfileScreen()">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                <span data-i18n="nav_profile">الملف الشخصي</span>
             </button>
-            <button class="nav-item" id="adminNavBtn" style="display: none; border-color: var(--rose-gold);" onclick="openAdminScreen()" title="لوحة المبرمجة">
-                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c-.5.38-1.03.7-1.62.94l-.36 2.54c-.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                المبرمجة
+            <!-- 5. ترس لوحة التحكم (يظهر حصرياً للمبرمجة زينب 8421694319) -->
+            <button class="nav-item" id="adminGearBtn" style="display: none;" onclick="openAdminScreen()">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c-.5.38-1.03.7-1.62.94l-.36 2.54c-.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c-.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                <span>المبرمجة</span>
             </button>
         </nav>
     </div>
 
-    <!-- شاشة الملف الشخصي (اليمين) -->
+    <!-- شاشة الملف الشخصي (مرتبطة بتلجرام) -->
     <div class="full-screen-modal" id="profileScreen">
         <div class="modal-top-bar">
-            <h2>الملف الشخصي الملكي</h2>
+            <h2 data-i18n="profile_title">الملف الشخصي</h2>
             <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
         </div>
-
         <div class="profile-card-royal">
-            <img id="userAvatarImg" class="profile-avatar-large" src="https://via.placeholder.com/90" alt="صورة المستخدم">
-            <h3 class="profile-name-text" id="profileNameDisplay">أميرتنا الكريمة</h3>
-            <p class="profile-bio-text" id="profileBioDisplay">طهارة، علم واطمئنان 🌸</p>
+            <img id="userAvatarImg" class="profile-avatar" src="https://via.placeholder.com/150" alt="Avatar">
+            <h3 class="profile-name" id="userProfileName">زينب</h3>
+            <p class="profile-bio" id="userProfileBio">ملاذ الطهارة والعلم</p>
         </div>
-
-        <div class="admin-control-box" style="display: block;">
-            <h4>⚙️ إعدادات الحساب وتعديل الدورة</h4>
+        <div class="admin-control-box">
+            <h4 data-i18n="settings_head">الإعدادات والتفضيلات</h4>
             <div class="input-group">
-                <label>اللغة:</label>
-                <select id="langSelect"><option value="ar">العربية</option><option value="en">English</option></select>
+                <label data-i18n="lang_label">اللغة / Language:</label>
+                <select id="langSelect" onchange="changeLanguage(this.value)">
+                    <option value="ar">العربية (Arabic)</option>
+                    <option value="en">English (الإنجليزية)</option>
+                </select>
             </div>
             <div class="input-group">
-                <label>الوضع الليلي / النهاري:</label>
-                <select id="themeSelect"><option value="dark">وضع ليلي ملكي</option><option value="light">وضع نهاري ناصع</option></select>
+                <label data-i18n="mode_label">الوضع (ليلي/نهاري):</label>
+                <select id="modeSelect" onchange="changeThemeMode(this.value)">
+                    <option value="dark">الوضع الليلي الملكي</option>
+                    <option value="light">الوضع النهاري الناعم</option>
+                </select>
             </div>
-            <button class="btn-royal" onclick="openCycleFormFromProfile()">تعديل أو حذف معلومات الدورة</button>
+            <button class="btn-royal" style="background: #c0392b; margin-top: 10px;" onclick="resetCycleData()" data-i18n="reset_cycle">حذف أو تعديل معلومات الدورة</button>
         </div>
     </div>
 
-    <!-- شاشة المكتبة والكتب والمقالات -->
+    <!-- شاشة المكتبة (الرفوف ومحرك البحث عن المقالات) -->
     <div class="full-screen-modal" id="libraryScreen">
         <div class="modal-top-bar">
-            <h2>مكتبة الفقه والمقالات الملكية</h2>
+            <h2 data-i18n="lib_title">المكتبة ومراجع الطُهر</h2>
             <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
         </div>
-
         <div class="wooden-shelf-royal">
-            <div class="shelf-header">📚 رفوف الكتب النسائية والشرعية 📚</div>
+            <div class="shelf-header" data-i18n="shelf_title">📚 رفوف الكتب والملفات (PDF) 📚</div>
             <div id="booksContainer"></div>
         </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-            <input type="text" id="articleSearchInput" placeholder="ابحثي بكلمة مفتاحية في المقالات..." oninput="filterArticles()" style="flex: 1; padding: 11px 14px; border-radius: 12px; border: 2px solid var(--rose-gold); font-size: 13px; background: rgba(20,7,30,0.7); color:#fff;">
-        </div>
-
-        <div class="royal-book-box" id="royalBookContainer">
-            <div>
-                <h3 class="book-page-title" id="bookPageTitle">عنوان المقال</h3>
-                <img id="bookPageImg" class="book-page-image" src="" alt="صورة المقال">
-                <div class="book-page-body" id="bookPageBody">محتوى المقال...</div>
+        <div class="admin-control-box" style="margin-top: 15px;">
+            <h4 data-i18n="articles_search_title">🔍 البحث في المقالات والفقه</h4>
+            <div class="input-group">
+                <input type="text" id="articleSearch" placeholder="ابحثي عن كلمة مفتاحية..." oninput="filterArticles()">
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; border-top: 1px solid #ebd9bd; padding-top: 10px;">
-                <button class="book-actions" onclick="changeBookPage(-1)" style="background:var(--royal-purple); color:#fff; padding:6px 12px; border-radius:8px; border:1px solid var(--rose-gold);">السابقة</button>
-                <button class="book-actions" onclick="toggleBookmark()" id="bookmarkBtn" style="background:var(--rose-gold); color:#1a0824;">وضع علامة توقف 🔖</button>
-                <button class="book-actions" onclick="toggleFavorite()" id="favoriteBtn" style="background:var(--royal-purple-light); color:#fff;">إضافة للمفضلة ❤️</button>
-                <button class="book-actions" onclick="changeBookPage(1)" style="background:var(--royal-purple); color:#fff; padding:6px 12px; border-radius:8px; border:1px solid var(--rose-gold);">التالية</button>
-            </div>
+            <div id="articlesListContainer" style="margin-top: 10px; max-height: 200px; overflow-y: auto;"></div>
         </div>
     </div>
 
     <!-- شاشة الأذكار والمصحف المسموع -->
-    <div class="full-screen-modal" id="dhikrScreen">
+    <div class="full-screen-modal" id="adhkarScreen">
         <div class="modal-top-bar">
-            <h2>الأذكار والمصحف المسموع 📿</h2>
+            <h2 data-i18n="adhkar_title">الأذكار والمصحف المسموع</h2>
             <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
         </div>
-
-        <div class="audio-player-card">
-            <h4>📖 المصحف المسموع (تلاوة عطرة)</h4>
-            <p style="font-size: 12px; color: var(--lavender-accent); margin-bottom: 8px;">استمعي إلى تلاوة هادئة ومطمئنة لقلبك</p>
-            <audio id="quranAudioPlayer" controls>
-                <source id="quranAudioSource" src="" type="audio/mp3">
-                متصفحك لا يدعم المشغل الصوتي.
-            </audio>
-        </div>
-
-        <div class="royal-book-box" style="flex:1;">
-            <h3 class="book-page-title" id="dhikrTitle">أذكار الصباح والمساء</h3>
-            <div class="book-page-body" id="dhikrBody" style="font-size:15px; line-height:2;">
-                رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً ورسولاً. (ثلاث مرات)<br><br>
-                حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم. (سبع مرات)
-            </div>
-        </div>
+        <div id="adhkarContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
     </div>
 
-    <!-- شاشة لوحة تحكم المبرمجة الخاصة (الأيدي 8421694319) -->
+    <!-- شاشة لوحة تحكم المبرمجة زينب (8421694319) -->
     <div class="full-screen-modal" id="adminScreen">
         <div class="modal-top-bar">
-            <h2>لوحة تحكم المبرمجة الخاصة ⚙️</h2>
+            <h2>لوحة تحكم المبرمجة زينب 🌸</h2>
             <button class="close-full-btn" onclick="closeAllScreens()">&times;</button>
         </div>
-
         <div class="admin-control-box">
-            <h4>🖼️ رفع صورة للصفحة الرئيسية أو الخلفية</h4>
+            <h4>🖼️ رفع صورة للصفحة الرئيسية</h4>
             <div class="input-group">
-                <input type="file" id="adminBgFile" accept="image/*">
+                <div class="file-upload-wrapper"><input type="file" id="mainBgFile" accept="image/*"></div>
             </div>
-            <button class="btn-royal" onclick="adminSaveBackground()">حفظ وتطبيق الخلفية</button>
+            <button class="btn-royal" onclick="adminUploadBg()">تطبيق وحفظ خلفية الرئيسية</button>
         </div>
-
         <div class="admin-control-box">
-            <h4>📚 رفع كتاب PDF جديد للمكتبة والرفوف</h4>
-            <div class="input-group"><input type="text" id="adminBookTitle" placeholder="اسم الكتاب..."></div>
-            <div class="input-group"><input type="text" id="adminBookDesc" placeholder="وصف الكتاب..."></div>
-            <div class="input-group"><input type="text" id="adminBookUrl" placeholder="رابط التحميل أو التليجرام..."></div>
-            <button class="btn-royal" onclick="adminAddBook()">إضافة الكتاب للرف</button>
+            <h4>📚 إضافة كتاب PDF للمكتبة</h4>
+            <div class="input-group"><input type="text" id="admBookTitle" placeholder="اسم الكتاب..."></div>
+            <div class="input-group"><input type="text" id="admBookUrl" placeholder="رابط الـ PDF أو التليجرام..."></div>
+            <button class="btn-royal" style="background: #744123;" onclick="adminAddBook()">إضافة الكتاب للرف</button>
         </div>
-
         <div class="admin-control-box">
-            <h4>✍️ إضافة مقال جديد مع دعم الصور</h4>
-            <div class="input-group"><input type="text" id="adminArticleTitle" placeholder="عنوان المقال..."></div>
-            <div class="input-group"><textarea id="adminArticleBody" rows="2" placeholder="محتوى المقال..."></textarea></div>
-            <div class="input-group"><input type="file" id="adminArticleImg" accept="image/*"></div>
-            <button class="btn-royal" onclick="adminAddArticle()">نشر المقال في المكتبة</button>
-        </div>
-
-        <div class="admin-control-box">
-            <h4>🎧 رفع تلاوة صوتية جديدة للمصحف المسموع</h4>
-            <div class="input-group"><input type="text" id="adminAudioTitle" placeholder="اسم السورة أو القارئ..."></div>
-            <div class="input-group"><input type="file" id="adminAudioFile" accept="audio/*"></div>
-            <button class="btn-royal" onclick="adminAddAudio()">حفظ التلاوة الصوتية</button>
+            <h4>✍️ إضافة مقال فقهي جديد مع صورة</h4>
+            <div class="input-group"><input type="text" id="admArtTitle" placeholder="عنوان المقال..."></div>
+            <div class="input-group"><textarea id="admArtBody" rows="2" placeholder="محتوى المقال..."></textarea></div>
+            <div class="input-group"><div class="file-upload-wrapper"><input type="file" id="admArtImg" accept="image/*"></div></div>
+            <button class="btn-royal" onclick="adminAddArticle()">نشر المقال</button>
         </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
-        
-        let userTelegramId = tg.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : "8421694319";
-        let userFirstName = tg.initDataUnsafe?.user?.first_name || "أميرتنا الكريمة";
-        let userUsername = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe.user.username : "@Kaw";
-        let userPhotoUrl = tg.initDataUnsafe?.user?.photo_url || "https://via.placeholder.com/90";
 
-        // التحقق من المبرمجة عبر الأيدي الخاص
-        const MY_ADMIN_ID = "8421694319";
-        if(userTelegramId === MY_ADMIN_ID) {
-            document.getElementById('adminNavBtn').style.display = "flex";
+        let userTelegramId = tg.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : "8421694319";
+        let userFirstName = tg.initDataUnsafe?.user?.first_name || "زينب";
+        let userPhotoUrl = tg.initDataUnsafe?.user?.photo_url || "https://via.placeholder.com/150";
+
+        // التحقق من أن المستخدمة هي المبرمجة زينب
+        if (userTelegramId === "8421694319") {
+            document.getElementById('adminGearBtn').style.display = "flex";
+        }
+
+        document.getElementById('userProfileName').innerText = userFirstName;
+        if(userPhotoUrl) document.getElementById('userAvatarImg').src = userPhotoUrl;
+
+        // الترجمة (دعم تعدد اللغات بشكل كامل)
+        const translations = {
+            ar: {
+                subtitle: "ملاذ كل امرأة لطهارة وعلم واطمئنان",
+                cycle_form_title: "أدخلي معلومات دورتك الشهرية",
+                last_period: "تاريخ أول يوم آخر دورة:",
+                cycle_len: "مدة الدورة الكاملة (بالأيام - 28):",
+                period_len: "مدة أيام الحيض (بالأيام - 7):",
+                save_btn: "حفظ البيانات وعرض العجلة الملكية",
+                nav_adhkar: "الأذكار والمصحف",
+                nav_library: "المكتبة",
+                nav_home: "الرئيسية",
+                nav_profile: "الملف الشخصي",
+                profile_title: "الملف الشخصي",
+                settings_head: "الإعدادات والتفضيلات",
+                lang_label: "اللغة / Language:",
+                mode_label: "الوضع (ليلي/نهاري):",
+                reset_cycle: "حذف أو تعديل معلومات الدورة",
+                lib_title: "المكتبة ومراجع الطُهر",
+                shelf_title: "📚 رفوف الكتب والملفات (PDF) 📚",
+                articles_search_title: "🔍 البحث في المقالات والفقه",
+                adhkar_title: "الأذكار والمصحف المسموع"
+            },
+            en: {
+                subtitle: "The sanctuary of purity, knowledge and peace",
+                cycle_form_title: "Enter your cycle information",
+                last_period: "First day of last period:",
+                cycle_len: "Total cycle length (Days - 28):",
+                period_len: "Period duration (Days - 7):",
+                save_btn: "Save & Display Royal Wheel",
+                nav_adhkar: "Adhkar & Quran",
+                nav_library: "Library",
+                nav_home: "Home",
+                nav_profile: "Profile",
+                profile_title: "User Profile",
+                settings_head: "Settings & Preferences",
+                lang_label: "Language / اللغة:",
+                mode_label: "Mode (Dark/Light):",
+                reset_cycle: "Reset or Edit Cycle Data",
+                lib_title: "Library & Purity References",
+                shelf_title: "📚 Book Shelves & PDF Files 📚",
+                articles_search_title: "🔍 Search Articles & Fiqh",
+                adhkar_title: "Adhkar & Audio Quran"
+            }
+        };
+
+        function changeLanguage(lang) {
+            localStorage.setItem("tohr_lang", lang);
+            document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (translations[lang][key]) el.innerText = translations[lang][key];
+            });
+        }
+
+        function changeThemeMode(mode) {
+            localStorage.setItem("tohr_mode", mode);
+            document.documentElement.setAttribute("data-theme", mode);
         }
 
         // أزهار اللافندر المتحركة
         function createLavender() {
             const field = document.getElementById('lavenderField');
             const flowerSymbols = ['🌸', '💮', '🪻', '🌿', '✨'];
-            for (let i = 0; i < 16; i++) {
+            for (let i = 0; i < 15; i++) {
                 const f = document.createElement('div');
                 f.className = 'flower';
                 f.innerHTML = flowerSymbols[Math.floor(Math.random() * flowerSymbols.length)];
@@ -786,18 +599,9 @@
         }
         createLavender();
 
-        // أذكار وأدعية متجددة
-        const dailyDhikrs = [
-            "✨ اللهم طهر قلبي واشرح صدري ويسر أمري ✨",
-            "🌸 سبحان الله وبحمده، سبحان الله العظيم 🌸",
-            "🪻 لا إله إلا أنت سبحانك إني كنت من الظالمين 🪻",
-            "✨ رب أرحم ضعفائي واجعل الطهارة سكينة لقلبي ✨"
-        ];
-        document.getElementById('dhikrBanner').innerText = dailyDhikrs[Math.floor(Math.random() * dailyDhikrs.length)];
-
         const STORAGE_PREFIX = "tohr_royal_" + userTelegramId + "_";
 
-        // المصادقة بكلمة السر وإطار زجاجي
+        // المصادقة
         function checkUserAuth() {
             const savedPass = localStorage.getItem(STORAGE_PREFIX + "password");
             const formContainer = document.getElementById('auth-form-container');
@@ -834,38 +638,25 @@
 
         function launchMainApp() {
             document.getElementById('auth-screen').classList.add('hidden');
-            const overlay = document.getElementById('splitOverlay');
-            overlay.classList.add('opening');
-            setTimeout(() => {
-                document.getElementById('main-app').classList.remove('hidden');
-                initCycleWheel();
-                loadBooks();
-                loadArticles();
-                setupProfileInfo();
-            }, 600);
+            document.getElementById('main-app').classList.remove('hidden');
+            initCycleWheel();
+            loadBooks();
+            loadArticles();
+            loadAdhkar();
         }
 
-        function setupProfileInfo() {
-            document.getElementById('profileNameDisplay').innerText = userFirstName;
-            document.getElementById('profileBioDisplay').innerText = userUsername + " | طهارة وعلم واطمئنان 🌸";
-            document.getElementById('userAvatarImg').src = userPhotoUrl;
-        }
-
-        // عجلة الدورة الشهرية وشريط التقدم الدائري متعدد الألوان
+        // عجلة الدورة الشهرية
         function initCycleWheel() {
             const lastDate = localStorage.getItem(STORAGE_PREFIX + "lastDate");
             const cycleLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "cycleLen") || "28");
-            const periodLen = parseInt(localStorage.getItem(STORAGE_PREFIX + "periodLen") || "7");
             
             if(!lastDate) {
                 document.getElementById('cycleFormCard').style.display = "block";
-                document.getElementById('wheelWrapper').style.display = "none";
+                document.getElementById('wheelContent').innerHTML = `<h3>مرحباً بكِ</h3><div class="days-left" style="font-size:16px;">اضغطي أدناه لإدخال بيانات الدورة</div>`;
                 return;
             }
 
             document.getElementById('cycleFormCard').style.display = "none";
-            document.getElementById('wheelWrapper').style.display = "block";
-
             const last = new Date(lastDate);
             const today = new Date();
             const diffTime = Math.abs(today - last);
@@ -874,7 +665,7 @@
             const daysRemaining = cycleLen - currentDayOfCycle;
 
             let statusText = "فترة الطهر والاطمئنان";
-            if(currentDayOfCycle <= periodLen) statusText = "أيام الحيض المباركة";
+            if(currentDayOfCycle <= 7) statusText = "أيام الحيض المباركة";
             else if(currentDayOfCycle >= cycleLen - 14) statusText = "فترة الإباضة المتوقعة";
 
             document.getElementById('wheelContent').innerHTML = `
@@ -883,49 +674,32 @@
                 <div style="font-size:11px; color:var(--rose-gold-light);">يوم متبقٍ للدورة القادمة</div>
                 <div class="cycle-info">${statusText}</div>
             `;
-
-            // تحديث شريط التقدم الدائري المتعدد الألوان
-            const circumference = 2 * Math.PI * 120;
-            const periodPercent = periodLen / cycleLen;
-            const ovulationPercent = 14 / cycleLen;
-            
-            const ringPeriod = document.getElementById('ringPeriod');
-            const ringOvulation = document.getElementById('ringOvulation');
-            
-            ringPeriod.style.strokeDasharray = circumference;
-            ringPeriod.style.strokeDashoffset = circumference * (1 - periodPercent);
-
-            ringOvulation.style.strokeDasharray = circumference;
-            ringOvulation.style.strokeDashoffset = circumference * (1 - ovulationPercent);
-            ringOvulation.style.transform = `rotate(${periodPercent * 360}deg)`;
         }
 
         function saveCycleData() {
             const date = document.getElementById('lastPeriodDate').value;
             const cLen = document.getElementById('cycleLength').value;
-            const pLen = document.getElementById('periodLength').value;
             if(!date) { alert("يرجى إدخال تاريخ أول يوم آخر دورة!"); return; }
             localStorage.setItem(STORAGE_PREFIX + "lastDate", date);
             localStorage.setItem(STORAGE_PREFIX + "cycleLen", cLen);
-            localStorage.setItem(STORAGE_PREFIX + "periodLen", pLen);
             initCycleWheel();
-            closeAllScreens();
         }
 
-        function openCycleFormFromProfile() {
-            closeAllScreens();
-            document.getElementById('cycleFormCard').style.display = "block";
-            document.getElementById('wheelWrapper').style.display = "none";
+        function resetCycleData() {
+            if(confirm("هل أنتِ متأكدة من رغبتك في إعادة ضبط معلومات الدورة؟")) {
+                localStorage.removeItem(STORAGE_PREFIX + "lastDate");
+                location.reload();
+            }
         }
 
-        // رف الكتب والكتب (PDF)
+        // الكتب والمكتبة
         let defaultBooks = [
-            { title: "فقه النساء الميسر", desc: "مرجع شامل لأحكام الطهارة والعبادات", url: "https://t.me/" },
+            { title: "فقه النساء الميسر", desc: "مرجع شامل لأحكام الطهارة", url: "https://t.me/" },
             { title: "رسائل في الطهارة والسكينة", desc: "خواطر وأحكام فقهية بأسلوب لطيف", url: "https://t.me/" }
         ];
-        let pdfBooks = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "pdfBooks") || JSON.stringify(defaultBooks));
 
         function loadBooks() {
+            let pdfBooks = JSON.parse(localStorage.getItem("tohr_global_books") || JSON.stringify(defaultBooks));
             const container = document.getElementById('booksContainer');
             container.innerHTML = "";
             pdfBooks.forEach((b, idx) => {
@@ -933,154 +707,144 @@
                     <div class="book-spine-item">
                         <div class="book-info">
                             <h5>📚 ${b.title}</h5>
-                            <span>${b.desc}</span>
+                            <span>${b.desc || ''}</span>
                         </div>
-                        <div class="book-actions">
-                            <button onclick="window.open('${b.url}', '_blank')">تصفح/تحميل</button>
+                        <div style="display:flex; gap:6px;">
+                            <button class="btn-royal" style="padding:4px 8px; font-size:11px;" onclick="window.open('${b.url}', '_blank')">تحميل</button>
+                            ${userTelegramId === "8421694319" ? `<button class="btn-royal" style="padding:4px 8px; font-size:11px; background:#c0392b;" onclick="deleteBook(${idx})">حذف</button>` : ''}
                         </div>
                     </div>
                 `;
             });
         }
 
-        // المقالات مع علامة التوقف والمفضلة والبحث
+        function deleteBook(idx) {
+            let pdfBooks = JSON.parse(localStorage.getItem("tohr_global_books") || JSON.stringify(defaultBooks));
+            pdfBooks.splice(idx, 1);
+            localStorage.setItem("tohr_global_books", JSON.stringify(pdfBooks));
+            loadBooks();
+        }
+
+        // المقالات ومحرك البحث
         let defaultArticles = [
-            { title: "أحكام الحيض والاستحاضة الأساسية", body: "الحيض هو دم طبيعي كتبه الله على بنات آدم، ومرجعه إلى العادة والتمييز. وأما الاستحاضة فهي دم عرق فساد يتطهر له لكل صلاة بعد الوضوء...", img: "" },
-            { title: "سنة الاغتسال والوضوء الشرعي", body: "الطهارة نصف الإيمان، وعند انقضاء الحيض يجب الغسل بتعشيم الشعر وإيصال الماء لأصوله مع النية الصادقة واليقين بالطهور...", img: "" }
+            { title: "أحكام الحيض والاستحاضة الأساسية", body: "الحيض هو دم طبيعي كتبه الله على بنات آدم، ومرجعه إلى العادة والتمييز..." },
+            { title: "سنة الاغتسال والوضوء الشرعي", body: "الطهارة نصف الإيمان، وعند انقضاء الحيض يجب الغسل بتعشيم الشعر وإيصال الماء لأصوله..." }
         ];
-        let articles = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "articles") || JSON.stringify(defaultArticles));
-        let currentArticleIndex = 0;
-        let bookmarkedPages = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "bookmarks") || "{}");
-        let favoritePages = JSON.parse(localStorage.getItem(STORAGE_PREFIX + "favorites") || "{}");
 
         function loadArticles() {
-            if(articles.length === 0) return;
-            const art = articles[currentArticleIndex];
-            document.getElementById('bookPageTitle').innerText = art.title;
-            document.getElementById('bookPageBody').innerText = art.body;
-            const imgEl = document.getElementById('bookPageImg');
-            if(art.img) { imgEl.src = art.img; imgEl.style.display = "block"; } else { imgEl.style.display = "none"; }
-            
-            // تحديث حالة علامة التوقف والمفضلة
-            document.getElementById('bookmarkBtn').innerText = bookmarkedPages[currentArticleIndex] ? "📍 تم وضع علامة" : "🔖 وضع علامة توقف";
-            document.getElementById('favoriteBtn').innerText = favoritePages[currentArticleIndex] ? "❤️ في المفضلة" : "🤍 إضافة للمفضلة";
+            let arts = JSON.parse(localStorage.getItem("tohr_global_articles") || JSON.stringify(defaultArticles));
+            renderArticlesList(arts);
         }
 
-        function changeBookPage(direction) {
-            currentArticleIndex = (currentArticleIndex + direction + articles.length) % articles.length;
-            loadArticles();
-        }
-
-        function toggleBookmark() {
-            bookmarkedPages[currentArticleIndex] = !bookmarkedPages[currentArticleIndex];
-            localStorage.setItem(STORAGE_PREFIX + "bookmarks", JSON.stringify(bookmarkedPages));
-            loadArticles();
-            alert("تم حفظ علامة التوقف بنجاح! يمكنك العودة لها في أي وقت 📍");
-        }
-
-        function toggleFavorite() {
-            favoritePages[currentArticleIndex] = !favoritePages[currentArticleIndex];
-            localStorage.setItem(STORAGE_PREFIX + "favorites", JSON.stringify(favoritePages));
-            loadArticles();
+        function renderArticlesList(arts) {
+            const container = document.getElementById('articlesListContainer');
+            container.innerHTML = "";
+            arts.forEach((art, idx) => {
+                container.innerHTML += `
+                    <div style="background:#fff; padding:10px; border-radius:12px; margin-bottom:8px; border:1px solid var(--rose-gold);">
+                        <h5 style="color:var(--royal-purple); font-size:13px; font-weight:700;">📌 ${art.title}</h5>
+                        <p style="font-size:12px; color:#444; margin-top:2px;">${art.body}</p>
+                        ${art.img ? `<img src="${art.img}" style="max-width:100%; height:100px; object-fit:cover; border-radius:8px; margin-top:6px;">` : ''}
+                    </div>
+                `;
+            });
         }
 
         function filterArticles() {
-            const query = document.getElementById('articleSearchInput').value.toLowerCase();
-            const foundIdx = articles.findIndex(a => a.title.toLowerCase().includes(query) || a.body.toLowerCase().includes(query));
-            if(foundIdx !== -1) {
-                currentArticleIndex = foundIdx;
-                loadArticles();
-            }
+            let query = document.getElementById('articleSearch').value.toLowerCase();
+            let arts = JSON.parse(localStorage.getItem("tohr_global_articles") || JSON.stringify(defaultArticles));
+            let filtered = arts.filter(a => a.title.toLowerCase().includes(query) || a.body.toLowerCase().includes(query));
+            renderArticlesList(filtered);
         }
 
-        // لوحة تحكم المبرمجة (الأيدي 8421694319)
-        function adminSaveBackground() {
-            const fileInput = document.getElementById('adminBgFile');
-            if(fileInput.files && fileInput.files[0]) {
+        // الأذكار والمصحف
+        function loadAdhkar() {
+            const container = document.getElementById('adhkarContainer');
+            container.innerHTML = `
+                <div class="admin-control-box" style="background:#fff;">
+                    <h4>📿 أذكار الصباح والمساء</h4>
+                    <p style="font-size:13px; color:#444; line-height:1.6;">"رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً." (ثلاث مرات)</p>
+                </div>
+                <div class="admin-control-box" style="background:#fff;">
+                    <h4>📖 المصحف المسموع (تلاوة هادئة)</h4>
+                    <audio controls style="width:100%; margin-top:8px;">
+                        <source src="https://server11.mp3quran.net/sds/001.mp3" type="audio/mpeg">
+                        متصفحك لا يدعم المشغل الصوتي
+                    </audio>
+                </div>
+            `;
+        }
+
+        // ميزات لوحة تحكم المبرمجة زينب
+        function adminUploadBg() {
+            const file = document.getElementById('mainBgFile').files[0];
+            if(file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const imgUrl = e.target.result;
-                    document.body.style.backgroundImage = `url('${imgUrl}')`;
-                    localStorage.setItem(STORAGE_PREFIX + "bgImg", imgUrl);
-                    alert("تم حفظ وتطبيق الخلفية الرئيسية بنجاح ✨");
+                    document.body.style.backgroundImage = `url('${e.target.result}')`;
+                    localStorage.setItem("tohr_custom_bg", e.target.result);
+                    alert("تم تحديث خلفية الرئيسية بنجاح!");
                 };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else { alert("يرجى اختيار صورة أولاً!"); }
+                reader.readAsDataURL(file);
+            }
         }
 
         function adminAddBook() {
-            const title = document.getElementById('adminBookTitle').value;
-            const desc = document.getElementById('adminBookDesc').value;
-            const url = document.getElementById('adminBookUrl').value;
-            if(!title || !url) { alert("يرجى إدخال اسم الكتاب ورابطه!"); return; }
-            pdfBooks.push({ title, desc, url });
-            localStorage.setItem(STORAGE_PREFIX + "pdfBooks", JSON.stringify(pdfBooks));
+            let title = document.getElementById('admBookTitle').value;
+            let url = document.getElementById('admBookUrl').value;
+            if(!title || !url) { alert("يرجى إكمال الحقول!"); return; }
+            let pdfBooks = JSON.parse(localStorage.getItem("tohr_global_books") || JSON.stringify(defaultBooks));
+            pdfBooks.push({ title, desc: "مضاف بواسطة المبرمجة", url });
+            localStorage.setItem("tohr_global_books", JSON.stringify(pdfBooks));
             loadBooks();
-            alert("تم إضافة الكتاب بنجاح للرفوف 📚");
-            document.getElementById('adminBookTitle').value = "";
-            document.getElementById('adminBookDesc').value = "";
-            document.getElementById('adminBookUrl').value = "";
+            alert("تم إضافة الكتاب بنجاح!");
         }
 
         function adminAddArticle() {
-            const title = document.getElementById('adminArticleTitle').value;
-            const body = document.getElementById('adminArticleBody').value;
-            const fileInput = document.getElementById('adminArticleImg');
-            if(!title || !body) { alert("يرجى إدخال العنوان والمحتوى!"); return; }
-
-            if(fileInput.files && fileInput.files[0]) {
+            let title = document.getElementById('admArtTitle').value;
+            let body = document.getElementById('admArtBody').value;
+            let file = document.getElementById('admArtImg').files[0];
+            if(!title || !body) { alert("يرجى إكمال المقال!"); return; }
+            
+            let arts = JSON.parse(localStorage.getItem("tohr_global_articles") || JSON.stringify(defaultArticles));
+            
+            if(file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    articles.push({ title, body, img: e.target.result });
-                    localStorage.setItem(STORAGE_PREFIX + "articles", JSON.stringify(articles));
+                    arts.push({ title, body, img: e.target.result });
+                    localStorage.setItem("tohr_global_articles", JSON.stringify(arts));
                     loadArticles();
-                    alert("تم نشر المقال مع الصورة بنجاح! 🌸");
+                    alert("تم نشر المقال مع الصورة بنجاح!");
                 };
-                reader.readAsDataURL(fileInput.files[0]);
+                reader.readAsDataURL(file);
             } else {
-                articles.push({ title, body, img: "" });
-                localStorage.setItem(STORAGE_PREFIX + "articles", JSON.stringify(articles));
+                arts.push({ title, body, img: "" });
+                localStorage.setItem("tohr_global_articles", JSON.stringify(arts));
                 loadArticles();
-                alert("تم نشر المقال بنجاح! 🌸");
+                alert("تم نشر المقال بنجاح!");
             }
-        }
-
-        function adminAddAudio() {
-            const title = document.getElementById('adminAudioTitle').value;
-            const fileInput = document.getElementById('adminAudioFile');
-            if(fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const audioUrl = e.target.result;
-                    document.getElementById('quranAudioSource').src = audioUrl;
-                    document.getElementById('quranAudioPlayer').load();
-                    localStorage.setItem(STORAGE_PREFIX + "audioUrl", audioUrl);
-                    alert("تم رفع وتخزين التلاوة الصوتية بنجاح 🎧");
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else { alert("يرجى اختيار ملف صوتي!"); }
         }
 
         function loadStartupData() {
-            const savedBg = localStorage.getItem(STORAGE_PREFIX + "bgImg");
-            if(savedBg) document.body.style.backgroundImage = `url('${savedBg}')`;
-            const savedAudio = localStorage.getItem(STORAGE_PREFIX + "audioUrl");
-            if(savedAudio) {
-                document.getElementById('quranAudioSource').src = savedAudio;
-                document.getElementById('quranAudioPlayer').load();
-            }
+            let bg = localStorage.getItem("tohr_custom_bg");
+            if(bg) document.body.style.backgroundImage = `url('${bg}')`;
+            let lang = localStorage.getItem("tohr_lang") || "ar";
+            let mode = localStorage.getItem("tohr_mode") || "dark";
+            document.getElementById('langSelect').value = lang;
+            document.getElementById('modeSelect').value = mode;
+            changeLanguage(lang);
+            changeThemeMode(mode);
         }
 
-        // التنقل بين الشاشات الكاملة
+        // التنقل بين الشاشات
         function openProfileScreen() { document.getElementById('profileScreen').classList.add('active'); }
-        function openLibraryScreen() { document.getElementById('libraryScreen').classList.add('active'); loadArticles(); }
-        function openDhikrScreen() { document.getElementById('dhikrScreen').classList.add('active'); }
+        function openLibraryScreen() { document.getElementById('libraryScreen').classList.add('active'); loadBooks(); loadArticles(); }
+        function openAdhkarScreen() { document.getElementById('adhkarScreen').classList.add('active'); loadAdhkar(); }
         function openAdminScreen() { document.getElementById('adminScreen').classList.add('active'); }
         function closeAllScreens() {
             document.querySelectorAll('.full-screen-modal').forEach(m => m.classList.remove('active'));
         }
 
-        // بدء التشغيل عند التحميل
         window.onload = checkUserAuth;
     </script>
 </body>
