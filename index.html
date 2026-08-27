@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tuhr - تطهير وعناية</title>
+    <title>Tuhr - الطُّهر</title>
     <style>
         :root {
-            --bg-purple: #f3eef8;
-            --main-purple: #9b7fd4;
-            --dark-purple: #5c4b8a;
-            --branch-brown: #8B5A2B;
-            --leaf-green: #4CAF50;
-            --pot-brown: #A0522D;
-            --text-color: #333333;
+            --bg-deep: #2e1a35;
+            --purple-overlay: rgba(58, 30, 68, 0.85);
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --accent-lavender: #9b7fd4;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cinzel', 'Traditional Arabic', serif;
         }
 
         body {
-            background-color: var(--bg-purple);
-            color: var(--text-color);
+            background-color: #1a0f20;
+            color: #f7f3f9;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -33,356 +31,403 @@
             position: relative;
         }
 
-        /* إطار الحشائش الخضراء على الجوانب */
-        .grass-frame {
+        /* حاوية التطبيق بحجم هاتف أنيق */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 850px;
+            background: linear-gradient(135deg, #382142 0%, #201128 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 4px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* إطار النباتات الفاخر على الجوانب */
+        .floral-frame-left, .floral-frame-right {
             position: absolute;
             top: 0;
             bottom: 0;
-            left: 0;
-            right: 0;
-            pointer-events: none;
-            border: 15px solid transparent;
-            border-image: linear-gradient(to bottom, #68bb59, #388e3c) 1;
-            /* تصميم مجازي لإطار حشائش خفيف */
-            background-image: 
-                radial-gradient(circle, var(--leaf-green) 4px, transparent 5px),
-                radial-gradient(circle, #68bb59 3px, transparent 4px);
-            background-size: 30px 30px;
-            background-position: top left, bottom right;
-            opacity: 0.15;
+            width: 50px;
+            background: rgba(20, 10, 25, 0.6);
             z-index: 10;
+            pointer-events: none;
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
+        .floral-frame-left { left: 0; border-right: 2px solid var(--gold); }
+        .floral-frame-right { right: 0; border-left: 2px solid var(--gold); }
 
-        /* حاوية الشاشات */
-        .screen {
-            display: none;
+        /* المحتوى الداخلي */
+        .content-area {
+            flex: 1;
+            padding: 20px 60px;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transition: all 0.5s ease;
-            padding: 20px;
+            justify-content: flex-start;
+            position: relative;
             z-index: 5;
+            overflow-y: auto;
         }
 
+        /* العنوان الملكي Tuhr */
+        .brand-header {
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .brand-title {
+            font-size: 2.2rem;
+            color: var(--gold-light);
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.5);
+        }
+        .brand-subtitle {
+            font-size: 0.8rem;
+            color: #bfa8cc;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        /* الشاشات */
+        .screen {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
         .screen.active {
             display: flex;
         }
 
-        /* شاشة البداية وكلمة Tuhr */
-        .brand-title {
-            font-size: 3.5rem;
-            color: var(--branch-brown);
-            font-weight: bold;
-            position: relative;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        /* بتلات شجرة القطن الصغيرة على الكلمة */
-        .brand-title::after {
-            content: ' 🍃 🌿 🍃 ';
-            font-size: 1.2rem;
-            position: absolute;
-            top: -15px;
-            right: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* الصناديق الزجاجية النظيفة (Cards) */
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(155, 127, 212, 0.2);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        /* الحقول الزجاجية الملكية */
+        .royal-card {
+            background: rgba(65, 35, 78, 0.7);
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
             width: 100%;
-            max-width: 350px;
             text-align: center;
-        }
-
-        .card h2 {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
             margin-bottom: 15px;
-            color: var(--dark-purple);
-            font-size: 1.3rem;
         }
 
-        .input-field {
+        .royal-input {
             width: 100%;
+            background: rgba(30, 15, 38, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 8px;
             padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #d1c4e9;
-            border-radius: 10px;
-            outline: none;
-            font-size: 1rem;
-            background: #faf8ff;
+            color: #fff;
             text-align: center;
+            font-size: 1rem;
+            margin: 10px 0;
+            outline: none;
+        }
+        .royal-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        .input-field:focus {
-            border-color: var(--main-purple);
-            box-shadow: 0 0 5px rgba(155, 127, 212, 0.4);
-        }
-
-        .btn {
-            background-color: var(--main-purple);
-            color: white;
+        .royal-btn {
+            background: linear-gradient(135deg, #d4af37, #aa820a);
+            color: #1a0f20;
             border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
             cursor: pointer;
             width: 100%;
+            margin-top: 10px;
             font-size: 1rem;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: background 0.3s;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55,.3);
+        }
+        .royal-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
         }
 
-        .btn:hover {
-            background-color: var(--dark-purple);
-        }
-
-        /* شاشة أصيص اللافندر */
-        .lavender-scene {
+        /* شاشة أصيص اللافندر الرئيسية */
+        .lavender-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            width: 100%;
+            margin-top: 10px;
         }
 
-        /* عيدان اللافندر والبتلات */
-        .lavender-plant {
-            display: flex;
-            gap: 15px;
-            margin-bottom: -5px;
+        .pot-box {
+            width: 180px;
             height: 140px;
-            align-items: flex-end;
-        }
-
-        .stem-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: linear-gradient(135deg, #4d2659, #2b1133);
+            border: 3px solid var(--gold);
+            border-radius: 0 0 40px 40px;
             position: relative;
-        }
-
-        .stem {
-            width: 3px;
-            height: 100px;
-            background-color: var(--leaf-green);
-            border-radius: 2px;
-        }
-
-        .petals {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            position: absolute;
-            top: -20px;
-        }
-
-        .petal {
-            width: 12px;
-            height: 8px;
-            background-color: var(--main-purple);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .petal.fallen {
-            opacity: 0;
-            transform: translateY(40px) scale(0.5);
-        }
-
-        /* الأصيص البني الأنيق */
-        .pot-container {
-            width: 140px;
-            height: 110px;
-            background: linear-gradient(135deg, #b0653b, #8b4513);
-            border-radius: 0 0 25px 25px;
-            position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-top: 8px solid #703814;
+            margin-top: 20px;
         }
 
-        /* العداد المكتوب على الأصيص */
-        .pot-counter {
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        .pot-gear {
+            width: 60px;
+            height: 60px;
+            border: 2px dashed var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -30px;
+            background: #2b1133;
+            box-shadow: 0 0 10px rgba(212,175,55,0.4);
         }
 
-        /* زر الإعدادات المخفي كجزء من الفخار */
-        .settings-btn {
+        .countdown-label {
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .pot-settings-trigger {
             position: absolute;
             bottom: 8px;
             right: 12px;
-            background: rgba(0,0,0,0.2);
-            border: none;
-            color: #fff;
-            width: 22px;
-            height: 22px;
+            background: none;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            font-size: 11px;
             cursor: pointer;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
         }
 
-        .settings-btn:hover {
-            background: rgba(0,0,0,0.4);
+        /* شريط التنقل السفلي */
+        .bottom-nav {
+            height: 60px;
+            background: rgba(30, 15, 38, 0.95);
+            border-top: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 20;
+            padding: 0 40px;
         }
 
-        /* شاشة الإعدادات الصغيرة */
-        .settings-modal {
+        .nav-icon {
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: 0.2s;
+        }
+        .nav-icon:hover {
+            color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        /* نافذة الإعدادات */
+        .modal {
             display: none;
             position: absolute;
-            background: white;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 20;
-            width: 280px;
-            text-align: center;
         }
-        .settings-modal.active {
-            display: block;
-        }
+        .modal.active { display: flex; }
     </style>
 </head>
 <body>
 
-    <div class="grass-frame"></div>
+    <div class="app-container">
+        <!-- إطارات جانبية نباتية -->
+        <div class="floral-frame-left"></div>
+        <div class="floral-frame-right"></div>
 
-    <div id="screen-password" class="screen active">
-        <div class="brand-title">Tuhr</div>
-        <div class="card">
-            <h2>تأمين التطبيق 🌿</h2>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">الرجاء إنشاء كلمة سر خاصة لحمايتك</p>
-            <input type="password" id="new-pass" class="input-field" placeholder="كلمة السر الجديدة">
-            <input type="password" id="confirm-pass" class="input-field" placeholder="تأكيد كلمة السر">
-            <button class="btn" onclick="savePassword()">حفظ ودخول</button>
-        </div>
-    </div>
+        <div class="content-area">
+            <div class="brand-header">
+                <div class="brand-title">طُّهـر</div>
+                <div class="brand-subtitle">Aurora Celestial</div>
+            </div>
 
-    <div id="screen-cycle-info" class="screen">
-        <div class="brand-title">Tuhr</div>
-        <div class="card">
-            <h2>معلومات الدورة 🪻</h2>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">أدخلي تاريخ آخر دورة ومدة دورتك المعتادة</p>
-            <label style="font-size: 0.8rem; display: block; text-align: right;">تاريخ آخر حيض:</label>
-            <input type="date" id="last-period" class="input-field">
-            <label style="font-size: 0.8rem; display: block; text-align: right;">مدة الدورة (بالأيام):</label>
-            <input type="number" id="cycle-length" class="input-field" value="28" min="20" max="45">
-            <button class="btn" onclick="saveCycleInfo()">ابدأ الرحلة</button>
-        </div>
-    </div>
-
-    <div id="screen-lavender" class="screen">
-        <div class="lavender-scene">
-            <div class="lavender-plant">
-                <div class="stem-group">
-                    <div class="petals" id="stem1">
-                        <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                    </div>
-                    <div class="stem"></div>
-                </div>
-                <div class="stem-group">
-                    <div class="petals" id="stem2">
-                        <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                    </div>
-                    <div class="stem"></div>
-                </div>
-                <div class="stem-group">
-                    <div class="petals" id="stem3">
-                        <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
-                    </div>
-                    <div class="stem"></div>
+            <!-- 1. الشاشة الأولى: إدخال أو تسجيل كلمة السر -->
+            <div id="screen-password" class="screen active">
+                <div class="royal-card">
+                    <h3 style="color: var(--gold); margin-bottom: 10px;" id="pass-title">Invoke Password</h3>
+                    <p style="font-size: 0.8rem; color: #d0bce0; margin-bottom: 15px;" id="pass-desc">أدخلي كلمة السر للولوج إلى التطبيق</p>
+                    <input type="password" id="pass-input" class="royal-input" placeholder="كلمة السر">
+                    <button class="royal-btn" onclick="handlePassword()">دخول 🌿</button>
                 </div>
             </div>
 
-            <div class="pot-container">
-                <div class="pot-counter" id="countdown-text">باقي 5 أيام</div>
-                <button class="settings-btn" onclick="toggleSettings()" title="الإعدادات">⚙</button>
+            <!-- 2. شاشة إدخال معلومات الدورة (لأول مرة) -->
+            <div id="screen-cycle" class="screen">
+                <div class="royal-card">
+                    <h3 style="color: var(--gold); margin-bottom: 10px;">Cycle Manifestation</h3>
+                    <p style="font-size: 0.8rem; color: #d0bce0; margin-bottom: 15px;">أدخلي تفاصيل دورتك لتزهر اللافندر</p>
+                    <label style="font-size: 0.75rem; color: var(--gold-light); display: block; text-align: right;">تاريخ آخر حيض:</label>
+                    <input type="date" id="last-date" class="royal-input">
+                    <label style="font-size: 0.75rem; color: var(--gold-light); display: block; text-align: right;">مدة الدورة (أيام):</label>
+                    <input type="number" id="cycle-len" class="royal-input" value="28" min="20" max="45">
+                    <button class="royal-btn" onclick="saveCycle()">حفظ البدء 🪻</button>
+                </div>
+            </div>
+
+            <!-- 3. الشاشة الأساسية: أصيص اللافندر (تظهر بعد تخطي كلمة السر والدورة) -->
+            <div id="screen-lavender" class="screen">
+                <div class="lavender-container">
+                    <div style="height: 180px; display: flex; gap: 15px; align-items: flex-end; justify-content: center; margin-bottom: 10px;">
+                        <div style="width: 4px; height: 120px; background: #5a8f5c; position: relative;">
+                            <div style="position: absolute; top: -30px; left: -4px; width: 12px; height: 40px; background: #9b7fd4; border-radius: 50%;"></div>
+                        </div>
+                        <div style="width: 4px; height: 150px; background: #5a8f5c; position: relative;">
+                            <div style="position: absolute; top: -40px; left: -4px; width: 12px; height: 50px; background: #9b7fd4; border-radius: 50%;"></div>
+                        </div>
+                        <div style="width: 4px; height: 130px; background: #5a8f5c; position: relative;">
+                            <div style="position: absolute; top: -35px; left: -4px; width: 12px; height: 45px; background: #9b7fd4; border-radius: 50%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="pot-box">
+                        <div class="pot-gear">⚙️</div>
+                        <div class="countdown-label" id="countdown-display">15 days until the next cycle</div>
+                        <button class="pot-settings-trigger" onclick="openSettings()" title="الإعدادات">⚙</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="settings-modal" class="settings-modal">
-        <h3 style="color: var(--dark-purple); margin-bottom: 10px;">إعدادات الدورة</h3>
-        <input type="date" id="edit-last-period" class="input-field">
-        <button class="btn" onclick="closeSettings()">حفظ التعديلات</button>
+        <!-- شريط التنقل السفلي -->
+        <div class="bottom-nav">
+            <button class="nav-icon" onclick="navigate('home')">🏠</button>
+            <button class="nav-icon" onclick="navigate('book')">📖</button>
+            <button class="nav-icon" onclick="openSettings()">⚙️</button>
+        </div>
+
+        <!-- نافذة الإعدادات -->
+        <div id="settings-modal" class="modal">
+            <div class="royal-card" style="max-width: 320px;">
+                <h3 style="color: var(--gold); margin-bottom: 15px;">الإعدادات</h3>
+                <label style="font-size: 0.75rem; color: var(--gold-light); display: block; text-align: right;">تعديل تاريخ آخر حيض:</label>
+                <input type="date" id="edit-date" class="royal-input">
+                <button class="royal-btn" onclick="closeSettings()">حفظ التعديلات</button>
+                <button class="royal-btn" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; margin-top: 5px;" onclick="resetApp()">إعادة ضبط التطبيق</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // التحقق من البيانات المخزنة محلياً عند فتح التطبيق
-        window.onload = function() {
-            const savedPass = localStorage.getItem('tuhr_pass');
-            const cycleData = localStorage.getItem('tuhr_cycle');
+        let isFirstTime = false;
 
+        window.onload = function() {
+            const savedPass = localStorage.getItem('tuhr_password');
             if (!savedPass) {
-                showScreen('screen-password');
-            } else if (!cycleData) {
-                showScreen('screen-cycle-info');
-            } else {
-                showScreen('screen-lavender');
-                updateLavenderView();
+                isFirstTime = true;
+                document.getElementById('pass-title').innerText = "Create Password";
+                document.getElementById('pass-desc').innerText = "أنشئي كلمة السر الخاصة بكِ للمرة الأولى";
             }
+            showScreen('screen-password');
         };
 
-        function showScreen(screenId) {
+        function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
+            document.getElementById(id).classList.add('active');
         }
 
-        function savePassword() {
-            const p1 = document.getElementById('new-pass').value;
-            const p2 = document.getElementById('confirm-pass').value;
-            if(!p1 || p1 !== p2) {
-                alert('الرجاء التأكد من تطابق كلمة السر');
+        function handlePassword() {
+            const val = document.getElementById('pass-input').value;
+            if(!val) {
+                alert('الرجاء إدخال كلمة السر');
                 return;
             }
-            localStorage.setItem('tuhr_pass', p1);
-            showScreen('screen-cycle-info');
+
+            if (isFirstTime) {
+                localStorage.setItem('tuhr_password', val);
+                showScreen('screen-cycle'); // أول مرة تروح لبيانات الدورة
+            } else {
+                const savedPass = localStorage.getItem('tuhr_password');
+                if (val === savedPass) {
+                    const cycle = localStorage.getItem('tuhr_cycle_data');
+                    if (cycle) {
+                        showScreen('screen-lavender');
+                        calculateCountdown();
+                    } else {
+                        showScreen('screen-cycle');
+                    }
+                } else {
+                    alert('كلمة السر غير صحيحة');
+                }
+            }
         }
 
-        function saveCycleInfo() {
-            const lastDate = document.getElementById('last-period').value;
-            const length = document.getElementById('cycle-length').value;
+        function saveCycle() {
+            const lastDate = document.getElementById('last-date').value;
+            const len = document.getElementById('cycle-len').value;
             if(!lastDate) {
-                alert('الرجاء اختيار تاريخ آخر دورة');
+                alert('الرجاء اختيار التاريخ');
                 return;
             }
-            localStorage.setItem('tuhr_cycle', JSON.stringify({ lastDate, length }));
+            localStorage.setItem('tuhr_cycle_data', JSON.stringify({ lastDate, len }));
             showScreen('screen-lavender');
-            updateLavenderView();
+            calculateCountdown();
         }
 
-        function updateLavenderView() {
-            // محاكاة حساب الأيام المتبقية وتساقط البتلات بناءً على التخزين
-            const data = JSON.parse(localStorage.getItem('tuhr_cycle'));
+        function calculateCountdown() {
+            const data = JSON.parse(localStorage.getItem('tuhr_cycle_data'));
             if(data) {
-                // حساب بسيط تقريبي لتجربة الواجهة
-                document.getElementById('countdown-text').innerText = "باقي 12 يوم";
+                const last = new Date(data.lastDate);
+                const next = new Date(last.getTime() + (parseInt(data.len) * 24 * 60 * 60 * 1000));
+                const today = new Date();
+                const diffDays = Math.ceil((next - today) / (1000 * 60 * 60 * 24));
+                document.getElementById('countdown-display').innerText = diffDays > 0 ? `${diffDays} days until the next cycle` : 'اليوم المتوقع للدورة';
             }
         }
 
-        function toggleSettings() {
-            const modal = document.getElementById('settings-modal');
-            modal.classList.toggle('active');
+        function openSettings() {
+            document.getElementById('settings-modal').classList.add('active');
         }
 
         function closeSettings() {
             document.getElementById('settings-modal').classList.remove('active');
+        }
+
+        function resetApp() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        function navigate(dest) {
+            if(dest === 'home') {
+                const cycle = localStorage.getItem('tuhr_cycle_data');
+                if(cycle) showScreen('screen-lavender');
+                else showScreen('screen-cycle');
+            } else if(dest === 'book') {
+                alert('سجل الملاحظات واليوميات قريباً...');
+            }
         }
     </script>
 </body>
